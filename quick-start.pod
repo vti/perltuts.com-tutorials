@@ -1,0 +1,809 @@
+=head1 NAME
+
+Quick start
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+This tutorial is a quick start for non-experienced non-programmers. It tries to
+cover the basics and does so in a gradual manner.
+
+=head1 DESCRIPTION
+
+This tutorial is a quick start for non-experienced non-programmers. It tries to
+cover the basics and does so in a gradual manner.
+
+=head1 TUTORIAL
+
+=head2 Hello, world!
+
+Let's try from the simple example. This example is a common example in all
+programming tutorials and books, it prints "Hello World". Try running the
+following program, you should see the output.
+
+    say 'Hello, world!'
+
+Here C<say> is a function that accepts arguments and prints them out.
+
+=head3 Exercise
+
+Try fixing the following code so it prints 'Bye':
+
+    say ''
+
+    __TEST__
+    like($stdout, qr/Bye/, 'Should print Bye');
+
+=head2 Safety belt
+
+Often programmers make mistakes that are perfecly fine from the language syntax
+view but have logical issues that create hard detectable bugs.
+
+In order to detect typos and various gotchas Perl provides two very useful
+pragmas C<strict> and C<warnings>. They are recommended for use in every piece
+of code. All the examples in this tutorial imply these two lines, they are not
+shown just for the space saving.
+
+You don't have to understand the following code, just see the difference between
+using safety pragmas
+
+    use strict;
+    use warnings;
+
+    $x += 1;
+    $y .= 'string';
+
+    say 'ok';
+
+and not using them
+
+    no strict;
+    no warnings;
+
+    $x += 1;
+    $y .= 'string';
+
+    say 'ok';
+
+=head2 Numbers
+
+Numbers are integers (1, 2, 5) and floats (1.2, 1e5). There is no real
+difference between them. Perl treats them the same and autoconverts
+automatically.
+
+Try printing the following numbers:
+
+    say 1;
+    say 4.4;
+    say 1.2e10;
+
+As you can see the statements are ended with C<;>. This is like a dot that we use
+to separate sentences.
+
+=head3 Arithmetic operators
+
+Basic arithmetic manipulations include: C<+> (addition), C<-> (subtraction),
+C<*> (multiplication), C</> (division), C<**> (exponent) and C<%> (modulus).
+
+    say 1 + (10/5) * 3
+
+=head4 Exercise
+
+Print out the result of 5 to the power of 6.
+
+    say
+    __TEST__
+    like($code, qr/\*\*/, 'Operator ** should be used');
+    like($stdout, qr/15625/, 'Should be 15625');
+
+=head2 Strings
+
+Strings are declared by using single or double quotes. The difference is not so
+important for now. In our Hello World example the C<'Hello, World'> was
+a string.
+
+    say 'foo'
+
+=head3 Basic string operators and functions
+
+Strings can be concatenated (glued) using a C<.> operator.
+
+    say 'foo' . 'bar'
+
+With operator C<x> you can repeat the strings.
+
+    say 'foo' x 3;
+
+Usually you would want to manipulate strings in order to get their lengths, find
+a symbol or a substring and so on. Basic string manipulation functions include
+length(), substr(), index(), rindex().
+
+    say length 'foo';
+    say substr 'foo', 1, 2;
+    say index 'foo', 'o';
+    say rindex 'foo', 'o';
+
+=head4 Exercise
+
+Print out the position of string C<'ball'> in string C<'Football'>.
+
+    say
+    __TEST__
+    like($code, qr/index/, 'Function index should be used');
+    like($stdout, qr/4/, 'Should be at pos 4');
+
+=head2 Lists
+
+Lists are, well, lists of values. They are declared by using brackets.
+
+    say (1, 2, 3, 5)
+
+Often you can use ranges to save some typing:
+
+    say (1 .. 5)
+
+This also works on characters.
+
+=head4 Exercise
+
+Print out a list of characters from C<'b'> to C<'m'>.
+
+    say
+    __TEST__
+    like($stdout, qr/bcdefghijklm/, 'Should print out bcdefghijklm');
+
+Lists of course can hold not only numbers, but also strings:
+
+    say (1, 'hello', 2, 'there')
+
+Lists used inside other lists are flattened:
+
+    say (1, (2, 3, 4), 5)
+
+=head2 Assignment and variables
+
+Assignment in computer programming languages is an operation of storing a value
+somewhere in the computer's memory that is accessed by its name.
+
+In Perl 5 there are three built-in data types: scalars, arrays and hashes (or
+associative arrays). Scalars can hold strings and numbers. Arrays are ordered
+lists of scalars where values are accessed by index. Hashes are unordered
+associative array where values are accessed by keys. Variables that hold
+scalars, arrays or hashes are prefixed with C<$>, C<@> and C<%> respectively.
+
+Variables are usually declared by using my keyword. For example:
+
+    my $x = 1;
+    say $x;
+
+=head4 Exercise
+
+Assign to a variable C<y> string C<'Hello, world!'> and print it.
+
+    my $
+    say
+    __TEST__
+    like($stdout, qr/Hello, world!/, 'Should print "Hello, world!"')
+
+=head3 Scalars
+
+Depending on what the variable holds (a number, a string) there are different
+operators your can use.
+
+Let's say you want to sum two number values:
+
+    my $x = 1;
+    my $y = 2;
+
+    say $x + $y;
+
+Or you want to concatenate two string values:
+
+    my $x = 'Hello';
+    my $y = 'There';
+
+    say $x . $y
+
+If you will try to use C<+> on strings or C<.> on numbers they will be
+automatically converted to appropriate types.
+
+    my $x = 1;
+    my $y = '2 times';
+
+    say $x . $y;
+    say $x + $y;
+
+As you can see in the second example the string '2times' was converted to
+number, which is 2.
+
+=head4 Exercise
+
+Contatenate and print the string C<'Result='> and the sum of C<42> and C<13>.
+
+    my $x = ;
+    my $y = ;
+
+    say
+
+    __TEST__
+    like($stdout, qr/55/, 'Should print "Result=55"');
+
+=head3 Arrays
+
+Arrays can hold a list of scalars.
+
+    my @array = (1, 2, 3);
+
+    say @array;
+
+Basic array manipulations include getting an element by index (starting from 0),
+getting the last index, shifting and popping values.
+
+    my @array = (1, 2, 3);
+
+    # Get the third element
+    say $array[2];
+
+    # Get the last index
+    say $#array;
+
+    push @array, 4;
+    say @array;
+
+    pop @array;
+    say @array;
+
+    shift @array;
+    say @array;
+
+    unshift @array, 0;
+    say @array;
+
+As you probably have noticed when accessing array element we changed C<@> to
+C<$>, because the element of array is a scalar, and scalars are prepended with
+symbol C<$>.
+
+=head4 Exercise
+
+Give the array that holds list C<(1, 2, 3, 4)> print the third element.
+
+    my @array = ;
+    say 
+
+    __TEST__
+    like($stdout, qr/3/, 'Should print 3')
+
+=head3 Hashes
+
+Hash or associated arrays are unordered collections of scalars that can be
+accessed by a key. A key is usually a string.
+
+    my %hash = ('key1', 'value1', 'key2', 'value2');
+
+Instead of using comma for separating keys and values Perl provides a more
+readable operator C<< => >>, for example:
+
+    my %hash = (key1 => 'value1', key2 => 'value2');
+
+Basic hash manipulations
+
+As with arrays when accesing hash key, the variable becames a scalar, we use
+symbol C<$> and braces C<{}>:
+
+    my %hash = (key1 => 'value1', key2 => 'value2');
+
+    say $hash{key1};
+
+=head3 Geting all hash keys and values
+
+    my %hash = (key1 => 'value1', key2 => 'value2');
+
+    say keys %hash;
+    say values %hash;
+
+=head2 Context
+
+Context is a very important concept in Perl. There are two main contexts: scalar
+and list. Context usually affects how the functions and variables behave. This
+is close to the natural language.
+
+The most popular usage is getting an array length for example. Normally when you
+use array in list context it returns all its elements, but when used in scalar
+context it returns its length.
+
+    my @array = (1, 2, 3);
+
+    my @array2 = @array; # list context
+    say @array2;
+
+    my $length = @array; # scalar context
+    say $length;
+
+=head2 Logical and comparison operators
+
+Before we introduce the corresponding Perl operators here are the basics of
+Boolean algebra.
+
+Boolean algebra is a variant of algebra where instead of numbers are truth
+values C<0> and C<1>, where C<1> is called C<truth>, and C<0> is called
+C<false>.
+
+Like in a normal algebra there are operations like C<+>, C<*> etc, the basic
+ones are called C<NOT>, C<AND> and C<OR>. As you already know in Boolean algebra
+we have only C<Truth> and C<False> values. That means that not only they can be
+used in different operations, but also the result of those operations is either
+C<Truth> or C<False>. Let's look at them one by one.
+
+=head3 Truth and False
+
+There are no C<Truth> and C<False> values in Perl. In Perl C<Truth> is
+everything that is not C<False> where C<False> is everything that converts to
+C<0>: C<0> itself, C<''> (empty string), C<undef> for example.
+
+=head3 NOT
+
+C<NOT> operator is a unary operator, which means it operates on one value. In
+Perl C<NOT> operator is C<!>. C<NOT> truth table:
+
+=begin html
+
+<table style="width:10px">
+    <thead>
+        <tr>
+            <td>x</td>
+            <td>!x</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>0</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>0</td>
+        </tr>
+    </tbody>
+</table>
+
+=end html
+
+Let's see what are the results of using this operator on various values. In the
+following example we add C<0> to C<False> values so they are not converted to
+empty strings by C<say> function.
+
+    say !0;
+    say !1 + 0;
+    say !'string that converts to 1' + 0;
+    say !'';
+
+=head3 AND
+
+C<AND> operator is a binary operator, which means it operates on two values. In
+Perl C<AND> operator is C<&&>. C<AND> truth table:
+
+=begin html
+
+<table style="width:10px">
+    <thead>
+        <tr>
+            <td>x</td>
+            <td>y</td>
+            <td>&&</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+    </tbody>
+</table>
+
+=end html
+
+Let's see what are the results of using this operator on various values. In the
+following example we add C<0> to C<False> values so they are not converted to
+empty strings by C<say> function.
+
+    say 1 && 1;
+    say 0 && 1;
+    say 0 && 0;
+    say 'string' && 1;
+
+=head3 OR
+
+C<OR> operator is also a binary operator, which means it operates on two values. In
+Perl C<OR> operator is C<||>. C<OR> truth table:
+
+=begin html
+
+<table style="width:10px">
+    <thead>
+        <tr>
+            <td>x</td>
+            <td>y</td>
+            <td>||<td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>0</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+    </tbody>
+</table>
+
+=end html
+
+Let's see what are the results of using this operator on various values. In the
+following example we add C<0> to C<False> values so they are not converted to
+empty strings by C<say> function.
+
+    say 1 || 1;
+    say 0 || 1;
+    say 0 || 0;
+    say 'string' || 0;
+
+=head3 Priority
+
+As in a normal algebra the operators in Boolean algebra have their priority,
+where different operators are evaluated earlier than others. Order of Boolean
+operators:
+
+    ! && ||
+
+=head3 Combinations
+
+C<NOT>, C<AND> and C<OR> can be combined altogether. You can use also brackets
+to change the order of logical flow:
+
+    say (1 || 0) && 1
+
+=head4 Exercise
+
+Fix the following statement by introducing brackets so it prints empty string
+instead of C<1>.
+
+    say  !1 || 1 && 1
+    __TEST__
+    is($stdout, "\n", 'Should be an empty string');
+
+=head3 Comparison operators
+
+Comparison operators also return C<True> and C<False> but are used with numbers
+and strings. Because Perl does not distinguish between numbers and strings there
+are two separate groups of comparison for numbers and strings.
+
+=begin html
+
+<table>
+    <tr>
+        <td>==</td><td>!=</td><td><</td><td><=</td><td>></td><td>>=</td>
+    </tr>
+    <tr>
+        <td>eq</td><td>ne</td><td>lt</td><td>le</td><td>gt</td><td>ge</td>
+    </tr>
+</table>
+
+=end html
+
+Let's try this example:
+
+    say 1 == 1;
+    say 10 > 2;
+    say 3 <= 3;
+
+    say 'foo' ne 'bar';
+
+=head2 Conditional statements
+
+Conditional statements allow you change the flow of the code. Conditional
+statements operate with Boolean values that you've learned in a previous
+chapter and include C<if/else/elsif> and C<unless>.
+
+When the result of expression in the brackets is true than the block surrounded
+by curly brackets is evaluated:
+
+    if (1 == 1) {
+        say 'True';
+    }
+
+    if (1 == 0) {
+        say 'False';
+    }
+
+When you want to do something when the expression is false you can use C<else>:
+
+    if (0) {
+        say 'True';
+    }
+    else {
+        say 'False';
+    }
+
+When you want to check the expression again you can use C<elsif>:
+
+    my $x = 1;
+
+    if ($x == 0) {
+        say 'x is zero';
+    } elsif ($x < 0) {
+        say 'x is less than zero';
+    } else {
+        say 'x is more than zero';
+    }
+
+There is also a short form for C<if> statement:
+
+    my $x = 5;
+    say 'True' if $x > 0;
+
+C<unless> is an opposite to C<if> where not the true value determines whether
+the block is evaluated but the false value.
+
+    my $x = 5;
+    say 'True' unless $x == 0;
+
+Which is the same as:
+
+    my $x = 5;
+    say 'True' if !($x == 0);
+
+As you already know in Perl the truth values is everything that is not zero, so
+comparizon to 0 usually is not needed:
+
+    my $x = 5;
+    say 'True' unless $x;
+
+=head3 Exercise
+
+Fix this code so it prints C<'Hello'> instead of C<'Bye'> by using logical
+operator and without changing C<$x> value.
+
+    my $x = 0;
+
+    if ($x) {
+        say 'Hello';
+    }
+    else {
+        say 'Bye';
+    }
+    __TEST__
+    like($code, qr/\$x = 0/, 'Should not change $x value');
+    like($stdout, qr/Hello/, 'Should print "Hello"');
+
+=head2 Loops
+
+Loops are blocks that are evaluated several times. They are usually used for
+repetitive actions, walking through the data structure etc.
+
+=head3 For/Foreach
+
+C<Foreach> loop is usually used for looping through the list or array. For
+example:
+
+    foreach my $element (1, 2, 3, 4, 5) {
+        say $element;
+    }
+
+You can pass an array of course:
+
+    my @array = (1 .. 5);
+    foreach my $element (@array) {
+        say $element;
+    }
+
+As you can see we create a special C<$element> variable that is aliased to every
+array element on every iteration. Beware that by changing the C<$element> value
+you change the actual value in the array:
+
+    my @array = (1 .. 5);
+    foreach my $element (@array) {
+        $element *= 2;
+    }
+
+    foreach my $element (@array) {
+        say $element;
+    }
+
+=head4 Exercise
+
+Print only the even values from C<0> to C<10>:
+
+    foreach my $element (...) {
+        if (...) {
+            ...
+        }
+    }
+    __TEST__
+    like($stdout, qr/0\n2\n4\n6\n8\n10/, 'Should print even values');
+
+=head3 While
+
+C<While> is a more advanced loop that iterates while the expression is true.
+
+    my $i = 10;
+    while ($i > 0) {
+        say $i;
+
+        $i = $i - 1;
+    }
+
+As soon as expression C<< $i > 0 >> becomes false the loop stops.
+
+=head4 Exercise
+
+Print only the odd values from C<0> to C<10>:
+
+    my $i = ;
+    while ($i ...) {
+        if (...) {
+            ...
+        }
+    }
+    __TEST__
+    like($stdout, qr/1\n3\n5\n7\n9/, 'Should print odd values');
+
+=head3 Getting out of the loop
+
+Often you want to terminate the loop without waiting until it finishes. You
+usually use the C<last> keyword:
+
+    my $i = 0;
+    while ($i < 100) {
+        last if $i == 10;
+
+        say $i;
+
+        $i = $i + 1;
+    }
+
+This loop will not iterate C<100> times because we terminate it when C<$i> is
+C<10>.
+
+=head2 Default variable
+
+The most used special variable is C<$_>, which is a default scalar variable. To
+understand it better let's look at the examples.
+
+You're familiar with C<say> function. It prints whatever you pass as arguments.
+But what happens when you don't pass any arguments? It takes data from the
+default C<$_> variable.
+
+    $_ = 'Hello';
+    say;
+
+Of course you don't usually need this functionality, but it can very useful when
+using loops for examples:
+
+    say for (1 .. 10);
+
+By default C<for> loop sets a C<$_> variable and C<say> prints it.
+
+Many embedded Perl functions use default variable when no arguments are passed.
+
+=head2 Subroutines
+
+Subroutines are functions that accept arguments and can return the result.
+Usually subroutines are used to eliminate duplication in code, make it clearer
+and more understandable.
+
+Let's say you want to convert 5 miles to kilometers. You would write something
+like this:
+
+    # Convert 5 miles to kilometers
+    say 5 * 1.609344
+
+But what if you wanted to convert 10 miles to kilometers or any other arbitrary
+number? In this case we create a subroutine that we can use lately.
+
+    sub miles_to_kilometers {
+        my ($miles) = @_;
+
+        return $miles * 1.609344;
+    }
+
+    say miles_to_kilometers(5);
+    say miles_to_kilometers(10);
+    say miles_to_kilometers(42);
+
+The subroutine needs a bit of explanation. C<my ($miles) = @_> is called
+C<arguments unpacking>. In Perl arguments when passed to the subroutine go the
+default array C<@_> (this is also a special Per variable, just like C<$_>). You
+can use all the array-specific functions on the default array too of course.
+
+=head3 Exercise
+
+Write and use a subroutine that converts kilometers to miles and prints 4, 6, 19
+kilometers converted to miles (one kilometer is 0.621371192 miles).
+
+    sub kilometers_to_miles {
+        my ...
+
+        return ...
+    }
+
+    say kilometers_to_miles(4);
+    say kilometers_to_miles(6);
+    say kilometers_to_miles(9);
+    __TEST__
+    like($stdout, qr/2.485484768\n3.728227152\n5.592340728/,
+        'Should print correct values')
+
+=head2 Regular Expressions
+
+Regular expressions are a big part of the Perl language. They are essential to
+know and use when processing texts. And that's what Perl is good for.
+
+In short, regular expressions are special patterns when applied to strings
+either match them or not, capture various substrings, modify the initial substring
+by substituting parts of it and so on.
+
+The most common usage for regular expression is to find out if a particular
+string can be found in another string.
+
+    my $string = 'Hello, world!';
+    if ($string =~ m/Hello/) {
+        say 'We found Hello!';
+    }
+
+So here are two new things: C<=~> and C<m//> (C<m> is for C<match>). There is
+also an opposite C<!~> which is evaluated to C<True> when the regular expression
+is not matched.
+
+    my $string = 'Hello, world!';
+    if ($string !~ m/Bye/) {
+        say 'No Bye was found';
+    }
+
+Regular expressions can be really sophisticated. For example we want to check if
+a string has C<a> B<or> C<o> characters:
+
+    my $string = 'Hello';
+    if ($string =~ m/a|o/) {
+        say 'a or o was found';
+    }
+
+=head3 Metacharacters
+
+Some characters in regular expression (as C<|> in previous example) are special. They 
+
+=head1 AUTHOR
+
+Viacheslav Tykhanovskyi, C<vti@cpan.org>

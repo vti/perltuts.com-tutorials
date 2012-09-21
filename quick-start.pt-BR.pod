@@ -1,0 +1,782 @@
+=head1 NAME
+
+Início rápido
+
+=head1 LANGUAGE
+
+pt-BR
+
+=head1 ABSTRACT
+
+Este tutorial é um guia de início rápido para não programadores sem experiência.
+Ele procura cobrir o básico e faz isso de forma gradual.
+
+=head1 DESCRIPTION
+
+Este tutorial é um guia de início rápido para não programadores sem experiência.
+Ele procura cobrir o básico e faz isso de forma gradual.
+
+=head1 TUTORIAL
+
+=head2 Alô, mundo!
+
+Vamos começar com um simples exemplo. Este exemplo é muito comum em tutoriais
+e livros de programação, e exibe "Alô, mundo". Experimente executar o programa
+a seguir, você deve conseguir ver a saída correta.
+
+    say 'Alô, mundo!'
+
+Aqui, C<say> é uma função que aceita argumentos e os imprime na tela.
+
+=head3 Exercício
+
+Experimente consertar o código abaixo para que exiba 'Tchau':
+
+    say ''
+
+    __TEST__
+    like($stdout, qr/Tchau/, 'Deve exibir Tchau');
+
+=head2 Cinto de segurança
+
+Programadores às vezes cometem erros escrevendo código válido na sintaxe da
+linguagem, mas que possuem problemas de lógica e geram bugs difíceis
+de detectar.
+
+Para identificar erros de digitação e outras "pegadinhas", Perl oferece dois
+pragmas muito úteis: C<strict> e C<warnings>. Recomenda-se usar esses pragmas
+em todos os seus programas e módulos. Cada exemplo deste tutorial usa
+implicitamente essas duas linhas antes, elas só não são mostradas para poupar
+espaço.
+
+Você não precisa entender o código abaixo, apenas veja a diferença entre usar
+os pragmas de segurança
+
+    use strict;
+    use warnings;
+
+    $x += 1;
+    $y .= 'string';
+
+    say 'ok';
+
+e não usá-los
+
+    no strict;
+    no warnings;
+
+    $x += 1;
+    $y .= 'string';
+
+    say 'ok';
+
+=head2 Números
+
+Números são inteiros (1, -2, 5) e reais (1.2, 1e5). Não há nenhuma diferença
+entre eles. Perl trata ambos os tipos da mesma forma e converte automaticamente.
+
+Experimente imprimir na tela os seguintes números:
+
+    say 1;
+    say 4.4;
+    say 1.2e10;
+
+Como pode ver, as declarações são separadas por C<;>. Isso é como um ponto usado
+em textos para separar frases.
+
+=head3 Operadores aritméticos
+
+Manipulações aritméticas básicas incluem: C<+> (adição), C<-> (subtração),
+C<*> (multiplicação), C</> (divisão), C<**> (expoente) e C<%> (módulo, resto da divisão).
+
+    say 1 + (10/5) * 3
+
+=head4 Exercício
+
+Exiba o resultado de 5 elevado a 6.
+
+    say
+    __TEST__
+    like($code, qr/\*\*/, 'Operador ** deve ser usado');
+    like($stdout, qr/15625/, 'Deve ser 15625');
+
+=head2 Strings
+
+Strings são textos livres declarados usando aspas simples ou aspas duplas. A diferença
+não é importante agora. Em nosso exemplo de Alô Mundo, o C<'Alô, mundo'> era uma string.
+
+    say 'foo'
+
+=head3 Operadores e funções básicos para strings
+
+Strings podem ser concatenadas (juntadas) usando o operador C<.> (ponto).
+
+    say 'foo' . 'bar'
+
+Com o operador C<x> você pode repetir strings.
+
+    say 'foo' x 3;
+
+Normalmente você quer manipular strings para obter seu tamanho, encontrar um símbolo
+ou substring e assim por diante. As funções básicas incluem length(), substr(),
+index(), rindex().
+
+    say length 'foo';
+    say substr 'foo', 1, 2;
+    say index 'foo', 'o';
+    say rindex 'foo', 'o';
+
+=head4 Exercício
+
+Imprima a posição da string C<'bol'> dentro da string C<'Futebol'>.
+
+    say
+    __TEST__
+    like($code, qr/index/, 'Função index deve ser usada');
+    like($stdout, qr/4/, 'Deve ser posição 4');
+
+=head2 Listas
+
+Listas são, bem, listas de valores. Elas são declaradas usando parênteses.
+
+    say (1, 2, 3, 5)
+
+Normalmente é possível usar faixas de valores para poupar tempo:
+
+    say (1 .. 5)
+
+Isso também funciona com caracteres.
+
+=head4 Exercício
+
+Imprima a lista de caracteres de C<'b'> a C<'m'>.
+
+    say
+    __TEST__
+    like($stdout, qr/bcdefghijklm/, 'Deve imprimir bcdefghijklm');
+
+Listas podem naturalmente agrupar não só números, mas também strings:
+
+    say (1, 'oi', 2, 'tudo bem?')
+
+Listas usadas dentro de outras listas são 'achatadas':
+
+    say (1, (2, 3, 4), 5)
+
+=head2 Atribuição e variáveis
+
+Atribuição, em linguagens de programação, é uma operação que armazena um valor
+em algum lugar da memória do computador, que pode ser acessado por um nome. Esse
+local de armazenamento é chamado de variável.
+
+Em Perl 5 há três tipos principais de dados: escalares, arrays e hashes (ou
+arrays associativos). Escalares (scalars) podem armazenar strings e números.
+Arrays são listas ordenadas de escalares cujo valor é acessado por um índice.
+Hashes são listas não ordenadas de escalares cujo valor é acessado por chaves.
+Variáveis que armazenam escalares, arrays e hashes são prefixados com C<$>,
+C<@> e C<%>, respectivamente.
+
+Variáveis costumam ser declaradas usando a palavra-chave C<my>. Por exemplo:
+
+    my $x = 1;
+    say $x;
+
+=head4 Exercício
+
+Atribua a uma variável chamada C<y> a string C<'Alô, mundo!> e imprima seu conteúdo.
+
+    my $
+    say
+    __TEST__
+    like($code, qr/my\s+\$y/, 'Variável $y deve ser criada');
+    like($stdout, qr/Alô, mundo!/, 'Deve imprimir "Alô, mundo!"')
+
+=head3 Escalares
+
+Dependendo do que a variável guarda (um número, uma string) você poderá usar
+diferentes operadores.
+
+Digamos que você queira somar dois valores numéricos:
+
+    my $x = 1;
+    my $y = 2;
+
+    say $x + $y;
+
+Ou talvez você queira concatenar duas strings diferentes:
+
+    my $x = 'Alô';
+    my $y = 'Você';
+
+    say $x . $y
+
+Se você tentar usar C<+> em strings ou C<.> em números as variáveis serão automaticamente
+convertidas aos seus tipos apropriados.
+
+    my $x = 1;
+    my $y = '2 vezes';
+
+    say $x . $y;
+    say $x + $y;
+
+Como pode ver no segundo exemplo a string C<'2 vezes'> foi convertida para
+um número, o 2.
+
+=head4 Exercício
+
+Concatene e imprima a string C<'Resultado='> seguida da soma de C<42> com C<13>.
+
+    my $x = ;
+    my $y = ;
+
+    say
+
+    __TEST__
+    like($stdout, qr/Resultado\s*=\s*55/, 'Deve exibir "Resultado=55"');
+
+=head3 Arrays
+
+Arrays podem armazenar listas de escalares.
+
+    my @array = (1, 2, 3);
+
+    say @array;
+
+A manipulação básica de arrays incluem obter o elemento pelo seu índice (começando de 0),
+obtendo o último índice, empilhando e retirando elementos.
+
+    my @array = (1, 2, 3);
+
+    # obtém o terceiro elemento
+    say $array[2];
+
+    # obtém o índice do último elemento
+    say $#array;
+
+    push @array, 4;
+    say @array;
+
+    pop @array;
+    say @array;
+
+    shift @array;
+    say @array;
+
+    unshift @array, 0;
+    say @array;
+
+Como você provavelmente percebeu, ao acessar um elemento do array nós trocamos C<@>
+por C<$>, porque o elemento do array é um escalar, e escalares usam o símbolo C<$>.
+
+=head4 Exercício
+
+Crie um array com a lista C<(1, 2, 3, 4)> e imprima o terceiro elemento.
+
+    my @array = ;
+    say 
+
+    __TEST__
+    like($stdout, qr/3/, 'Deve imprimir 3')
+
+=head3 Hashes
+
+Hashes ou arrays associativos são coleção não ordenadas de escalares que podem
+ser acessados por uma chave. Essa chave normalmente é uma string.
+
+    my %hash = ('chave1', 'valor1', 'chave2', 'valor2');
+
+Em vez de usar vírgula para separar chaves e valores, Perl oferece um operador
+mais legível, o C<< => >>. Por exemplo:
+
+    my %hash = (chave1 => 'valuor1', chave2 => 'valor2');
+
+Manipulação básica de hashes
+
+Para acessar um elemento de um hash, colocamos a chave desejada entre chaves C<{}>.
+Assim como arrays, a variável armazenada é um escalar, então usamos o símbolo C<$>.
+
+    my %hash = (chave1 => 'valor1', chave2 => 'valor2');
+
+    say $hash{chave1};
+
+=head3 Obtendo todas as chaves e valores de um hash
+
+    my %hash = (chave1 => 'valor1', chave2 => 'valor2');
+
+    say keys %hash;
+    say values %hash;
+
+=head2 Contexto
+
+Contexto é um conceito muito importante em Perl. Existem dois contextos principais:
+escalar e lista. O contexto normalmente afeta como as funções e variáveis vão se
+comportar. Isso é parecido com a linguagem natural.
+
+O uso mais popular de contexto é obter o tamanho de um array, por exemplo. Normalmente,
+quando usamos um array em contexto de lista, ele retorna todos os seus elementos. Mas
+quando usamos em contexto escalar ele retorna seu tamanho.
+
+    my @array = (1, 2, 3);
+
+    my @array2 = @array; # contexto de lista
+    say @array2;
+
+    my $length = @array; # contexto escalar
+    say $length;
+
+=head2 Operadores lógicos e de comparação
+
+Antes de introduzirmos os operadores correspondentes em Perl, aqui veremos
+o básico de álgebra Booleana.
+
+Álgebra Booleana é uma variação da álgebra onde em vez de números temos valores
+de 'verdade' C<0> e C<1>, onde C<1> é chamado C<verdadeiro> e C<0> é chamado
+C<falso>.
+
+Como na álgebra tradicional há operadores como C<+>, C<*>, etc. Os mais básicos
+são chamados C<NÃO>, C<E> e C<OU>. Como já te contamos, na álgebra Booleana os
+valores só podem ser C<Verdadeiro> e C<Falso>. Isso significa que eles não só
+podem ser usados em diferentes operações, como o resultado dessas operações é
+sempre C<Verdadeiro> ou C<Falso>. Vejamos como isso funciona.
+
+=head3 Verdadeiro e Falso
+
+Não existem valores reservados para C<Verdadeiro> e C<Falso> em Perl. Em Perl,
+C<Verdadeiro> é tudo que não é C<Falso>, onde C<Falso> é tudo que é convertido
+para C<0>: o próprio C<0>, C<''> (string vazia) e a palavra reservada C<undef>,
+por exemplo, que indica valores não definidos.
+
+=head3 NÃO (NOT)
+
+O operador C<NÃO> é um operador unário, o que significa que ele opera em um único
+valor. Em Perl, o operador C<NÃO> é o símbolo C<!>. A tabela-verdade do C<NÃO>:
+
+=begin html
+
+<table style="width:10px">
+    <thead>
+        <tr>
+            <td>x</td>
+            <td>!x</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>0</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>0</td>
+        </tr>
+    </tbody>
+</table>
+
+=end html
+
+Vejamos o resultado desse operador em diferentes valores. No exemplo a seguir
+adicionamos C<0> para valores C<Falsos> para que eles não sejam convertidos em uma
+string vazia pela função C<say>.
+
+    say !0;
+    say !1 + 0;
+    say !'string that converts to 1' + 0;
+    say !'';
+
+=head3 E (AND)
+
+O operador C<E> é um operador binário, ou seja, que opera em dois valores. Em Perl,
+o operador C<E> é o símbolo C<&&>. A tabela-verdade do C<E>:
+
+=begin html
+
+<table style="width:10px">
+    <thead>
+        <tr>
+            <td>x</td>
+            <td>y</td>
+            <td>&&</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+    </tbody>
+</table>
+
+=end html
+
+Vejamos qual o resultado obtido ao usar esse operador em diferentes valores. No
+exemplo a seguir adicionamos C<0> a valores C<Falsos> para que eles não sejam
+convertidos em strings vazias pela função C<say>.
+
+    say 1 && 1;
+    say 0 && 1;
+    say 0 && 0;
+    say 'string' && 1;
+
+=head3 OU (OR)
+
+O operador C<OU> também é um operador binário, ou seja, também opera em dois valores.
+Em Perl, o operador C<OU> é o símbolo C<||>. A tabela-verdade do C<OU>:
+
+=begin html
+
+<table style="width:10px">
+    <thead>
+        <tr>
+            <td>x</td>
+            <td>y</td>
+            <td>||<td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>0</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+    </tbody>
+</table>
+
+=end html
+
+Vejamos qual o resultado de usar esse operador em diferentes valores. No exemplo
+a seguir nós adicionamos C<0> a valores C<Falsos> para que não sejam convertidos
+em strings vazias pela função C<say>.
+
+    say 1 || 1;
+    say 0 || 1;
+    say 0 || 0;
+    say 'string' || 0;
+
+=head3 Prioridade
+
+Assim como na álgebra tradicional, na álgebra Booleana os operadores possuem
+diferentes prioridades, ou seja, alguns são avaliados antes de outros. A
+ordem dos operadores Booleanos é:
+
+    ! && ||
+
+=head3 Combinações
+
+C<NÃO>, C<E> e C<OU> podem ser combinados em uma única expressão. Você também
+pode usar parênteses para mudar a ordem das avaliações:
+
+    say (1 || 0) && 1
+
+=head4 Exercício
+
+Corrija a declaração abaixo introduzindo parênteses para que a operação exiba
+a string vazia em vez de C<1>.
+
+    say  !1 || 1 && 1
+    __TEST__
+    is($stdout, "\n", 'Deve exibir a string vazia');
+
+=head3 Operadores de comparação
+
+Operadores de comparação também retornam C<Verdadeiro> e C<Falso>, mas são usados
+com números e string. Como o Perl não diferencia números e strings, existem grupos
+de comparação diferentes para números e strings.
+
+=begin html
+
+<table>
+    <tr>
+        <td>==</td><td>!=</td><td><</td><td><=</td><td>></td><td>>=</td>
+    </tr>
+    <tr>
+        <td>eq</td><td>ne</td><td>lt</td><td>le</td><td>gt</td><td>ge</td>
+    </tr>
+</table>
+
+=end html
+
+Vamos tentar esse exemplo:
+
+    say 1 == 1;
+    say 10 > 2;
+    say 3 <= 3;
+
+    say 'foo' ne 'bar';
+
+=head2 Condicionais
+
+Declarações condicionais permitem que você mude o fluxo do seu código. Declarações
+condicionais operam com os valores Booleanos que você aprendeu anteriormente, e
+incluem C<if/else/elsif> e C<unless>.
+
+Quando o resultado de uma expressão entre parênteses é verdadeiro, o bloco entre
+chaves é executado:
+
+    if (1 == 1) {
+        say 'Verdadeiro';
+    }
+
+    if (1 == 0) {
+        say 'Falso';
+    }
+
+Quando também quiser fazer algo sempre que a expressão for falsa, basta usar C<else>:
+
+    if (0) {
+        say 'Verdadeiro';
+    }
+    else {
+        say 'Falso';
+    }
+
+Quando quiser testar várias expressões em sequência, use C<elsif>:
+
+    my $x = 1;
+
+    if ($x == 0) {
+        say 'x é zero';
+    } elsif ($x < 0) {
+        say 'x é menor que zero';
+    } else {
+        say 'x é maior que zero';
+    }
+
+Há também uma forma mais curta para declarações com C<if>:
+
+    my $x = 5;
+    say 'Verdadeiro' if $x > 0;
+
+O C<unless> é o oposto do C<if>, que executa o bloco quando a expressão
+é avaliada como falsa.
+
+    my $x = 5;
+    say 'Verdadeiro' unless $x == 0;
+
+Que é a mesma coisa que escrever:
+
+    my $x = 5;
+    say 'Verdadeiro' if !($x == 0);
+
+Como você sabe, em Perl os valores verdade são tudo que não é avaliado como zero,
+então a comparação com 0 normalmente pode ser omitida:
+
+    my $x = 5;
+    say 'Verdadeiro' unless $x;
+
+=head3 Exercício
+
+Corrija o código abaixo para que exiba C<'Olá'> em vez de C<Até logo'> usando
+operadores lógicos e sem mudar o valor de C<$x>.
+
+    my $x = 0;
+
+    if ($x) {
+        say 'Olá';
+    }
+    else {
+        say 'Até logo';
+    }
+    __TEST__
+    like($code, qr/\$x = 0/, 'Não deve mudar o valor de $x');
+    like($stdout, qr/Olá/, 'Deve exibir "Olá""');
+
+=head2 Laços (Loops)
+
+Laços, ou 'loops', são blocos que executam várias vezes. Costumam ser usados
+em ações repetitivas, manipulando estruturas de dados inteiras, etc.
+
+=head3 For/Foreach
+
+O laço C<Foreach> ("para cada") costuma ser usado para varrer listas ou arrays.
+Por exemplo:
+
+    foreach my $elemento (1, 2, 3, 4, 5) {
+        say $elemento;
+    }
+
+Naturalmente, você também pode passar um array:
+
+    my @array = (1 .. 5);
+    foreach my $elemento (@array) {
+        say $elemento;
+    }
+
+Como você pode ver, criamos uma variável especial C<$elemento> que se transforma
+em cada um dos elementos do array, em cada iteração. Cuidado, pois ao mudar o valor
+de C<$elemento> você muda o valor original no array:
+
+    my @array = (1 .. 5);
+    foreach my $elemento (@array) {
+        $elemento *= 2;
+    }
+
+    foreach my $elemento (@array) {
+        say $elemento;
+    }
+
+=head4 Exercício
+
+Imprima apenas os valores pares entre C<0> e C<10>:
+
+    foreach my $element (...) {
+        if (...) {
+            ...
+        }
+    }
+    __TEST__
+    like($stdout, qr/0\n2\n4\n6\n8\n10/, 'Deve imprimir apenas elementos pares');
+
+=head3 While
+
+O C<While> ("enquanto") é um laço mais avançado que executa enquanto a expressão
+avaliada for verdadeira.
+
+    my $i = 10;
+    while ($i > 0) {
+        say $i;
+
+        $i = $i - 1;
+    }
+
+Assim que a expressão C<< $i > 0 >> se tornar falsa, o laço para de rodar.
+
+=head4 Exercício
+
+Exiba apenas os valores ímpares entre C<0> e C<10>:
+
+    my $i = ;
+    while ($i ...) {
+        if (...) {
+            ...
+        }
+    }
+    __TEST__
+    like($stdout, qr/1\n3\n5\n7\n9/, 'Deve imprimir valores ímpares');
+
+=head3 Saíndo do loop
+
+Em muitos casos você quer terminar o loop sem ter que esperar até ele acabar
+de rodar. Você pode fazer isso usando a palavra-chave C<last>:
+
+    my $i = 0;
+    while ($i < 100) {
+        last if $i == 10;
+
+        say $i;
+
+        $i = $i + 1;
+    }
+
+Esse laço não vai iterar C<100> vezes porque nós interrompemos ele quando o C<$i>
+vale C<10>.
+
+=head2 Variável Padrão
+
+A variável especial mais utilizada é a C<$_>, que é a variável escalar padrão.
+Para entender melhor como ela funciona vamos olhar alguns exemplos.
+
+Você já está familiarizado com a função C<say>. Ela imprime na tela tudo que
+você passar pra ela como argumento. Mas o que acontece quando você não passa
+nenhum argumento? Ela pega o valor que estiver na variável C<$_>.
+
+    $_ = 'Hello';
+    say;
+
+Claro que você normalmente não precisa dessa funcionalidade, mas pode ser muito
+útil dentro de laços, por exemplo:
+
+    say for (1 .. 10);
+
+Por padrão, o laço C<for> define a variável C<$_> com o valor atual da iteração,
+e então chamamos o C<say> para imprimi-lo.
+
+Muitas funções do Perl usam a variável padrão quando nenhum argumento é passado.
+
+=head2 Subrotinas
+
+Subrotinas são funções que aceitam argumentos e podem retornar um resultado.
+Normalmente, subrotinas são usadas para evitar código duplicado, deixando tudo
+mais claro e fácil de entender.
+
+Digamos que você queira converter 5 milhas para quilômetros. Você pode escrever
+algo assim:
+
+    # Converta 5 milhas para km
+    say 5 * 1.609344
+
+Mas e se você quisesse converter 10 milhas para quilômetros, ou converter qualquer
+outro número? Nesse caso podemos criar uma subrotina e usá-la várias vezes.
+
+    sub milhas_para_quilometros {
+        my ( $milhas ) = @_;
+
+        return $milhas * 1.609344;
+    }
+
+    say milhas_para_quilometros(5);
+    say milhas_para_quilometros(10);
+    say milhas_para_quilometros(42);
+
+Essa subrotina precisa de um pouco de explicação. A linha que diz
+C<my ( $milhas ) = @_> é chamada C<atribuição de argumentos>. Em Perl, todos
+os argumentos passados para a sua subrotina ficam no array padrão C<@_>
+(que também é uma variável especial do Perl, como o C<$_>). Você pode, claro, usar
+todas as funções de manipulação de arrays na variável padrão de array.
+
+=head3 Exercício
+
+Escreva e use uma subrotina que converta quilômetros em milhas e imprima a conversão
+de 4, 6 e 9 quilômetros em milhas (1 km são 0.621371192 milhas).
+
+    sub quilometros_para_milhas {
+        my ...
+
+        return ...
+    }
+
+    say quilometros_para_milhas(4);
+    say quilometros_para_milhas(6);
+    say quilometros_para_milhas(9);
+
+    __TEST__
+    like($stdout, qr/2.485484768\n3.728227152\n5.592340728/,
+        'Deve imprimir os valores corretos')
+
+=head1 AUTHOR
+
+Viacheslav Tykhanovskyi, C<vti@cpan.org>
+
+=head1 TRANSLATOR
+
+Breno G. de Oliveira, C<garu@cpan.org>

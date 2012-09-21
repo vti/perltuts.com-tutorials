@@ -1,0 +1,359 @@
+=head1 NAME
+
+DBI: An interface to relational databases
+
+=head1 MODULES
+
+    DBI
+
+=head1 PREAMBLE
+
+    use DBI;
+
+    sub _setup_db {
+        my $schema = <<'EOF';
+    CREATE TABLE `users` (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        firstname VARCHAR(255) NOT NULL DEFAULT '',
+        lastname VARCHAR(255) NOT NULL DEFAULT ''
+    );
+    INSERT INTO `users` (firstname, lastname) VALUES ('John', 'Doe');
+    INSERT INTO `users` (firstname, lastname) VALUES ('Larry', 'Wall');
+    EOF
+
+        my $dbh = DBI->connect('dbi:SQLite:database.db') or die DBI->errstr;
+        $dbh->do($_) for split /;/, $schema;
+    }
+
+    _setup_db();
+
+=head1 ABSTRACT
+
+You will learn how to make queries to relational databases. SQL knowledge is required.
+
+=head1 DESCRIPTION
+
+You will learn how to make queries to relational databases. SQL knowledge is required.
+
+=head1 TUTORIAL
+
+=head2 What is DBI?
+
+The L<DBI> module is the standard database interface module for Perl. As you may
+know there are many relational databases out there, and every one them has
+different interface. In order to deal with this diversity L<DBI> hides all the
+implementation details in database drivers providing a unified interface.
+
+=head2 Environment
+
+In this tutorial we are going to use C<SQLite> database because it's light, fast
+and suits well for learning purposes.
+
+Before every code example and exercise a C<database.db> database is created with
+the following tables:
+
+    # no-run
+    CREATE TABLE `users` (
+        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        firstname VARCHAR(255) NOT NULL DEFAULT '',
+        lastname VARCHAR(255) NOT NULL DEFAULT ''
+    );
+
+Also all the example load L<DBI> modules as:
+
+    # no-run
+    use DBI;
+
+=head2 Connecting to and disconnecting from a database
+
+Connecting and disconnecting is simple: just use C<connect> and C<disconnect>
+methods. In case of C<SQLite> where a database is a file, we do not have to
+provide a C<username> and C<password>.
+
+    my $dbh = DBI->connect('dbi:SQLite:database.db')
+      or die "Can't connect to database: " . DBI->errstr;
+
+    # do some queries here
+
+    $dbh->disconnect;
+
+The first C<connect> parameter is called a C<data_source> where you should
+provide a database driver name (C<SQLite> in our case) and its parameters (path
+to database in our case).
+
+When database is not available C<connect> methods fails to return a C<$dbh>
+object and usually it is a good practice to stop right there dying with an error
+that is located in C<< DBI->errstr >>.
+
+Calling C<disconnect> usually is not required. Automatic disconnect is performed
+as soon as C<$dbh> variable is out of scope.
+
+If you don't want to check every call for a return value, you can set
+a C<RaiseError> attribute and exceptions will be raise automatically.
+
+    my $dbh =
+      DBI->connect('dbi:SQLite:database.db', undef, undef, {RaiseError => 1});
+
+    # do some queries here
+
+    $dbh->disconnect;
+
+
+=head2 General workflow
+
+A general L<DBI> workflow might look like this:
+
+=over
+
+=item * Connect to database
+
+=item * Prepare query
+
+=item * Execute query
+
+=item * Fetch data
+
+=item * Disconnect from database
+
+=back
+
+Let's try to select all the users from database and print their first and last
+names.
+
+    my $dbh =
+      DBI->connect('dbi:SQLite:database.db', undef, undef, {RaiseError => 1});
+
+    my $sth = $dbh->prepare('SELECT firstname, lastname FROM users');
+    $sth->execute;
+
+    while (my @row = $sth->fetchrow_array) {
+        my ($firstname, $lastname) = @row;
+
+        say "$firstname $lastname";
+    }
+
+Besides C<fetchrow_array> there is also C<fetchrow_arrayref> which returns
+a reference instead of an array.
+
+Sometimes you might want to fetch all the data at once instead of getting row by
+row, you can use C<fetchall_arrayref> method for that:
+
+    my $dbh =
+      DBI->connect('dbi:SQLite:database.db', undef, undef, {RaiseError => 1});
+
+    my $sth = $dbh->prepare('SELECT firstname, lastname FROM users');
+    $sth->execute;
+
+    my $rows = $sth->fetchall_arrayref;
+
+    foreach my $row (@$rows) {
+        my ($firstname, $lastname) = @$row;
+
+        say "$firstname $lastname";
+    }
+
+=head2 Placeholders and bind values
+
+When you want to insert into SQL your own parameters you of course can always do
+it this way:
+
+    my $dbh =
+      DBI->connect('dbi:SQLite:database.db', undef, undef, {RaiseError => 1});
+
+    my $firstname = 'John';
+    my $sth       = $dbh->prepare(
+        "SELECT firstname, lastname FROM users WHERE firstname = '$firstname'"
+    );
+    $sth->execute;
+
+    while (my @row = $sth->fetchrow_array) {
+        my ($firstname, $lastname) = @row;
+
+        say "$firstname $lastname";
+    }
+
+But B<DON'T>!
+
+This kind of interpolation when used not carefully can end up with an SQL
+injection which can be very dangerous and result into data loss and server
+damage.
+
+When you want to insert parameters into SQL use placeholders and bind values:
+
+    my $dbh =
+      DBI->connect('dbi:SQLite:database.db', undef, undef, {RaiseError => 1});
+
+    my $firstname = 'John';
+    my $sth       = $dbh->prepare(
+        'SELECT firstname, lastname FROM users WHERE firstname = ?');
+    $sth->execute($firstname);
+
+    while (my @row = $sth->fetchrow_array) {
+        my ($firstname, $lastname) = @row;
+
+        say "$firstname $lastname";
+    }
+
+Placeholders can also be used for performance gain, since the query doesn't have
+to be recompiled every time.
+
+    my $dbh =
+      DBI->connect('dbi:SQLite:database.db', undef, undef, {RaiseError => 1});
+
+    my $sth = $dbh->prepare(
+        'SELECT firstname, lastname FROM users WHERE firstname = ?');
+
+    for (qw/John Pete Sam/) {
+        $sth->execute($_);
+
+        while (my @row = $sth->fetchrow_array) {
+            my ($firstname, $lastname) = @row;
+
+            say "$firstname $lastname";
+        }
+    }
+
+=head2 Transactions
+
+Transactions are important part of every database interaction. It allows you to
+do several queries in an atomic way. If something fails, everything is rolled
+back. All or nothing.
+
+The following workflow is usually used when working with transactions in L<DBI>:
+
+=over
+
+=item * Set C<AutoCommit> to C<0>
+
+=item * Set C<RaiseError> to C<1>
+
+=item * Wrap code into C<eval>
+
+=item * Commit or rollback when checking C<$@> variable
+
+=back
+
+Let's see how that looks in practice. The following transaction is going to be
+successful and all the users will be added.
+
+    my $dbh =
+      DBI->connect('dbi:SQLite:database.db', undef, undef, {RaiseError => 1});
+
+    $dbh->{AutoCommit} = 0;
+
+    my @users;
+
+    eval {
+        my $sth = $dbh->prepare(
+            'INSERT INTO `users` (firstname, lastname) VALUES (?, ?)');
+
+        $sth->execute('Tom', 'Jones');
+        $sth->execute('Bill', 'Tree');
+
+        $dbh->commit;
+        $dbh->{AutoCommit} = 1;
+
+        1;
+    } or do {
+        my $e = $@;
+
+        $dbh->rollback;
+        $dbh->{AutoCommit} = 1;
+
+        warn "Error: $e\n";
+    };
+
+    my $sth = $dbh->prepare( 'SELECT firstname, lastname FROM users');
+    $sth->execute;
+
+    while (my @row = $sth->fetchrow_array) {
+        my ($firstname, $lastname) = @row;
+
+        say "$firstname $lastname";
+    }
+
+The next example is going to fail and not even one user will be added.
+
+    my $dbh =
+      DBI->connect('dbi:SQLite:database.db', undef, undef, {RaiseError => 1});
+
+    $dbh->{AutoCommit} = 0;
+
+    my @users;
+
+    eval {
+        my $sth = $dbh->prepare(
+            'INSERT INTO `users` (firstname, lastname) VALUES (?, ?)');
+
+        $sth->execute('Tom', 'Jones');
+        $sth->execute('Bill', 'Tree');
+
+        die 'Something bad happened';
+
+        $dbh->commit;
+        $dbh->{AutoCommit} = 1;
+
+        1;
+    } or do {
+        my $e = $@;
+
+        $dbh->rollback;
+        $dbh->{AutoCommit} = 1;
+
+        warn "Error: $e\n";
+    };
+
+    my $sth = $dbh->prepare( 'SELECT firstname, lastname FROM users');
+    $sth->execute;
+
+    while (my @row = $sth->fetchrow_array) {
+        my ($firstname, $lastname) = @row;
+
+        say "$firstname $lastname";
+    }
+
+=head2 Tracing and profiling DBI
+
+=head3 Tracing
+
+Sometimes you want to see the actual queries that L<DBI> is generating. This can
+be easily achieved by using C<trace> static method. When running a normal Perl
+script you can also set environment variable C<DBI_TRACE> to the same value.
+
+C<trace> can accept several values which control verbosity and output logging.
+In the following example we are going to set C<trace> to C<2>.
+
+    DBI->trace(2);
+
+    my $dbh =
+      DBI->connect('dbi:SQLite:database.db', undef, undef, {RaiseError => 1});
+
+    my $firstname = 'John';
+    my $sth       = $dbh->prepare(
+        'SELECT firstname, lastname FROM users WHERE firstname = ?');
+    $sth->execute($firstname);
+
+=head3 Profiling
+
+The easiest way to profile L<DBI> is to set C<< $dbh->{Profile} >> attribute or
+C<DBI_PROFILE> environment variable.
+
+    my $dbh =
+      DBI->connect('dbi:SQLite:database.db', undef, undef, {RaiseError => 1});
+    $dbh->{Profile} = 2;
+
+    my $firstname = 'John';
+    my $sth       = $dbh->prepare(
+        'SELECT firstname, lastname FROM users WHERE firstname = ?');
+    $sth->execute($firstname);
+
+Profiling itself can be very sophisticated. Check out L<DBI::Profile> for more
+information on this topic.
+
+=head1 AUTHOR
+
+Viacheslav Tykhanovskyi, C<vti@cpan.org>
+
+=head1 LICENSE
+
+L<CC BY-SA 3.0|http://creativecommons.org/licenses/by-sa/3.0/>

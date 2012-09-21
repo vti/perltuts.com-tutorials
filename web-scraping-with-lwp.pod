@@ -1,0 +1,427 @@
+=head1 NAME
+
+Web scraping with LWP
+
+=head1 ABSTRACT
+
+You will learn how to download, parse and extract useful information from
+a website.
+
+=head1 DESCRIPTION
+
+You will learn how to download, parse and extract useful information from
+a website.
+
+=head1 TUTORIAL
+
+=head2 What is web scraping?
+
+Web scraping in general is a process of collecting various data from a website,
+organizing it, and saving for future use. Many blog, news, price aggregators use
+web scrapers to download data from hundreds of different websites and present it
+in a unified way to the user.
+
+=head2 Legal issues
+
+Before you start scraping a particular website make sure you're not breaking any
+laws.
+
+=over
+
+=item * If the website has an API for getting needed information use it!
+
+=item * Read the website's Terms of Use.
+
+=item * Do not harvest email addresses, personal phone numbers etc.
+
+=item * Respect C<robots.txt>
+
+=item * Use a readable C<User-Agent> string with your contacts (e.g. a website address).
+
+=item * Make sure you do not create a significant load on the website. Make pauses between the requests.
+
+=item * Read other articles and/or books about web scraping legal issues
+
+=back
+
+=head2 Environment
+
+For this tutorial a sample web server is set up at L<http://127.0.0.1>. There
+are several pages available: index page (C</>) with a sample html and forbidden
+(C</forbidden>) and not found (C</not found>) pages for error testing.
+
+=head2 Fetching
+
+For fetching page we are going to use L<LWP::UserAgent>. But any other C<HTTP>
+client will work (e.g. L<HTTP::Tiny>, L<HTTP::Lite>).
+
+Let's try fetching a page with a C<GET> request.
+
+    use LWP::UserAgent;
+
+    my $ua =
+      LWP::UserAgent->new(agent => 'MyWebScraper/1.0 <http://example.com>');
+
+    my $response = $ua->get('http://127.0.0.1/');
+
+    if ($response->is_success) {
+        say $response->decoded_content;
+    } else {
+        die $response->status_line;
+    }
+
+In case of a success you'll get a sample html page, otherwise the script will
+die with a status line that usually holds an error message.
+
+Let's try fetching a not existing page.
+
+    use LWP::UserAgent;
+
+    my $ua =
+      LWP::UserAgent->new(agent => 'MyWebScraper/1.0 <http://example.com>');
+
+    my $response = $ua->get('http://127.0.0.1/not_found');
+
+    if ($response->is_success) {
+        say $response->decoded_content;
+    } else {
+        die $response->status_line;
+    }
+
+These errors occur on the server side and we get a server error message. But
+what happens when we cannot connect to the server at all?
+
+    use LWP::UserAgent;
+
+    my $ua =
+      LWP::UserAgent->new(agent => 'MyWebScraper/1.0 <http://example.com>');
+
+    my $response = $ua->get('http://unknown.server');
+
+    if ($response->is_success) {
+        say $response->decoded_content;
+    } else {
+        die $response->status_line;
+    }
+
+As you can see we got a C<500> error. But it looks like the server is alive,
+just doesn't work correctly, which is false of course. In order to know whether
+this error was internal or external C<LWP> sets a special C<Client-Warning>
+header.
+
+    use LWP::UserAgent;
+
+    my $ua =
+      LWP::UserAgent->new(agent => 'MyWebScraper/1.0 <http://example.com>');
+
+    my $response = $ua->get('http://unknown.server');
+
+    my $client_warning = $response->headers->header('Client-Warning');
+
+    if ($client_warning && $client_warning eq 'Internal response') {
+        die 'Internal error: ' . $response->status_line;
+    } else {
+        die 'Server error: ' . $response->status_line;
+    }
+
+Now we know that the error is on our side.
+
+=head3 Exercise
+
+Download a page from C<http://127.0.0.1> and print out its size in bytes.
+
+    use LWP::UserAgent;
+
+    my $ua = LWP::UserAgent->new;
+
+    ...
+
+    say ...
+
+    __TEST__
+    like($stdout, qr/183/, 'Should print correct size');
+
+=head2 Scraping
+
+Now we know how to fetch pages. Let's extract some data from them! In the next
+code examples there is no error handling, this is done for simplicity and
+brevity, but you should always check the errors in real applications.
+
+The default page as you already know looks like this:
+
+    # no-run
+    <html>
+        <head>
+            <title>A sample webpage!</title>
+        </head>
+        <body>
+            <h1></h1>
+        </body>
+    </html>
+
+This one is in C<HTML> format, we need an C<HTML> parser and C<XPath> and/or
+C<CSS> selectors mechanizm to extract the data from it.
+
+=head3 XPath scraping
+
+First, we will try to scrape html on its own. We use L<HTML::TreeBuilder::XPath>
+for C<XPath>. XPath is C<XML> query language. If you are not familiar with
+C<XPath> here is a quick cheatsheet:
+
+    # no-run
+    descendant-or-self::*
+    all elements
+
+    //h1
+    <h1> element
+
+    descendant-or-self::h1/span
+    <span> within <h1>
+
+    descendant-or-self::h1 | descendant-or-self::span
+    <h1> and span
+
+    descendant-or-self::h1/descendant::span
+    <span> with parent <h1>
+
+    descendant-or-self::h1/following-sibling::*[name() = 'span' and (position() = 1)]
+    <span> preceded by <div>
+
+    descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' class ')]
+    Elements of class "class"
+
+    descendant-or-self::div[contains(concat(' ', normalize-space(@class), ' '), ' class ')]
+    <div> of class "class"
+
+    descendant-or-self::*[@id = 'id']
+    Element with id "id"
+
+    descendant-or-self::div[@id = 'id']
+    <div> with id "id"
+
+    descendant-or-self::a[@attr]
+    <a> with attribute "attr"
+
+In the following example we extract the C<title> of the page.
+
+    use HTML::TreeBuilder::XPath;
+
+    my $html = <<'EOF';
+    <html>
+        <head>
+            <title>A sample webpage!</title>
+        </head>
+        <body>
+            <h1>Perltuts.com rocks!</h1>
+        </body>
+    </html>
+    EOF
+
+    my $tree = HTML::TreeBuilder::XPath->new;
+    $tree->ignore_unknown(0);
+    $tree->parse($html);
+    $tree->eof;
+
+    my @nodes = $tree->findnodes('//title');
+    say $nodes[0]->as_text;
+
+=head3 Exercise
+
+Extract and print the C<h1> tag content.
+
+    use HTML::TreeBuilder::XPath;
+
+    my $html = <<'EOF';
+    <html>
+        <head>
+            <title>A sample webpage!</title>
+        </head>
+        <body>
+            <h1>Perltuts.com rocks!</h1>
+        </body>
+    </html>
+    EOF
+
+    my $tree = HTML::TreeBuilder::XPath->new;
+    $tree->ignore_unknown(0);
+    $tree->parse($html);
+    $tree->eof;
+
+    my @nodes = $tree->findnodes(...);
+    say $nodes[0]->as_text;
+    __TEST__
+    like($stdout, qr/Perltuts.com rocks!/, 'Should print correct h1 content');
+
+=head3 CSS selectors scraping
+
+C<CSS> selectors are easier to understand than C<XPath> for some developers. If
+you're not familiar with C<CSS> selectors here is a quick cheatsheet:
+
+    # no-run
+    *
+    all elements
+
+    h1
+    <h1> element
+
+    h1 span
+    <span> within <h1>
+
+    h1, span
+    <h1> and span
+
+    h1 > span
+    <span> with parent <h1>
+
+    div + span
+    <span> preceded by <div>
+
+    .class
+    Elements of class "class"
+
+    div.class
+    <div> of class "class"
+
+    #id
+    Element with id "id"
+
+    div#id
+    <div> with id "id"
+
+    a[attr]
+    <a> with attribute "attr"
+
+Good thing that by using L<HTML::Selector::XPath> we can teach
+L<HTML::TreeBuilder::XPath> to understand C<CSS> selectors too.
+
+In the following example we extract the C<title> of the page by using a C<CSS>
+selector.
+
+    use HTML::TreeBuilder::XPath;
+    use HTML::Selector::XPath;
+
+    my $html = <<'EOF';
+    <html>
+        <head>
+            <title>A sample webpage!</title>
+        </head>
+        <body>
+            <h1>Perltuts.com rocks!</h1>
+        </body>
+    </html>
+    EOF
+
+    my $tree = HTML::TreeBuilder::XPath->new;
+    $tree->ignore_unknown(0);
+    $tree->parse($html);
+    $tree->eof;
+
+    my $xpath = HTML::Selector::XPath::selector_to_xpath('h1');
+    my @nodes = $tree->findnodes($xpath);
+    say $nodes[0]->as_text;
+
+=head3 Exercise
+
+Put everything together (including fetching a page), extract and print the
+C<h1> tag content by using a C<CSS> selector.
+
+    use LWP::UserAgent;
+    use HTML::TreeBuilder::XPath;
+    use HTML::Selector::XPath;
+
+    my $ua = LWP::UserAgent->new;
+
+    my $response = ...
+    my $html = ...
+
+    my $tree = ...
+
+    my $xpath = HTML::Selector::XPath::selector_to_xpath(...);
+    my @nodes = $tree->findnodes($xpath);
+    say $nodes[0]->as_text;
+    __TEST__
+    like($stdout, qr/Perltuts.com rocks!/, 'Should print correct h1 content');
+
+=head2 Following redirects and links
+
+=head3 Redirects
+
+It's not uncommon that websites have redirects, fortunately L<LWP::UserAgent>
+supports them out of the box. Using C<max_redirect> you can control how many
+redirects C<LWP> will handle.
+
+There is a special page C</redirect> that will redirect to the index page.
+
+    use LWP::UserAgent;
+
+    my $ua =
+      LWP::UserAgent->new(agent => 'MyWebScraper/1.0 <http://example.com>');
+
+    my $response = $ua->get('http://127.0.0.1/redirect');
+
+    say $response->decoded_content;
+
+If we set C<max_redirect> to C<0> we don't get to the index page.
+
+    use LWP::UserAgent;
+
+    my $ua = LWP::UserAgent->new(
+        agent        => 'MyWebScraper/1.0 <http://example.com>',
+        max_redirect => 0
+    );
+
+    my $response = $ua->get('http://127.0.0.1/redirect');
+
+    say $response->decoded_content;
+
+=head3 Links
+
+It's also not uncommon to follow the links that are available on the web page.
+
+We can use C<CSS> selectors to get all the C<a> tags. Let's try it again on a
+simple html example:
+
+    use HTML::TreeBuilder::XPath;
+    use HTML::Selector::XPath;
+
+    my $html = <<'EOF';
+    <html>
+        <head>
+            <title>A sample webpage!</title>
+        </head>
+        <body>
+            <h1>Perltuts.com rocks!</h1>
+            <a href="http://perltuts.com">perltuts.com</a>
+        </body>
+    </html>
+    EOF
+
+    my $tree = HTML::TreeBuilder::XPath->new;
+    $tree->ignore_unknown(0);
+    $tree->parse($html);
+    $tree->eof;
+
+    my $xpath = HTML::Selector::XPath::selector_to_xpath('a');
+    my @nodes = $tree->findnodes($xpath);
+    my @attrs = $nodes[0]->getAttributes();
+    say $attrs[0]->getValue();
+
+=head2 See also
+
+See the following modules for other scraping tools:
+
+=over
+
+=item * L<WWW::Mechanize>
+
+=item * L<Web::Scraper>
+
+=back
+
+=head1 AUTHOR
+
+Viacheslav Tykhanovskyi, C<vti@cpan.org>
+
+=head1 LICENSE
+
+L<CC BY-SA 3.0|http://creativecommons.org/licenses/by-sa/3.0/>
