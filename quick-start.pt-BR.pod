@@ -395,7 +395,7 @@ o operador C<E> é o símbolo C<&&>. A tabela-verdade do C<E>:
         <tr>
             <td>x</td>
             <td>y</td>
-            <td>&&</td>
+            <td>&amp;&amp;</td>
         </tr>
     </thead>
     <tbody>
@@ -517,7 +517,7 @@ de comparação diferentes para números e strings.
 
 <table>
     <tr>
-        <td>==</td><td>!=</td><td><</td><td><=</td><td>></td><td>>=</td>
+        <td>==</td><td>!=</td><td>&lt;</td><td>&lt;=</td><td>&gt;</td><td>&gt;=</td>
     </tr>
     <tr>
         <td>eq</td><td>ne</td><td>lt</td><td>le</td><td>gt</td><td>ge</td>

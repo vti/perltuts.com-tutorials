@@ -392,7 +392,7 @@ Perl C<AND> operator is C<&&>. C<AND> truth table:
         <tr>
             <td>x</td>
             <td>y</td>
-            <td>&&</td>
+            <td>&amp;&amp;</td>
         </tr>
     </thead>
     <tbody>
@@ -514,7 +514,7 @@ are two separate groups of comparison for numbers and strings.
 
 <table>
     <tr>
-        <td>==</td><td>!=</td><td><</td><td><=</td><td>></td><td>>=</td>
+        <td>==</td><td>!=</td><td>&lt;</td><td>&lt;=</td><td>&gt;</td><td>&gt;=</td>
     </tr>
     <tr>
         <td>eq</td><td>ne</td><td>lt</td><td>le</td><td>gt</td><td>ge</td>
