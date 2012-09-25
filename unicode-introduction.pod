@@ -1,0 +1,263 @@
+=encoding utf8
+
+=head1 NAME
+
+Unicode introduction
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+This tutorial will give you a first notion of Unicode standart. It explains
+how to get started with Unicode in Perl and tries to focus on the most common
+errors.
+
+=head1 DESCRIPTION
+
+This tutorial will give you a first notion of Unicode standart. It explains
+how to get started with Unicode in Perl and tries to focus on the most common
+errors.
+
+=head1 TUTORIAL
+
+=head2 Unicode == Standart
+
+Unicode is a computing industry standard for the consistent representation and
+handling of text expressed in most of the world's writing systems.
+
+Perl language is known for its excellent Unicode handling capabilities. There
+is a lot to know about peculiarities of dealing with Unicode, but in this
+tutorial we'll concentrate on the most basic things to get you started with
+Unicode in Perl right away.
+
+=head2 Code points and UTF
+
+Very simply put, main part of the Unicode standart is just a giant table,
+which assigns a number to every L<glyph|https://en.wikipedia.org/wiki/Glyph>,
+would that be a letter, a punctuation, a diacritic and so on. Those numbers
+are called code points and normally a Unicode code point is referred to by
+writing "U+" followed by its in number hexadecimal form. For example, U+0050
+refers to "LATIN CAPITAL LETTER P", and U+00A9 is the "COPYRIGHT SIGN".
+
+But this giant table of code points itself yet has nothing to do with
+programming, computers or whatsoever. To actually use the power of Unicode in
+your programs you have to deal with the notion of Unicode Transformation Format
+(UTF) encodings, i.e. rules by which the code points could be translated into
+sequence of bits. The dominant (and most preferrable) character encoding for
+the World-Wide Web is UTF-8 and in this tutorial we'll be dealing only with
+this representation of Unicode standart.
+
+=head2 Beware of wide characters
+
+Before diving into examples we need to take precaution against a very common
+problem when dealing with Unicode in Perl. When you will start trying to
+output some non-ASCII characters, chances are you will run into following
+warning message:
+
+Wide character in say in ./my_script.pl line 3
+
+Well, what's that? What is wide character? How did it sneak into my coding
+chef d'œuvre?!
+
+This warning usually happens when you output a Unicode string to a
+non-unicode filehandle, i.e. a filehandle with no unicode-compatible IO
+layer on it. IO layers is kinda close topic but we won't go into it
+right now, instead we'll show you possible solution to avoid this warning:
+
+    binmode FILEHANDLE, ":encoding(UTF-8)";
+
+This command should be put before your printing statement and it will specify
+the encoding layer for desired FILEHANDLE. So, to be able to print to
+console FILEHANDLE should be STDOUT, which is the filehandle used by Perl's
+print and say functions by default.
+
+=head2 Printing symbols
+
+First of all, let's look how we can output symbols denoted by code points.
+
+Your first option is to simply use hexadecimal code point number inside "\x{}".
+
+Let's look at some simple examples from the mathematic logic. To denote
+logical conjunction (more commonly known as AND operator), mathematicians
+use symbol "∧", which has code point U+2227. So in Perl you should
+
+    say "1 \x{2227} 0 = 0"
+
+=head4 Exercise
+
+Try to the write same example for logical disjunction (OR operator).
+
+Hint: logical disjunction symbol comes right after the conjunction one in
+Unicode table.
+
+    binmode STDOUT, ":encoding(UTF-8)";
+
+    say ''
+
+    __TEST__
+    like($code, qr|\\x\{[0-9a-f]+\}|i, '\x{} notation should be used');
+    like($stdout, qr/1 ∨ 0 = 1/, 'Should print out 1 ∨ 0 = 1');
+
+You can also use the name of a code point, which would make your script more
+readable. To do that you would use "\N{}" syntax instead of "\x{}".  The name
+of a code point could be seen directly in the
+L<Unicode standart|http://unicode.org/charts/nameslist/n_2200.html> or,
+for example, with L<App::Uni> utility.
+
+Remember exclusive disjunction operator? Yes, it's just good old XOR.
+As XOR is just an addition modulo 2, mathematicians write it as
+plus in a circle — "⊕".
+
+    say "1 \N{CIRCLED PLUS} 0 = 1";
+
+=head4 Exercise
+
+Let's do some negation. Write an equation for negating bit 1.
+
+Hint: use Unicode "NOT SIGN".
+
+    binmode STDOUT, ":encoding(UTF-8)";
+
+    say ''
+
+    __TEST__
+    like($code, qr|\\N\{[a-z\w]+\}|i, '\N{} notation should be used');
+    like($stdout, qr/¬\s*1\s*=\s*0/, 'Should print out ¬ 1 = 0');
+
+
+=head2 Unicode in your source
+
+But you don't have to type code points or even their names everytime. You
+can use any Unicode symbol in source code, for example in you string
+literals. All you have to do, is to use "utf8" pragma and then to save your
+script as UTF-8 text file. Watch this:
+
+    use utf8;
+
+    binmode STDOUT, ":encoding(UTF-8)";
+
+    my %notes = (
+        quarter => '♩',
+        eighth  => '♪',
+    );
+
+    while (my($k, $v) = each %notes) {
+        say "$k note is $v";
+    }
+
+Even more, you can use Unicode symbols in your indentifiers!
+
+    use utf8;
+
+    binmode STDOUT, ":encoding(UTF-8)";
+
+    my $cliché = 42;
+
+    say "The answer is $cliché!";
+
+=head4 Exercise
+
+Edit this piece of code by filling internationalized country code
+top-level domains.
+
+Hint: L<this list|http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Internationalized_country_code_top-level_domains> might help.
+
+    use utf8;
+
+    binmode STDOUT, ":encoding(UTF-8)";
+
+    my %tlds = (
+        Russia  => ...,
+        Ukraine => ...,
+    );
+
+    say "ccTLD for $_ is '$tlds{$_}'" for keys %tlds;
+
+    __TEST__
+    like($code, qr/рф/, 'cyrillic tld for Russia should be used');
+    like($code, qr/укр/, 'cyrillic tld for Ukraine should be used');
+
+=head2 Decode-process-encode
+
+All our previous examples had Unicode symbols in source code itself. When
+dealing with real world application this is not usually the case. Most of
+the time you'll perform processing of some kind of data that came from an
+external source, would that be a database, World-Wide Web of something else.
+
+Outside of your program data exists in form of bytes, and a set of rules
+which one would use to convert writing symbols into sequence of bytes is
+called I<encoding>. L<Encode> module is the tool for doing encoding
+convertions in Perl.
+
+So very typical workflow for some script would be following:
+
+=over
+
+=item *
+
+Decode you input data using L<Encode> module.
+
+=item *
+
+Do some some stuff with you text data.
+
+=item *
+
+Encode your text into suitable encoding and pass it outside.
+
+=back
+
+Note that last step can include printing into some filehandle, in which case
+you can, for example, use C<binmode> function as we did before, instead of
+C<Encode::encode> function.
+
+=head2 Byte vs. character
+
+There is one common misconception about encodings: "1 character takes 1 byte".
+This is obviously true for single-byte encodings, such as "latin1".
+
+    use Encode qw(encode);
+
+    say length encode('latin1', '$'); # says 1
+
+But since Unicode now defines more then 1 million code points (1,114,112 to
+be precise) it's absolutely impossible to use one byte (which can take only
+256 combinations of bits) to hold them all. That's where
+L<UTF encodings|https://www.metacpan.org/module/Encode::Unicode> step in.
+And UTF-8 is on of the most interesting of them all. See, depending on code
+point UTF-8 encoded Unicode symbol can take from 1 byte
+
+    use Encode qw(encode);
+
+    say length encode('utf8', '$'); # says 1
+
+up to 6 bytes for a single code point! Once again, see the difference
+between I<symbol> and I<byte sequence> representing that symbol:
+
+    use utf8;
+
+    use Encode qw(encode);
+
+    say length '€';                 # says 1
+
+    say length encode('utf8', '€'); # says 3
+
+=head2 See also
+
+=over
+
+=item * L<The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)|http://www.joelonsoftware.com/articles/Unicode.html>
+
+=item * L<perluniintro|http://perldoc.perl.org/perluniintro.html>
+
+=back
+
+=head1 AUTHOR
+
+Sergey Romanov, C<sromanov@cpan.org>
+
+=head1 LICENSE
+
+L<CC BY-SA 3.0|http://creativecommons.org/licenses/by-sa/3.0/>
