@@ -442,7 +442,7 @@ Perl C<OR> operator is C<||>. C<OR> truth table:
         <tr>
             <td>x</td>
             <td>y</td>
-            <td>||<td>
+            <td>||</td>
         </tr>
     </thead>
     <tbody>
