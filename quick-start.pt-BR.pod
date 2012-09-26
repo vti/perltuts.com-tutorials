@@ -445,7 +445,7 @@ Em Perl, o operador C<OU> é o símbolo C<||>. A tabela-verdade do C<OU>:
         <tr>
             <td>x</td>
             <td>y</td>
-            <td>||<td>
+            <td>||</td>
         </tr>
     </thead>
     <tbody>

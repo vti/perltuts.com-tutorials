@@ -454,7 +454,7 @@ C<ИЛИ>:
         <tr>
             <td>x</td>
             <td>y</td>
-            <td>||<td>
+            <td>||</td>
         </tr>
     </thead>
     <tbody>
