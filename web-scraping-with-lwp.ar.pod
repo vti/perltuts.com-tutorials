@@ -1,0 +1,436 @@
+=head1 NAME
+
+تحليل المواقع باستخدام LWP
+
+=head1 الهدف
+
+سنتعلم كيف نقوم بتنزيل، تحليل و استخراج معلومات مفيدة من المواقع الالكترونية.
+
+=head1 وصف الدرس
+
+سنتعلم كيف نقوم بتنزيل، تحليل و استخراج معلومات مفيدة من المواقع الالكترونية.
+انظر التعريف لمزيد من التفصيل
+
+=head1 الشرح
+
+=head2 ما هو تحليل مواقع الشبكة العنكبوتية
+
+تحليل المواقع هو بشكل عام عبارة عن عملية تجميع معلومات مختلفة من مواقع مختلفة و من ثم ترتيبها 
+و حفظها لاستخدامها في اغراض اخرى. مثلا المدونات و المواقع الاخبارية تقوم باستخراج
+معلومات مختلفة من مواقع اخرى و من ثم تعرضها على موقعها بشكل موحد.
+مثال عربي : موقع شخصي يقوم بجلب الاخبار من موقع الجزيرة و العربية و يعرضها على صفحته الخاصة.
+
+=head2 ملاحظات قانونية
+
+قبل ان تقوم بعملية تحليل لاي موقع تأكد من انك لا تخترق اي قوانين و ان الموقع
+فعليا يسمح بتنزيل معلوماته و استخدامه لاغراض اخرى.
+=over
+
+=item * اذا كان الموقع يقدم طريقة تواصل موحدة للمبرمجين فالافضل استخدامها
+
+=item * اقرا اتفاقية الاستخدام
+
+=item * لا تقم باستخراج و تجميع الايميلات و معلومات الاتصال و ما اشبه 
+
+=item * احترم C<robots.txt>
+
+=item * افصح عن  هويتك بشكل واضح في عمليات الاتصال.
+
+=item * تأكد من انك لا تقوم بعملية اغراق و استهلاك لموارد الموقع الاخر
+
+=item * اقرا المقالات و الكتب المؤلفة في هذا الخصوص
+
+=back
+
+=head2 بيئة العمل
+
+لغرض الشرح لنفترض اننا قمنا بعمل سيرفر شخصي على المنفذ
+L<http://127.0.0.1>
+و توجد صفحات مختلفة مثلا صفحة البداية و صفحة خطأ عدم العثور على الصفحة المطلوبة404
+
+
+=head2 جلب المعلومات
+
+لجلب اي صفحة ويب يمكن ان نستخدم مكتبة 
+L<LWP::UserAgent>
+لتقوم بعملية طلب و احضار الصفحة الالكترونية . ملاحظة : يمكن استخدام اي مكتبة اخرى
+مثلا:
+L<HTTP::Tiny>, L<HTTP::Lite>
+
+في المثال ادناه سنقوم بتنفيذ طلب جلب باستخدام الامر
+C<GET>
+
+
+    use LWP::UserAgent;
+
+    my $ua =
+      LWP::UserAgent->new(agent => 'MyWebScaper/1.0 <http://example.com>');
+
+    my $response = $ua->get('http://127.0.0.1/');
+
+    if ($response->is_success) {
+        say $response->decoded_content;
+    } else {
+        die $response->status_line;
+    }
+
+بعد تنفيذ هذا الكود فسنتحصل على نسخة من الصفحة التي طلبناها اذا تمت العملية بنجاح.
+او في حالة فشل عملية الاتصال و تحميل الصفحة سيرجع لنا الكود رسالة خطأ
+
+
+لنقم بمحاولة تنزيل صفحة غير موجودة على السيرفر:
+
+    use LWP::UserAgent;
+
+    my $ua =
+      LWP::UserAgent->new(agent => 'MyWebScaper/1.0 <http://example.com>');
+
+    my $response = $ua->get('http://127.0.0.1/not_found');
+
+    if ($response->is_success) {
+        say $response->decoded_content;
+    } else {
+        die $response->status_line;
+    }
+
+هنا الخطأ سيقع في جهة السيرفر و سيقوم السيرفر بارجاع رسالة الخطأ، و لكن ماذا
+لو فشلت عملية الاتصال بالسيرفر اساسا؟
+
+
+    use LWP::UserAgent;
+
+    my $ua =
+      LWP::UserAgent->new(agent => 'MyWebScaper/1.0 <http://example.com>');
+
+    my $response = $ua->get('http://unknown.server');
+
+    if ($response->is_success) {
+        say $response->decoded_content;
+    } else {
+        die $response->status_line;
+    }
+
+
+في هذه الحالة سنتحصل على الخطأ 500. و لكن يبدو ان السيرفر يعمل و لكن بشكل غير صحيح
+و هذا خلاف الواقع. لكي نتعرف على مصدر الخطا هل هو خارجي او داخلي توفر مكتبة
+LWP
+رسالة تنبيهية خاصة، انظر الكود التالية:
+    use LWP::UserAgent;
+
+    my $ua =
+      LWP::UserAgent->new(agent => 'MyWebScaper/1.0 <http://example.com>');
+
+    my $response = $ua->get('http://unknown.server');
+
+    my $client_warning = $response->headers->header('Client-Warning');
+
+    if ($client_warning && $client_warning eq 'Internal response') {
+        die 'Internal error: ' . $response->status_line;
+    } else {
+        die 'Server error: ' . $response->status_line;
+    }
+
+الان يمكننا ان نتأكد من ان الخطأ جاء من طرفنا.
+
+=head3 تمرين
+
+قم بتنزيل صفحة من السيرفر الافتراضي
+C<http://127.0.0.1> 
+و قم بطباعة حجمها بالبايتس
+
+    use LWP::UserAgent;
+
+    my $ua = LWP::UserAgent->new;
+
+    ...
+
+    say ...
+
+    __TEST__
+    like($stdout, qr/183/, 'Should print correct size');
+
+=head2 التحليل
+
+
+الان تعلمنا كيف نقوم بتحميل الصفحات و جلبها و سنقوم الان بعملية تحليل او استخراج لبعض المعلومات.
+في الامثلة القادمة لن نقوم بالتعامل مع الاخطاء طلبا للاختصار و لكن في الاستخدام الحقيقي
+يجب علينا التعامل مع كل حالة خطأ ممكنة.
+
+الصفحة الافتراضية تبدو بهذا الشكل :
+
+    # no-run
+    <html>
+        <head>
+            <title>A sample webpage!</title>
+        </head>
+        <body>
+            <h1></h1>
+        </body>
+    </html>
+
+طبعا هذه اكواد html و للتعامل معها سنحتاج الى محلل الى html
+بالاضافة الى ما يعرف بمنقي Xpath و CSS حسب الحاجة طبعا.
+
+=head3 XPath استخدام
+
+بداية سنقوم بمحاولة تحليل الصفحة باستخدام 
+L<HTML::TreeBuilder::XPath>
+اكس باث هو عبارة عن لغة XML استعلامية. اذا لم تكن لديك اي معلومات مسبقة عن الاكس باث
+يمكنك ان تطلع هذا الملخص السريع:
+    # no-run
+    descendant-or-self::*
+    all elements
+
+    //h1
+    <h1> element
+
+    descendant-or-self::h1/span
+    <span> within <h1>
+
+    descendant-or-self::h1 | descendant-or-self::span
+    <h1> and span
+
+    descendant-or-self::h1/descendant::span
+    <span> with parent <h1>
+
+    descendant-or-self::h1/following-sibling::*[name() = 'span' and (position() = 1)]
+    <span> preceded by <div>
+
+    descendant-or-self::*[contains(concat(' ', normalize-space(@class), ' '), ' class ')]
+    Elements of class "class"
+
+    descendant-or-self::div[contains(concat(' ', normalize-space(@class), ' '), ' class ')]
+    <div> of class "class"
+
+    descendant-or-self::*[@id = 'id']
+    Element with id "id"
+
+    descendant-or-self::div[@id = 'id']
+    <div> with id "id"
+
+    descendant-or-self::a[@attr]
+    <a> with attribute "attr"
+
+في هذا المثال سنقوم باستخراج عنوان الصفحة :
+
+    use HTML::TreeBuilder::XPath;
+
+    my $html = <<'EOF';
+    <html>
+        <head>
+            <title>A sample webpage!</title>
+        </head>
+        <body>
+            <h1>Perltuts.com rocks!</h1>
+        </body>
+    </html>
+    EOF
+
+    my $tree = HTML::TreeBuilder::XPath->new;
+    $tree->ignore_unknown(0);
+    $tree->parse($html);
+    $tree->eof;
+
+    my @nodes = $tree->findnodes('//title');
+    say $nodes[0]->as_text;
+
+=head3 تمرين
+
+استخرج ثم اطبع المحتويات المدرجة تحت 
+C<h1>
+
+    use HTML::TreeBuilder::XPath;
+
+    my $html = <<'EOF';
+    <html>
+        <head>
+            <title>A sample webpage!</title>
+        </head>
+        <body>
+            <h1>Perltuts.com rocks!</h1>
+        </body>
+    </html>
+    EOF
+
+    my $tree = HTML::TreeBuilder::XPath->new;
+    $tree->ignore_unknown(0);
+    $tree->parse($html);
+    $tree->eof;
+
+    my @nodes = $tree->findnodes(...);
+    say $nodes[0]->as_text;
+    __TEST__
+    like($stdout, qr/Perltuts.com rocks!/, 'Should print correct h1 content');
+
+=head3 CSS selectors استخدام
+
+البعض من المبرمجين يعتبر CSS اكثر سهولة من الاكس باث. اذا كنت لا تعرف CSS فاليك
+هذا الملخص السريع:
+
+    # no-run
+    *
+    all elements
+
+    h1
+    <h1> element
+
+    h1 span
+    <span> within <h1>
+
+    h1, span
+    <h1> and span
+
+    h1 > span
+    <span> with parent <h1>
+
+    div + span
+    <span> preceded by <div>
+
+    .class
+    Elements of class "class"
+
+    div.class
+    <div> of class "class"
+
+    #id
+    Element with id "id"
+
+    div#id
+    <div> with id "id"
+
+    a[attr]
+    <a> with attribute "attr"
+
+باستخدام HTML::Selector::XPath يمكننا ان نجعل من 
+المكتبة السابقة  منقي CSS ...
+
+    use HTML::TreeBuilder::XPath;
+    use HTML::Selector::XPath;
+
+    my $html = <<'EOF';
+    <html>
+        <head>
+            <title>A sample webpage!</title>
+        </head>
+        <body>
+            <h1>Perltuts.com rocks!</h1>
+        </body>
+    </html>
+    EOF
+
+    my $tree = HTML::TreeBuilder::XPath->new;
+    $tree->ignore_unknown(0);
+    $tree->parse($html);
+    $tree->eof;
+
+    my $xpath = HTML::Selector::XPath::selector_to_xpath('h1');
+    my @nodes = $tree->findnodes($xpath);
+    say $nodes[0]->as_text;
+
+=head3 تمرين
+
+في هذا التمرين اكمل الكود في الاسفل ليقوم بعملية جلب ثم استخراج و طباعة لمحتويات h1
+و ذلك باستخدام منقي CSS :
+
+    use LWP::UserAgent;
+    use HTML::TreeBuilder::XPath;
+    use HTML::Selector::XPath;
+
+    my $ua = LWP::UserAgent->new;
+
+    my $response = ...
+    my $html = ...
+
+    my $tree = ...
+
+    my $xpath = HTML::Selector::XPath::selector_to_xpath(...);
+    my @nodes = $tree->findnodes($xpath);
+    say $nodes[0]->as_text;
+    __TEST__
+    like($stdout, qr/Perltuts.com rocks!/, 'Should print correct h1 content');
+
+=head2 متابعة الوصلات و اعادات التحويل
+
+=head3 اعادة تحويل
+
+ليس من الغريب ان تقوم بعض الصفحات باعادة تحويل الى صفحات اخرى. من حسن الحظ ان LWP::UserAgent
+تقوم بدعم التحويل افتراضيا.  يمكن التحكم بعدد التحولات التي ستتولاها المكتبة من خلال  
+C<max_redirect>
+في المثال ادناه صفحة ريداركت التي سنقوم بطلبها ستقوم بعملية اعادة تحويل الى صفحة الاندكس او ما يسمى بالصحفة الافتراضية:
+
+
+    use LWP::UserAgent;
+
+    my $ua =
+      LWP::UserAgent->new(agent => 'MyWebScaper/1.0 <http://example.com>');
+
+    my $response = $ua->get('http://127.0.0.1/redirect');
+
+    say $response->decoded_content;
+
+نلاحظ اننا لو قمنا باسناد قيمة صفر الى max_redirect فانه لن يتم تحويلنا الى الصفحة الافتراضية
+
+    use LWP::UserAgent;
+
+    my $ua = LWP::UserAgent->new(
+        agent        => 'MyWebScaper/1.0 <http://example.com>',
+        max_redirect => 0
+    );
+
+    my $response = $ua->get('http://127.0.0.1/redirect');
+
+    say $response->decoded_content;
+
+=head3 الوصلات
+
+متابعة الوصلات و الروابط مهمة معتادة في تحليل صفحات الويب.
+مرة اخرى باستخدام منقي CSS يمكننا الحصول على الـ a تاج الخاص بالروابط.
+لنجرب:
+    use HTML::TreeBuilder::XPath;
+    use HTML::Selector::XPath;
+
+    my $html = <<'EOF';
+    <html>
+        <head>
+            <title>A sample webpage!</title>
+        </head>
+        <body>
+            <h1>Perltuts.com rocks!</h1>
+            <a href="http://perltuts.com">perltuts.com</a>
+        </body>
+    </html>
+    EOF
+
+    my $tree = HTML::TreeBuilder::XPath->new;
+    $tree->ignore_unknown(0);
+    $tree->parse($html);
+    $tree->eof;
+
+    my $xpath = HTML::Selector::XPath::selector_to_xpath('a');
+    my @nodes = $tree->findnodes($xpath);
+    my @attrs = $nodes[0]->getAttributes();
+    say $attrs[0]->getValue();
+
+=head2 انظر ايضا
+
+انظر هذه المكتبات لمزيد من الاليات المساعدة في عملية تحليل المواقع
+
+=over
+
+=item * L<WWW::Mechanize>
+
+=item * L<Web::Scraper>
+
+=back
+
+=head1 AUTHOR
+
+Viacheslav Tykhanovskyi, C<vti@cpan.org>
+
+=head1 TRANSLATOR
+
+Ali Yassen, C<moosa@cpan.org>
+
+=head1 LICENSE
+
+L<CC BY-SA 3.0|http://creativecommons.org/licenses/by-sa/3.0/>
