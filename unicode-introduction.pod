@@ -24,7 +24,7 @@ errors.
 
 =head2 Unicode == Standart
 
-Unicode is a computing industry standard for the consistent representation and
+I<Unicode> is a computing industry standard for the consistent representation and
 handling of text expressed in most of the world's writing systems.
 
 Perl language is known for its excellent Unicode handling capabilities. There
@@ -37,17 +37,18 @@ Unicode in Perl right away.
 Very simply put, main part of the Unicode standart is just a giant table,
 which assigns a number to every L<glyph|https://en.wikipedia.org/wiki/Glyph>,
 would that be a letter, a punctuation, a diacritic and so on. Those numbers
-are called code points and normally a Unicode code point is referred to by
-writing "U+" followed by its in number hexadecimal form. For example, U+0050
-refers to "LATIN CAPITAL LETTER P", and U+00A9 is the "COPYRIGHT SIGN".
+are called I<code points> and normally a Unicode code point is referred to by
+writing I<U+> followed by its in number hexadecimal form. For example, B<U+0050>
+refers to B<LATIN CAPITAL LETTER P>, and U+00A9 is the B<COPYRIGHT SIGN> etc.
 
 But this giant table of code points itself yet has nothing to do with
 programming, computers or whatsoever. To actually use the power of Unicode in
-your programs you have to deal with the notion of Unicode Transformation Format
-(UTF) encodings, i.e. rules by which the code points could be translated into
-sequence of bits. The dominant (and most preferrable) character encoding for
-the World-Wide Web is UTF-8 and in this tutorial we'll be dealing only with
-this representation of Unicode standart.
+your programs you have to deal with the notion of
+I<Unicode Transformation Format(UTF)> encodings, i.e. rules by which the code
+points could be translated into sequence of bits.
+The dominant (and most preferrable) character encoding for the World-Wide Web
+is I<UTF-8> and in this tutorial we'll be dealing only with this representation
+of Unicode standart.
 
 =head2 Beware of wide characters
 
@@ -58,12 +59,12 @@ warning message:
 
 Wide character in say in ./my_script.pl line 3
 
-Well, what's that? What is wide character? How did it sneak into my coding
+Well, what's that? What is I<wide character>? How did it sneak into my coding
 chef d'œuvre?!
 
 This warning usually happens when you output a Unicode string to a
-non-unicode filehandle, i.e. a filehandle with no unicode-compatible IO
-layer on it. IO layers is kinda close topic but we won't go into it
+non-unicode filehandle, i.e. a filehandle with no unicode-compatible I<IO
+layer> on it. IO layers is kinda close topic but we won't go into it
 right now, instead we'll show you possible solution to avoid this warning:
 
     binmode FILEHANDLE, ":encoding(UTF-8)";
@@ -71,25 +72,25 @@ right now, instead we'll show you possible solution to avoid this warning:
 This command should be put before your printing statement and it will specify
 the encoding layer for desired FILEHANDLE. So, to be able to print to
 console FILEHANDLE should be STDOUT, which is the filehandle used by Perl's
-print and say functions by default.
+C<print> and C<say> functions by default.
 
 =head2 Printing symbols
 
 First of all, let's look how we can output symbols denoted by code points.
 
-Your first option is to simply use hexadecimal code point number inside "\x{}".
+Your first option is to simply use hexadecimal code point number inside C<\x{}>.
 
 Let's look at some simple examples from the mathematic logic. To denote
-logical conjunction (more commonly known as AND operator), mathematicians
-use symbol "∧", which has code point U+2227. So in Perl you should
+I<logical conjunction> (more commonly known as B<AND> operator), mathematicians
+use symbol B<∧>, which has code point B<U+2227>. So in Perl you should
 
     say "1 \x{2227} 0 = 0"
 
 =head4 Exercise
 
-Try to the write same example for logical disjunction (OR operator).
+Try to the write same example for I<logical disjunction> (B<OR> operator).
 
-Hint: logical disjunction symbol comes right after the conjunction one in
+B<Hint>: logical disjunction symbol comes right after the conjunction one in
 Unicode table.
 
     binmode STDOUT, ":encoding(UTF-8)";
@@ -101,14 +102,16 @@ Unicode table.
     like($stdout, qr/1 ∨ 0 = 1/, 'Should print out 1 ∨ 0 = 1');
 
 You can also use the name of a code point, which would make your script more
-readable. To do that you would use "\N{}" syntax instead of "\x{}".  The name
+readable. To do that you would use C<\N{}> syntax instead of C<\x{}> (if you
+are using version of Perl less than 5.16 you'll need to put C<use charnames;>
+at the top of you script in order to use C<\N{}>). The name
 of a code point could be seen directly in the
 L<Unicode standart|http://unicode.org/charts/nameslist/n_2200.html> or,
 for example, with L<App::Uni> utility.
 
-Remember exclusive disjunction operator? Yes, it's just good old XOR.
-As XOR is just an addition modulo 2, mathematicians write it as
-plus in a circle — "⊕".
+Remember I<exclusive disjunction> operator? Yes, it's just good old B<XOR>.
+As B<XOR> is just an addition modulo 2, mathematicians write it as a
+plus sing in a circle — B<⊕>.
 
     say "1 \N{CIRCLED PLUS} 0 = 1";
 
@@ -116,7 +119,7 @@ plus in a circle — "⊕".
 
 Let's do some negation. Write an equation for negating bit 1.
 
-Hint: use Unicode "NOT SIGN".
+B<Hint>: use Unicode B<NOT SIGN>.
 
     binmode STDOUT, ":encoding(UTF-8)";
 
@@ -131,7 +134,7 @@ Hint: use Unicode "NOT SIGN".
 
 But you don't have to type code points or even their names everytime. You
 can use any Unicode symbol in source code, for example in you string
-literals. All you have to do, is to use "utf8" pragma and then to save your
+literals. All you have to do, is to use C<utf8> pragma and then to save your
 script as UTF-8 text file. Watch this:
 
     use utf8;
@@ -143,7 +146,7 @@ script as UTF-8 text file. Watch this:
         eighth  => '♪',
     );
 
-    while (my($k, $v) = each %notes) {
+    while (my( $k, $v ) = each %notes) {
         say "$k note is $v";
     }
 
@@ -162,7 +165,7 @@ Even more, you can use Unicode symbols in your indentifiers!
 Edit this piece of code by filling internationalized country code
 top-level domains.
 
-Hint: L<this list|http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Internationalized_country_code_top-level_domains> might help.
+B<Hint>: L<this list|http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Internationalized_country_code_top-level_domains> might help.
 
     use utf8;
 
@@ -181,7 +184,7 @@ Hint: L<this list|http://en.wikipedia.org/wiki/List_of_Internet_top-level_domain
 
 =head2 Decode-process-encode
 
-All our previous examples had Unicode symbols in source code itself. When
+Our previous examples had Unicode symbols in source code itself. When
 dealing with real world application this is not usually the case. Most of
 the time you'll perform processing of some kind of data that came from an
 external source, would that be a database, World-Wide Web of something else.
@@ -201,7 +204,7 @@ Decode you input data using L<Encode> module.
 
 =item *
 
-Do some some stuff with you text data.
+Do some some stuff with you I<textual> data.
 
 =item *
 
@@ -215,8 +218,9 @@ C<Encode::encode> function.
 
 =head2 Byte vs. character
 
-There is one common misconception about encodings: "1 character takes 1 byte".
-This is obviously true for single-byte encodings, such as "latin1".
+There is one common B<misconception> about encodings:
+I<1 character takes 1 byte>.
+This is obviously true for single-byte encodings, such as I<latin1>.
 
     use Encode qw(encode);
 
