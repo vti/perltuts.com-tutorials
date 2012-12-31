@@ -39,12 +39,12 @@ which assigns a number to every L<glyph|https://en.wikipedia.org/wiki/Glyph>,
 would that be a letter, a punctuation, a diacritic and so on. Those numbers
 are called I<code points> and normally a Unicode code point is referred to by
 writing I<U+> followed by its in number hexadecimal form. For example, B<U+0050>
-refers to B<LATIN CAPITAL LETTER P>, and U+00A9 is the B<COPYRIGHT SIGN> etc.
+refers to B<LATIN CAPITAL LETTER P>, and B<U+00A9> is the B<COPYRIGHT SIGN> etc.
 
 But this giant table of code points itself yet has nothing to do with
 programming, computers or whatsoever. To actually use the power of Unicode in
 your programs you have to deal with the notion of
-I<Unicode Transformation Format(UTF)> encodings, i.e. rules by which the code
+I<Unicode Transformation Format (UTF)> encodings, i.e. rules by which the code
 points could be translated into sequence of bits.
 The dominant (and most preferrable) character encoding for the World-Wide Web
 is I<UTF-8> and in this tutorial we'll be dealing only with this representation
@@ -219,7 +219,7 @@ C<Encode::encode> function.
 =head2 Byte vs. character
 
 There is one common B<misconception> about encodings:
-I<1 character takes 1 byte>.
+I<"1 character takes 1 byte">.
 This is obviously true for single-byte encodings, such as I<latin1>.
 
     use Encode qw(encode);
