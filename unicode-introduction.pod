@@ -57,7 +57,7 @@ problem when dealing with Unicode in Perl. When you will start trying to
 output some non-ASCII characters, chances are you will run into following
 warning message:
 
-Wide character in say in ./my_script.pl line 3
+    Wide character in say in ./my_script.pl line 3
 
 Well, what's that? What is I<wide character>? How did it sneak into my coding
 chef d'œuvre?!
@@ -83,6 +83,8 @@ Your first option is to simply use hexadecimal code point number inside C<\x{}>.
 Let's look at some simple examples from the mathematic logic. To denote
 I<logical conjunction> (more commonly known as B<AND> operator), mathematicians
 use symbol B<∧>, which has code point B<U+2227>. So in Perl you should
+
+    binmode STDOUT, ":encoding(UTF-8)";
 
     say "1 \x{2227} 0 = 0"
 
@@ -113,6 +115,10 @@ Remember I<exclusive disjunction> operator? Yes, it's just good old B<XOR>.
 As B<XOR> is just an addition modulo 2, mathematicians write it as a
 plus sing in a circle — B<⊕>.
 
+    use charnames qw(:full);
+
+    binmode STDOUT, ":encoding(UTF-8)";
+
     say "1 \N{CIRCLED PLUS} 0 = 1";
 
 =head4 Exercise
@@ -120,6 +126,8 @@ plus sing in a circle — B<⊕>.
 Let's do some negation. Write an equation for negating bit 1.
 
 B<Hint>: use Unicode B<NOT SIGN>.
+
+    use charnames qw(:full);
 
     binmode STDOUT, ":encoding(UTF-8)";
 
@@ -216,6 +224,14 @@ Note that last step can include printing into some filehandle, in which case
 you can, for example, use C<binmode> function as we did before, instead of
 C<Encode::encode> function.
 
+Also, you don't have to always perform steps 1 and 3 by yourself. In case you
+are using some encoding-aware module to fetch or parse data, decoding/encoding
+steps can be automaticaly taken for you by that module (e.g. L<JSON>, L<DBI>).
+
+Main point here is that you should always be aware of what state your data is
+in and carefully read the docs for modules you use. But for simple string
+juggling three steps above should be enough to get you going.
+
 =head2 Byte vs. character
 
 There is one common B<misconception> about encodings:
@@ -229,8 +245,8 @@ This is obviously true for single-byte encodings, such as I<latin1>.
 But since Unicode now defines more then 1 million code points (1,114,112 to
 be precise) it's absolutely impossible to use one byte (which can take only
 256 combinations of bits) to hold them all. That's where
-L<UTF encodings|https://www.metacpan.org/module/Encode::Unicode> step in.
-And UTF-8 is on of the most interesting of them all. See, depending on code
+L<UTF encodings|Encode::Unicode> step in.
+And UTF-8 is one of the most interesting of them all. See, depending on code
 point UTF-8 encoded Unicode symbol can take from 1 byte
 
     use Encode qw(encode);
