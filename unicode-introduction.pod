@@ -86,7 +86,7 @@ use symbol B<∧>, which has code point B<U+2227>. So in Perl you should
 
     binmode STDOUT, ":encoding(UTF-8)";
 
-    say "1 \x{2227} 0 = 0"
+    say "1 \x{2227} 0 = 0";
 
 =head4 Exercise
 
@@ -100,7 +100,7 @@ Unicode table.
     say ''
 
     __TEST__
-    like($code, qr|\\x\{[0-9a-f]+\}|i, '\x{} notation should be used');
+    like($code, qr|\\x{[0-9a-f]+?}|i, '\x{} notation should be used');
     like($stdout, qr/1 ∨ 0 = 1/, 'Should print out 1 ∨ 0 = 1');
 
 You can also use the name of a code point, which would make your script more
@@ -134,7 +134,7 @@ B<Hint>: use Unicode B<NOT SIGN>.
     say ''
 
     __TEST__
-    like($code, qr|\\N\{[a-z\w]+\}|i, '\N{} notation should be used');
+    like($code, qr|\\N{[ A-Z]+?}|, '\N{} notation should be used');
     like($stdout, qr/¬\s*1\s*=\s*0/, 'Should print out ¬ 1 = 0');
 
 
