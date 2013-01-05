@@ -10,19 +10,19 @@ en
 
 =head1 ABSTRACT
 
-This tutorial will give you a first notion of Unicode standart. It explains
+This tutorial will give you a first notion of Unicode standard. It explains
 how to get started with Unicode in Perl and tries to focus on the most common
 errors.
 
 =head1 DESCRIPTION
 
-This tutorial will give you a first notion of Unicode standart. It explains
+This tutorial will give you a first notion of Unicode standard. It explains
 how to get started with Unicode in Perl and tries to focus on the most common
 errors.
 
 =head1 TUTORIAL
 
-=head2 Unicode == Standart
+=head2 Unicode == Standard
 
 I<Unicode> is a computing industry standard for the consistent representation and
 handling of text expressed in most of the world's writing systems.
@@ -34,7 +34,7 @@ Unicode in Perl right away.
 
 =head2 Code points and UTF
 
-Very simply put, main part of the Unicode standart is just a giant table,
+Very simply put, main part of the Unicode standard is just a giant table,
 which assigns a number to every L<glyph|https://en.wikipedia.org/wiki/Glyph>,
 would that be a letter, a punctuation, a diacritic and so on. Those numbers
 are called I<code points> and normally a Unicode code point is referred to by
@@ -48,7 +48,7 @@ I<Unicode Transformation Format (UTF)> encodings, i.e. rules by which the code
 points could be translated into sequence of bits.
 The dominant (and most preferrable) character encoding for the World-Wide Web
 is I<UTF-8> and in this tutorial we'll be dealing only with this representation
-of Unicode standart.
+of Unicode standard.
 
 =head2 Beware of wide characters
 
@@ -108,7 +108,7 @@ readable. To do that you would use C<\N{}> syntax instead of C<\x{}> (if you
 are using version of Perl less than 5.16 you'll need to put C<use charnames;>
 at the top of you script in order to use C<\N{}>). The name
 of a code point could be seen directly in the
-L<Unicode standart|http://unicode.org/charts/nameslist/n_2200.html> or,
+L<Unicode standard|http://unicode.org/charts/nameslist/n_2200.html> or,
 for example, with L<App::Uni> utility.
 
 Remember I<exclusive disjunction> operator? Yes, it's just good old B<XOR>.
