@@ -97,7 +97,7 @@ Unicode table.
 
     binmode STDOUT, ":encoding(UTF-8)";
 
-    say ''
+    say '';
 
     __TEST__
     like($code, qr|\\x{[0-9a-f]+?}|i, '\x{} notation should be used');
@@ -131,7 +131,7 @@ B<Hint>: use Unicode B<NOT SIGN>.
 
     binmode STDOUT, ":encoding(UTF-8)";
 
-    say ''
+    say '';
 
     __TEST__
     like($code, qr|\\N{[ A-Z]+?}|, '\N{} notation should be used');
@@ -158,15 +158,21 @@ script as UTF-8 text file. Watch this:
         say "$k note is $v";
     }
 
-Even more, you can use Unicode symbols in your indentifiers!
+Even more, you can use Unicode symbols in your indentifiers
 
     use utf8;
-
-    binmode STDOUT, ":encoding(UTF-8)";
 
     my $cliché = 42;
 
     say "The answer is $cliché!";
+
+and inside regular expressions!
+
+    use utf8;
+
+    my $snowman = "Hello, I'm \x{2603}.";
+
+    say 'Snowman is here!' if $snowman =~ /☃/;
 
 =head4 Exercise
 
