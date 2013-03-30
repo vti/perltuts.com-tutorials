@@ -162,65 +162,70 @@ Lists used inside other lists are flattened:
 
     say (1, (2, 3, 4), 5)
 
-=head2 Assignment and variables
+=head2 Assignació i variables
 
-Assignment in computer programming languages is an operation of storing a value
-somewhere in the computer's memory that is accessed by its name.
+En els llenguatges de programació l'assignació és una operació que
+emmagatzema un valor en algun lloc de la memòria de l'ordinador al qual
+es pot accedir amb el seu nom.
 
-In Perl 5 there are three built-in data types: scalars, arrays and hashes (or
-associative arrays). Scalars can hold strings and numbers. Arrays are ordered
-lists of scalars where values are accessed by index. Hashes are unordered
-associative array where values are accessed by keys. Variables that hold
-scalars, arrays or hashes are prefixed with C<$>, C<@> and C<%> respectively.
+A Perl 5 hi ha tres tipus de dades integrats: escalars, vectors i
+diccionaris (o vectors associatius). Els escalars poden contenir cadenes
+i números. Els vectors són llistes ordenades d'escalars als quals
+s'accedeix amb un índex. Els diccionaris són vectors associatius no
+ordenats en què s'utilitzen claus per accedir als valors. Les variables
+que contenen escalars, vectors o diccionaris duen el prefix C<$>, C<@>
+i C<%> respectivament.
 
-Variables are usually declared by using my keyword. For example:
+Les variables es declaren normalment utilitzant el mot C<my>. Per
+exemple:
 
     my $x = 1;
     say $x;
 
-=head4 Exercise
+=head4 Exercici
 
-Assign to a variable C<y> string C<'Hello, world!'> and print it.
+Assigneu a una varibe C<y> la cadena C<'Hola món!'> i imprimiu-la.
 
     my $
     say
     __TEST__
-    like($stdout, qr/Hello, world!/, 'Should print "Hello, world!"')
+    like($stdout, qr/Hola món!/, q/Hauria d'imprimir "Hola món!"/)
 
-=head3 Scalars
+=head3 Escalars
 
-Depending on what the variable holds (a number, a string) there are different
-operators your can use.
+Depenent del que contingui la variable (un número o una cadena) hi ha
+diferents operadors que podeu utilitzar.
 
-Let's say you want to sum two number values:
+Diguem que voleu sumar dos valors numèrics:
 
     my $x = 1;
     my $y = 2;
 
     say $x + $y;
 
-Or you want to concatenate two string values:
+O que voleu concatenar dues cadenes:
 
-    my $x = 'Hello';
-    my $y = 'There';
+    my $x = 'Hola';
+    my $y = 'vosaltres';
 
     say $x . $y
 
-If you will try to use C<+> on strings or C<.> on numbers they will be
-automatically converted to appropriate types.
+Si provéssiu d'utilitzar C<+> a les cadenes o C<.> als números es
+convertirien automàticament al tipus adequat.
 
     my $x = 1;
-    my $y = '2 times';
+    my $y = '2 cops';
 
     say $x . $y;
     say $x + $y;
 
-As you can see in the second example the string '2times' was converted to
-number, which is 2.
+Com podeu veure, al segon exemple la cadena '2 cops' s'ha convertit en
+un número, en aquest cas 2.
 
-=head4 Exercise
+=head4 Exercici
 
-Contatenate and print the string C<'Result='> and the sum of C<42> and C<13>.
+Concateneu i imprimiu la cadena C<'Resultat='> i la suma de C<42> i
+C<13>.
 
     my $x = ;
     my $y = ;
@@ -228,80 +233,88 @@ Contatenate and print the string C<'Result='> and the sum of C<42> and C<13>.
     say
 
     __TEST__
-    like($stdout, qr/55/, 'Should print "Result=55"');
+    like($stdout, qr/55/, q/Hauria d'imprimir "Resultat=55"/);
 
-=head3 Arrays
+=head3 Vectors
 
-Arrays can hold a list of scalars.
+Els vectors poden contenir una llista d'escalars.
 
-    my @array = (1, 2, 3);
+    my @vector = (1, 2, 3);
 
-    say @array;
+    say @vector;
 
-Basic array manipulations include getting an element by index (starting from 0),
-getting the last index, shifting and popping values.
+Les manipulacions bàsiques dels vectors inclouen obtenir un element amb
+l'índex (començant des del 0), obtenir el darrer índex, encuar i empilar
+valors.
 
-    my @array = (1, 2, 3);
+    my @vector = (1, 2, 3);
 
-    # Get the third element
-    say $array[2];
+    # Obté el tercer element
+    say $vector[2];
 
-    # Get the last index
-    say $#array;
+    # Obté el darrer índex
+    say $#vector;
 
-    push @array, 4;
-    say @array;
+    # Encua el valor 4
+    push @vector, 4;
+    say @vector;
 
-    pop @array;
-    say @array;
+    # Desencua el darrer valor
+    pop @vector;
+    say @vector;
 
-    shift @array;
-    say @array;
+    # Desempila el primer valor
+    shift @vector;
+    say @vector;
 
-    unshift @array, 0;
-    say @array;
+    # Empila el valor 0
+    unshift @vector, 0;
+    say @vector;
 
-As you probably have noticed when accessing array element we changed C<@> to
-C<$>, because the element of array is a scalar, and scalars are prepended with
-symbol C<$>.
+Probablement us haureu adonat que quan s'accedeix a un element d'un
+vector es canvia C<@> per C<$>, ja que l'element del vector és un
+escalar, i els escalars duen el prefix C<$>.
 
-=head4 Exercise
+=head4 Exercici
 
-Give the array that holds list C<(1, 2, 3, 4)> print the third element.
+Donat el vector que conté la llista C<(1, 2, 3, 4)>, imprimiu el tercer
+element.
 
-    my @array = ;
+    my @vector = ;
     say 
 
     __TEST__
-    like($stdout, qr/3/, 'Should print 3')
+    like($stdout, qr/3/, q/Hauria d'imprimir 3/)
 
-=head3 Hashes
+=head3 Diccionaris
 
-Hash or associated arrays are unordered collections of scalars that can be
-accessed by a key. A key is usually a string.
+Els diccionaris o vectors associatius són col·leccions no-ordenades
+d'escalars als que es pot accedir mitjançant una clau. Normalment la
+clau és una cadena de text.
 
-    my %hash = ('key1', 'value1', 'key2', 'value2');
+    my %diccionari = ('clau1', 'valor1', 'clau2', 'valor2');
 
-Instead of using comma for separating keys and values Perl provides a more
-readable operator C<< => >>, for example:
+Enlloc d'utilitzar la coma per a separar les claus i els valors, Perl
+proporciona C<< => >> com a operador més llegible, per exemple:
 
-    my %hash = (key1 => 'value1', key2 => 'value2');
+    my %diccionari = (clau1 => 'valor1', clau2 => 'valor2');
 
-Basic hash manipulations
+=head3 Manipulacions bàsiques dels diccionaris
 
-As with arrays when accesing hash key, the variable becames a scalar, we use
-symbol C<$> and braces C<{}>:
+Com en el cas dels vectors, quan s'accedeix a una clau d'un diccionari,
+la variable esdevé un escalar i per això s'utilitza el símbol C<$> i les
+claus C<{}>:
 
-    my %hash = (key1 => 'value1', key2 => 'value2');
+    my %diccionari = (clau1 => 'valor1', clau2 => 'valor2');
 
-    say $hash{key1};
+    say $diccionari{clau1};
 
-=head3 Geting all hash keys and values
+=head3 Obtenir totes les claus i valors d'un diccionari
 
-    my %hash = (key1 => 'value1', key2 => 'value2');
+    my %diccionari = (clau1 => 'valor1', clau2 => 'valor2');
 
-    say keys %hash;
-    say values %hash;
+    say keys %diccionari;
+    say values %diccionari;
 
 =head2 Context
 
