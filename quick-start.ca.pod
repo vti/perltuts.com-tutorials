@@ -96,8 +96,8 @@ Imprimiu el resultat de 5 elevat a 6.
 
     say
     __TEST__
-    like($code, qr/\*\*/, 'Operator ** should be used');
-    like($stdout, qr/15625/, 'Should be 15625');
+    like($code, qr/\*\*/, q/Hauríeu d'utilitzar l'operador **/);
+    like($stdout, qr/15625/, 'Hauria de ser 15625');
 
 =head2 Strings
 
