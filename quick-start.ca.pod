@@ -305,21 +305,23 @@ symbol C<$> and braces C<{}>:
 
 =head2 Context
 
-Context is a very important concept in Perl. There are two main contexts: scalar
-and list. Context usually affects how the functions and variables behave. This
-is close to the natural language.
+El context és un concepte molt important a Perl. Hi ha dos contexts
+principals: escalar i de llista. El context habitualment afecta com es
+comporten les funcions i les variables. Això és similar al llenguatge
+natural.
 
-The most popular usage is getting an array length for example. Normally when you
-use array in list context it returns all its elements, but when used in scalar
-context it returns its length.
+L'ús més popular del context és aconseguir la longitud d'un vector.
+Normalment, quan utilitzeu un vector en context de llista,
+aquest retorna tots els seus elements, mentre que si ho utilitzeu en
+context escalar retorna la seva longitud.
 
-    my @array = (1, 2, 3);
+    my @vector = (1, 2, 3);
 
-    my @array2 = @array; # list context
-    say @array2;
+    my @vector2 = @vector; # context de llista
+    say @vector2;
 
-    my $length = @array; # scalar context
-    say $length;
+    my $longitud = @vector; # context escalar
+    say $longitud;
 
 =head2 Logical and comparison operators
 
