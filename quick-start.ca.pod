@@ -321,31 +321,33 @@ context it returns its length.
     my $length = @array; # scalar context
     say $length;
 
-=head2 Logical and comparison operators
+=head2 Operadors lògics i de comparació
 
-Before we introduce the corresponding Perl operators here are the basics of
-Boolean algebra.
+Abans d'introduir els corresponents operadors de Perl, veiem els
+conceptes bàsics de l'àlgebra booleana.
 
-Boolean algebra is a variant of algebra where instead of numbers are truth
-values C<0> and C<1>, where C<1> is called C<truth>, and C<0> is called
-C<false>.
+L'àlgebra booleana és una variant de l'àlgebra on en comptes de números
+hi ha els valors C<0> i C<1>, on C<1> s'anomena C<cert> i C<0> s'anomena
+C<fals>.
 
-Like in a normal algebra there are operations like C<+>, C<*> etc, the basic
-ones are called C<NOT>, C<AND> and C<OR>. As you already know in Boolean algebra
-we have only C<Truth> and C<False> values. That means that not only they can be
-used in different operations, but also the result of those operations is either
-C<Truth> or C<False>. Let's look at them one by one.
+Igual que a l'àlgebra normal hi ha operacions com C<+>, C<*>, etc, les
+operacions bàsiques a l'àlgebra booleana s'anomenen C<NOT>, C<AND> i
+C<OR>. Com ja sabeu, a l'àlgebra booleana només tenim els valors C<cert>
+i C<fals>. Això vol dir que no només s'utilitzen a les diferents
+operacions, sinó que el resultat d'aquestes operacions és o bé C<cert> o
+bé C<fals>. Anem a veure-les d'una en una.
 
-=head3 Truth and False
+=head3 Cert i Fals
 
-There are no C<Truth> and C<False> values in Perl. In Perl C<Truth> is
-everything that is not C<False> where C<False> is everything that converts to
-C<0>: C<0> itself, C<''> (empty string), C<undef> for example.
+No hi ha valors C<cert> i C<fals> a Perl. A Perl C<cert> és tot allò que
+no és C<fals>, on C<fals> és tot allò que converteix a C<0>. Per
+exemple: el mateix C<0>, C<''> (cadena buida) o C<undef>.
 
 =head3 NOT
 
-C<NOT> operator is a unary operator, which means it operates on one value. In
-Perl C<NOT> operator is C<!>. C<NOT> truth table:
+L'operador C<NOT> és un operador unari, el que significa que opera sobre
+un únic valor. A Perl, l'operador C<NOT> és C<!>. La taula de la veritat
+de C<NOT> és:
 
 =begin html
 
@@ -370,9 +372,9 @@ Perl C<NOT> operator is C<!>. C<NOT> truth table:
 
 =end html
 
-Let's see what are the results of using this operator on various values. In the
-following example we add C<0> to C<False> values so they are not converted to
-empty strings by C<say> function.
+Veiem quins son els resultats d'utilitzar aquest operador sobre
+diferents valors. Al següent exemple sumem C<0> als valors C<fals> ja
+que sinó la funció C<say> imprimiria la cadena buida.
 
     say !0;
     say !1 + 0;
@@ -381,8 +383,9 @@ empty strings by C<say> function.
 
 =head3 AND
 
-C<AND> operator is a binary operator, which means it operates on two values. In
-Perl C<AND> operator is C<&&>. C<AND> truth table:
+L'operador C<AND> és un operador binari, el que significa que opera
+sobre dos valors. A Perl, l'operador C<AND> és C<&&>. La taula de la
+veritat d'C<AND> és:
 
 =begin html
 
@@ -420,9 +423,8 @@ Perl C<AND> operator is C<&&>. C<AND> truth table:
 
 =end html
 
-Let's see what are the results of using this operator on various values. In the
-following example we add C<0> to C<False> values so they are not converted to
-empty strings by C<say> function.
+Veiem quins son els resultats d'utilitzar aquest operador sobre
+diferents valors.
 
     say 1 && 1;
     say 0 && 1;
@@ -431,8 +433,9 @@ empty strings by C<say> function.
 
 =head3 OR
 
-C<OR> operator is also a binary operator, which means it operates on two values. In
-Perl C<OR> operator is C<||>. C<OR> truth table:
+L'operador C<OR> és un operador binari, el que significa que opera sobre
+dos valors. A Perl l'operador C<OR> és C<||>. La taula de la veritat
+d'C<OR> és:
 
 =begin html
 
@@ -470,44 +473,44 @@ Perl C<OR> operator is C<||>. C<OR> truth table:
 
 =end html
 
-Let's see what are the results of using this operator on various values. In the
-following example we add C<0> to C<False> values so they are not converted to
-empty strings by C<say> function.
+Veiem quins son els resultats d'utilitzar aquest operador sobre
+diferents valors.
 
     say 1 || 1;
     say 0 || 1;
     say 0 || 0;
     say 'string' || 0;
 
-=head3 Priority
+=head3 Prioritat
 
-As in a normal algebra the operators in Boolean algebra have their priority,
-where different operators are evaluated earlier than others. Order of Boolean
-operators:
+Com a l'àlgebra normal, els operadors de l'àlgebra boolean tenen la seva
+prioritat, on diferents operadors s'avaluen abans que altres. L'ordre
+d'avaluació dels operadors booleans és el següent:
 
     ! && ||
 
-=head3 Combinations
+=head3 Combinacions
 
-C<NOT>, C<AND> and C<OR> can be combined altogether. You can use also brackets
-to change the order of logical flow:
+C<NOT>, C<AND> i C<OR> es poden combinar. També podeu utilitzar
+parèntesis per canviar l'ordre del flux lògic:
 
     say (1 || 0) && 1
 
-=head4 Exercise
+=head4 Exercici
 
-Fix the following statement by introducing brackets so it prints empty string
-instead of C<1>.
+Corregiu la següent sentència introduint parèntesis per tal que
+imprimeixi una cadena buida en comptes de C<1>.
 
     say  !1 || 1 && 1
     __TEST__
-    is($stdout, "\n", 'Should be an empty string');
+    is($stdout, "\n", q/Hauria de ser una cadena buida/');
 
-=head3 Comparison operators
+=head3 Operadors de comparació
 
-Comparison operators also return C<True> and C<False> but are used with numbers
-and strings. Because Perl does not distinguish between numbers and strings there
-are two separate groups of comparison for numbers and strings.
+Els operadors de comparació també retornen valors C<cert> i C<fals>,
+però s'utilitzen amb números i cadenes. Com que Perl no distingeix
+entre números i cadenes, hi ha dos grups diferents d'operadors de
+comparació per a ells.
 
 =begin html
 
@@ -522,7 +525,7 @@ are two separate groups of comparison for numbers and strings.
 
 =end html
 
-Let's try this example:
+Proveu aquest exemple:
 
     say 1 == 1;
     say 10 > 2;
