@@ -69,36 +69,37 @@ i no utilitzar-los
 
     say 'ok';
 
-=head2 Numbers
+=head2 Números
 
-Numbers are integers (1, 2, 5) and floats (1.2, 1e5). There is no real
-difference between them. Perl treats them the same and autoconverts
-automatically.
+Els números son enters (1, 2, 5) i de coma flotant (1.2, 1e5). No hi ha
+diferència real entre ells. Perl els tracta de la mateixa manera i els
+converteix automàticament. 
 
-Try printing the following numbers:
+Proveu a imprimir els següents números:
 
     say 1;
     say 4.4;
     say 1.2e10;
 
-As you can see the statements are ended with C<;>. This is like a dot that we use
-to separate sentences.
+Com podeu veure, cada sentència acaba amb C<;>. Això és com un punt que
+utilitzem per separar frases.
 
-=head3 Arithmetic operators
+=head3 Operadors aritmètics
 
-Basic arithmetic manipulations include: C<+> (addition), C<-> (subtraction),
-C<*> (multiplication), C</> (division), C<**> (exponent) and C<%> (modulus).
+Les manipulacions aritmètiques bàsiques inclouen: C<+> (suma), C<->
+(resta), C<*> (multiplicació), C</> (divisió), C<**> (exponent) i C<%>
+(mòdul).
 
     say 1 + (10/5) * 3
 
-=head4 Exercise
+=head4 Exercici
 
-Print out the result of 5 to the power of 6.
+Imprimiu el resultat de 5 elevat a 6.
 
     say
     __TEST__
-    like($code, qr/\*\*/, 'Operator ** should be used');
-    like($stdout, qr/15625/, 'Should be 15625');
+    like($code, qr/\*\*/, q/Hauríeu d'utilitzar l'operador **/);
+    like($stdout, qr/15625/, 'Hauria de ser 15625');
 
 =head2 Strings
 
