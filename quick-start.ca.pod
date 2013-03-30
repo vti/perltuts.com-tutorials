@@ -101,41 +101,43 @@ Imprimiu el resultat de 5 elevat a 6.
     like($code, qr/\*\*/, q/Hauríeu d'utilitzar l'operador **/);
     like($stdout, qr/15625/, 'Hauria de ser 15625');
 
-=head2 Strings
+=head2 Cadenes de text
 
-Strings are declared by using single or double quotes. The difference is not so
-important for now. In our Hello World example the C<'Hello, World'> was
-a string.
+Les cadenes es declaren utilitzant les cometes simples o dobles. La
+diferència entre elles no és important ara mateix. Al nostre exemple, el
+C<'Hola món!'> era una cadena.
 
     say 'foo'
 
-=head3 Basic string operators and functions
+=head3 Operadors i funcions bàsiques de les cadenes
 
-Strings can be concatenated (glued) using a C<.> operator.
+Les cadenes es poden concatenar (enganxar) utilitzant un C<.> com a
+operador.
 
     say 'foo' . 'bar'
 
-With operator C<x> you can repeat the strings.
+Amb l'operador C<x> podeu repetir les cadenes.
 
     say 'foo' x 3;
 
-Usually you would want to manipulate strings in order to get their lengths, find
-a symbol or a substring and so on. Basic string manipulation functions include
-length(), substr(), index(), rindex().
+Normalment voldreu manipular les cadenes per obtenir-ne la longitud,
+trobar-hi un símbol o una subcadena, etc. Les funcions bàsiques de
+manipulació de cadenes inclouen length(), substr(), index(), rindex().
 
     say length 'foo';
     say substr 'foo', 1, 2;
     say index 'foo', 'o';
     say rindex 'foo', 'o';
 
-=head4 Exercise
+=head4 Exercici
 
-Print out the position of string C<'ball'> in string C<'Football'>.
+Imprimiu per pantalla la posició de la cadena C<'bol'> dins de la cadena
+C<'futbol'>.
 
     say
     __TEST__
-    like($code, qr/index/, 'Function index should be used');
-    like($stdout, qr/4/, 'Should be at pos 4');
+    like($code, qr/index/, q/Heu d'utilitzar la funció index/);
+    like($stdout, qr/3/, q/Ha de ser a la posició 3/);
 
 =head2 Lists
 
