@@ -134,31 +134,33 @@ Print out the position of string C<'ball'> in string C<'Football'>.
     like($code, qr/index/, 'Function index should be used');
     like($stdout, qr/4/, 'Should be at pos 4');
 
-=head2 Lists
+=head2 Llistes
 
-Lists are, well, lists of values. They are declared by using brackets.
+Les llistes són, bé, llistes de valors. Es declaren utilitzant
+parèntesis.
 
     say (1, 2, 3, 5)
 
-Often you can use ranges to save some typing:
+Sovint podeu utilitzar intervals per estalviar una mica de tecleig:
 
     say (1 .. 5)
 
-This also works on characters.
+Això també funciona amb caràcters.
 
-=head4 Exercise
+=head4 Exercici
 
-Print out a list of characters from C<'b'> to C<'m'>.
+Imprimiu una llista de caràcters de la C<'b'> a la C<'m'>.
 
     say
     __TEST__
-    like($stdout, qr/bcdefghijklm/, 'Should print out bcdefghijklm');
+    like($stdout, qr/bcdefghijklm/, q/Hauria d'imprimir bcdefghijklm/);
 
-Lists of course can hold not only numbers, but also strings:
+Evidentment, les llistes poden contenir no només números, sinó també
+caràcters:
 
-    say (1, 'hello', 2, 'there')
+    say (1, 'hola', 2, 'vosaltres')
 
-Lists used inside other lists are flattened:
+Les llistes utilitzades a dins d'altres lllistes s'aplanen:
 
     say (1, (2, 3, 4), 5)
 
