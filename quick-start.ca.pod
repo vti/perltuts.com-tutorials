@@ -36,18 +36,20 @@ Proveu de corregir el codi següent per tal que imprimeixi 'Adéu':
     __TEST__
     like($stdout, qr/Bye/, q/Hauria d'imprimir Adéu/);
 
-=head2 Safety belt
+=head2 Cinturó de seguretat
 
-Often programmers make mistakes that are perfecly fine from the language syntax
-view but have logical issues that create hard detectable bugs.
+Sovint els programadors cometen errors que són perfectament correctes
+des del punt de vista de la sintaxi del llenguatge però tenen
+inconvenients lògics que generen errors molt difícils de detectar.
 
-In order to detect typos and various gotchas Perl provides two very useful
-pragmas C<strict> and C<warnings>. They are recommended for use in every piece
-of code. All the examples in this tutorial imply these two lines, they are not
-shown just for the space saving.
+Per tal de detectar errors tipogràfics i sorpreses, Perl proporciona dos
+pragmes molt útils, C<strict> i C<warnings>. Us recomanem utilitzar-los
+en qualsevol tros de codi. Tots els exemples d'aquest programa
+d'aprenentatge inclouen implícitament aquestes dues línies, tot i que no
+es mostren per estalviar espai.
 
-You don't have to understand the following code, just see the difference between
-using safety pragmas
+No us cal entendre el codi que hi ha a continuació, només cal que veieu
+la diferència entre utilitzar els pragmes de seguretat
 
     use strict;
     use warnings;
@@ -57,7 +59,7 @@ using safety pragmas
 
     say 'ok';
 
-and not using them
+i no utilitzar-los
 
     no strict;
     no warnings;
