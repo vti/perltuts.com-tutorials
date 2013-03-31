@@ -555,82 +555,84 @@ Proveu aquest exemple:
 
     say 'foo' ne 'bar';
 
-=head2 Conditional statements
+=head2 Sentències condicionals
 
-Conditional statements allow you change the flow of the code. Conditional
-statements operate with Boolean values that you've learned in a previous
-chapter and include C<if/else/elsif> and C<unless>.
+Les sentències condicionals us permeten canviar el flux del codi. Les
+sentències condicionals operen amb els valors booleans que heu après al
+capítol anterior i inclouen C<if/else/elsif> i C<unless>.
 
-When the result of expression in the brackets is true than the block surrounded
-by curly brackets is evaluated:
+Quan el resultat d'una expressió entre parèntesis és cert, el bloc
+de codi envoltat de claus s'avalua:
 
     if (1 == 1) {
-        say 'True';
+        say 'Cert';
     }
 
     if (1 == 0) {
-        say 'False';
+        say 'Fals';
     }
 
-When you want to do something when the expression is false you can use C<else>:
+Si voleu fer quelcom quan l'expressió sigui falsa podeu utilitzar
+C<else>:
 
     if (0) {
-        say 'True';
+        say 'Cert';
     }
     else {
-        say 'False';
+        say 'Fals';
     }
 
-When you want to check the expression again you can use C<elsif>:
+Si voleu avaluar de nou l'expressió, podeu utilitzar C<elsif>:
 
     my $x = 1;
 
     if ($x == 0) {
-        say 'x is zero';
+        say 'x és zero';
     } elsif ($x < 0) {
-        say 'x is less than zero';
+        say 'x és menys que zero';
     } else {
-        say 'x is more than zero';
+        say 'x és més que zero';
     }
 
-There is also a short form for C<if> statement:
+També hi ha una forma breu per la sentència C<if>:
 
     my $x = 5;
-    say 'True' if $x > 0;
+    say 'Cert' if $x > 0;
 
-C<unless> is an opposite to C<if> where not the true value determines whether
-the block is evaluated but the false value.
-
-    my $x = 5;
-    say 'True' unless $x == 0;
-
-Which is the same as:
+C<unless> és el contrari d'C<if>, on és el valor fals el que determina
+si el bloc s'executa, i no el cert.
 
     my $x = 5;
-    say 'True' if !($x == 0);
+    say 'Cert' unless $x == 0;
 
-As you already know in Perl the truth values is everything that is not zero, so
-comparizon to 0 usually is not needed:
+Això és el mateix que:
+
+    my $x = 5;
+    say 'Cert' if !($x == 0);
+
+Com ja sabeu, a Perl els valors certs són tot allò que no és zero, així
+que la comparació amb 0 normalment no és necessària:
 
     my $x = 5;
     say 'True' unless $x;
 
-=head3 Exercise
+=head3 Exercici
 
-Fix this code so it prints C<'Hello'> instead of C<'Bye'> by using logical
-operator and without changing C<$x> value.
+Corregiu aquest codi per tal que imprimeixi C<'Hola'> en comptes
+d'C<'Adéu'> utilitzant operadors lògics i sense canviar el valor
+d'C<$x>.
 
     my $x = 0;
 
     if ($x) {
-        say 'Hello';
+        say 'Hola';
     }
     else {
-        say 'Bye';
+        say 'Adéu';
     }
     __TEST__
-    like($code, qr/\$x = 0/, 'Should not change $x value');
-    like($stdout, qr/Hello/, 'Should print "Hello"');
+    like($code, qr/\$x = 0/, q/No hauria de canviar el valor d'$x/);
+    like($stdout, qr/Hola/, q/Hauria d'imprimir "Hola"/);
 
 =head2 Loops
 
