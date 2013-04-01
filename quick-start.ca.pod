@@ -747,40 +747,44 @@ By default C<for> loop sets a C<$_> variable and C<say> prints it.
 
 Many embedded Perl functions use default variable when no arguments are passed.
 
-=head2 Subroutines
+=head2 Subrutines
 
-Subroutines are functions that accept arguments and can return the result.
-Usually subroutines are used to eliminate duplication in code, make it clearer
-and more understandable.
+Les subrutines són funcions que accepten arguments i que poden retornar
+el resultat. Normalment les subrutines s'utilitzen per eliminar el codi
+duplicat, fent-lo més clar i entenedor.
 
-Let's say you want to convert 5 miles to kilometers. You would write something
-like this:
+Diguem que voleu convertir 5 milles a kilòmetres. Escriuríeu alguna cosa
+com aquesta:
 
-    # Convert 5 miles to kilometers
+    # Convertir 5 milles a kilòmetres
     say 5 * 1.609344
 
-But what if you wanted to convert 10 miles to kilometers or any other arbitrary
-number? In this case we create a subroutine that we can use lately.
+Però i si ara volguéssiu convertir 10 milles a kilòmetres o qualsevol
+altre número arbitrari? En aquest cas creem una subrutina que podem
+utilitzar després.
 
-    sub miles_to_kilometers {
-        my ($miles) = @_;
+    sub milles_a_kilometres {
+        my ($milles) = @_;
 
-        return $miles * 1.609344;
+        return $milles * 1.609344;
     }
 
-    say miles_to_kilometers(5);
-    say miles_to_kilometers(10);
-    say miles_to_kilometers(42);
+    say milles_a_kilometres(5);
+    say milles_a_kilometres(10);
+    say milles_a_kilometres(42);
 
-The subroutine needs a bit of explanation. C<my ($miles) = @_> is called
-C<arguments unpacking>. In Perl arguments when passed to the subroutine go the
-default array C<@_> (this is also a special Per variable, just like C<$_>). You
-can use all the array-specific functions on the default array too of course.
+La subrutina necessita una mica d'explicació. C<my ($milles) = @_>
+s'anomena C<desempaquetament d'arguments>. A Perl els arguments que es
+passen a una subrutina van a parar al vector per defecte C<@_> (aquesta
+també és una variable especial de Perl, com la C<$_>). També podeu
+utilitzar totes les funcions específiques per als vectors sobre el
+vector per defecte, és clar.
 
-=head3 Exercise
+=head3 Exercici
 
-Write and use a subroutine that converts kilometers to miles and prints 4, 6, 19
-kilometers converted to miles (one kilometer is 0.621371192 miles).
+Escriviu i utilitzeu una subrutina que converteix kilòmetres a milles i
+imprimiu 4, 6, 9 kilòmetres convertits a milles (un kilòmetre són
+0.621371192 milles).
 
     sub kilometers_to_miles {
         my ...
@@ -793,7 +797,7 @@ kilometers converted to miles (one kilometer is 0.621371192 miles).
     say kilometers_to_miles(9);
     __TEST__
     like($stdout, qr/2.485484768\n3.728227152\n5.592340728/,
-        'Should print correct values')
+        q/Hauria d'imprimir els valors correctes/)
 
 =head2 Regular Expressions
 
