@@ -8,24 +8,29 @@ ca
 
 =head1 ABSTRACT
 
-Aquest programa d'aprenentatge és una guia ràpida per a no programadors o inexperts. Prova de
-cobrir els aspectes bàsics i ho fa de manera gradual.
+Aquest programa d'aprenentatge és una guia ràpida per a no programadors
+o inexperts. Prova de cobrir els aspectes bàsics i ho fa de manera
+gradual.
 
 =head1 DESCRIPTION
 
-Aquest programa d'aprenentatge és una guia ràpida per a no programadors o inexperts. Prova de
-cobrir els aspectes bàsics i ho fa de manera gradual.
+Aquest programa d'aprenentatge és una guia ràpida per a no programadors
+o inexperts. Prova de cobrir els aspectes bàsics i ho fa de manera
+gradual.
 
 =head1 TUTORIAL
 
 =head2 Hola món!
 
-Provem-ho amb un exemple senzill. Aquest és un exemple habitual en tots els programes d'aprenentatge i llibres de programació, que imprimeix "Hola món!". Proveu d'executar el
-programa següent i hauríeu de veure'n la sortida.
+Provem-ho amb un exemple senzill. Aquest és un exemple habitual en tots
+els programes d'aprenentatge i llibres de programació, que imprimeix
+"Hola món!". Proveu d'executar el programa següent i hauríeu de veure'n
+la sortida.
 
     say 'Hola món!'
 
-Aquí C<say> és una funció que accepta arguments i els imprimeix a la sortida.
+Aquí C<say> és una funció que accepta arguments i els imprimeix a la
+sortida.
 
 =head3 Exercici
 
@@ -34,7 +39,7 @@ Proveu de corregir el codi següent per tal que imprimeixi 'Adéu':
     say ''
 
     __TEST__
-    like($stdout, qr/Bye/, q/Hauria d'imprimir Adéu/);
+    like($stdout, qr/Adéu/, q/Hauria d'imprimir «Adéu»/);
 
 =head2 Cinturó de seguretat
 
@@ -55,7 +60,7 @@ la diferència entre utilitzar els pragmes de seguretat
     use warnings;
 
     $x += 1;
-    $y .= 'string';
+    $y .= 'cadena';
 
     say 'ok';
 
@@ -65,7 +70,7 @@ i no utilitzar-los
     no warnings;
 
     $x += 1;
-    $y .= 'string';
+    $y .= 'cadena';
 
     say 'ok';
 
@@ -136,8 +141,8 @@ C<'futbol'>.
 
     say
     __TEST__
-    like($code, qr/index/, q/Heu d'utilitzar la funció index/);
-    like($stdout, qr/3/, q/Ha de ser a la posició 3/);
+    like($code, qr/index/, q/Hauríeu d'utilitzar la funció index/);
+    like($stdout, qr/3/, q/Hauria de ser a la posició 3/);
 
 =head2 Llistes
 
@@ -158,7 +163,7 @@ Imprimiu una llista de caràcters de la C<'b'> a la C<'m'>.
 
     say
     __TEST__
-    like($stdout, qr/bcdefghijklm/, q/Hauria d'imprimir bcdefghijklm/);
+    like($stdout, qr/bcdefghijklm/, q/Hauria d'imprimir «bcdefghijklm»/);
 
 Evidentment, les llistes poden contenir no només números, sinó també
 caràcters:
@@ -196,7 +201,7 @@ Assigneu a una varibe C<y> la cadena C<'Hola món!'> i imprimiu-la.
     my $
     say
     __TEST__
-    like($stdout, qr/Hola món!/, q/Hauria d'imprimir "Hola món!"/)
+    like($stdout, qr/Hola món!/, q/Hauria d'imprimir «Hola món!»/)
 
 =head3 Escalars
 
@@ -226,8 +231,8 @@ convertirien automàticament al tipus adequat.
     say $x . $y;
     say $x + $y;
 
-Com podeu veure, al segon exemple la cadena '2 cops' s'ha convertit en
-un número, en aquest cas 2.
+Com podeu veure, al segon exemple la cadena C<'2 cops'> s'ha convertit
+en un número, en aquest cas 2.
 
 =head4 Exercici
 
@@ -240,7 +245,7 @@ C<13>.
     say
 
     __TEST__
-    like($stdout, qr/55/, q/Hauria d'imprimir "Resultat=55"/);
+    like($stdout, qr/55/, q/Hauria d'imprimir «Resultat=55»/);
 
 =head3 Vectors
 
@@ -291,7 +296,7 @@ element.
     say 
 
     __TEST__
-    like($stdout, qr/3/, q/Hauria d'imprimir 3/)
+    like($stdout, qr/3/, q/Hauria d'imprimir «3»/)
 
 =head3 Diccionaris
 
@@ -359,7 +364,7 @@ i C<fals>. Això vol dir que no només s'utilitzen a les diferents
 operacions, sinó que el resultat d'aquestes operacions és o bé C<cert> o
 bé C<fals>. Anem a veure-les d'una en una.
 
-=head3 Cert i Fals
+=head3 cert i fals
 
 No hi ha valors C<cert> i C<fals> a Perl. A Perl C<cert> és tot allò que
 no és C<fals>, on C<fals> és tot allò que converteix a C<0>. Per
@@ -400,7 +405,7 @@ que sinó la funció C<say> imprimiria la cadena buida.
 
     say !0;
     say !1 + 0;
-    say !'string that converts to 1' + 0;
+    say !'cadena que es converteix en 1' + 0;
     say !'';
 
 =head3 AND
@@ -451,7 +456,7 @@ diferents valors.
     say 1 && 1;
     say 0 && 1;
     say 0 && 0;
-    say 'string' && 1;
+    say 'cadena' && 1;
 
 =head3 OR
 
@@ -501,7 +506,7 @@ diferents valors.
     say 1 || 1;
     say 0 || 1;
     say 0 || 0;
-    say 'string' || 0;
+    say 'cadena' || 0;
 
 =head3 Prioritat
 
@@ -525,7 +530,7 @@ imprimeixi una cadena buida en comptes de C<1>.
 
     say  !1 || 1 && 1
     __TEST__
-    is($stdout, "\n", q/Hauria de ser una cadena buida/');
+    is($stdout, "\n", q/Hauria de ser una cadena buida/);
 
 =head3 Operadors de comparació
 
@@ -565,21 +570,21 @@ Quan el resultat d'una expressió entre parèntesis és cert, el bloc
 de codi envoltat de claus s'avalua:
 
     if (1 == 1) {
-        say 'Cert';
+        say 'cert';
     }
 
     if (1 == 0) {
-        say 'Fals';
+        say 'fals';
     }
 
 Si voleu fer quelcom quan l'expressió sigui falsa podeu utilitzar
 C<else>:
 
     if (0) {
-        say 'Cert';
+        say 'cert';
     }
     else {
-        say 'Fals';
+        say 'fals';
     }
 
 Si voleu avaluar de nou l'expressió, podeu utilitzar C<elsif>:
@@ -597,24 +602,24 @@ Si voleu avaluar de nou l'expressió, podeu utilitzar C<elsif>:
 També hi ha una forma breu per la sentència C<if>:
 
     my $x = 5;
-    say 'Cert' if $x > 0;
+    say 'cert' if $x > 0;
 
 C<unless> és el contrari d'C<if>, on és el valor fals el que determina
 si el bloc s'executa, i no el cert.
 
     my $x = 5;
-    say 'Cert' unless $x == 0;
+    say 'cert' unless $x == 0;
 
 Això és el mateix que:
 
     my $x = 5;
-    say 'Cert' if !($x == 0);
+    say 'cert' if !($x == 0);
 
 Com ja sabeu, a Perl els valors certs són tot allò que no és zero, així
 que la comparació amb 0 normalment no és necessària:
 
     my $x = 5;
-    say 'True' unless $x;
+    say 'cert' unless $x;
 
 =head3 Exercici
 
@@ -631,8 +636,8 @@ d'C<$x>.
         say 'Adéu';
     }
     __TEST__
-    like($code, qr/\$x = 0/, q/No hauria de canviar el valor d'$x/);
-    like($stdout, qr/Hola/, q/Hauria d'imprimir "Hola"/);
+    like($code, qr/\$x = 0/, q/No hauríeu de canviar el valor d'$x/);
+    like($stdout, qr/Hola/, q/Hauria d'imprimir «Hola»/);
 
 =head2 Bucles
 
@@ -640,9 +645,9 @@ Els bucles son blocs de codi que s'executen vàries vegades. Normalment
 s'utilizen per a accions repetitives, recòrrer estructures de dades,
 etc.
 
-=head3 For/Foreach
+=head3 for/foreach
 
-Un bucle C<Foreach> s'utilitza normalment per iterar sobre una llista o
+Un bucle C<foreach> s'utilitza normalment per iterar sobre una llista o
 vector. Per exemple:
 
     foreach my $element (1, 2, 3, 4, 5) {
@@ -679,12 +684,11 @@ Imprimiu únicament els valors parells de C<0> a C<10>:
         }
     }
     __TEST__
-    like($stdout, qr/0\n2\n4\n6\n8\n10/, q/Hauria d'imprimir només
-	valors parells/);
+    like($stdout, qr/0\n2\n4\n6\n8\n10/, q/Hauria d'imprimir valors parells/);
 
-=head3 While
+=head3 while
 
-C<While> és un bucle més avançat que itera mentre una expressió és
+C<while> és un bucle més avançat que itera mentre una expressió és
 certa.
 
     my $i = 10;
@@ -707,9 +711,9 @@ Imprimiu només els valors senars de C<0> a C<10>:
         }
     }
     __TEST__
-    like($stdout, qr/1\n3\n5\n7\n9/, 'Hauria d'imprimir valors senars');
+    like($stdout, qr/1\n3\n5\n7\n9/, q/Hauria d'imprimir valors senars/);
 
-=head3 Sortint d'un bucle
+=head3 Sortir d'un bucle
 
 Sovint voldreu sortir d'un bucle sense esperar a que finalitzi. Per
 fer-ho, podeu utilitzar el mot C<last>:
@@ -821,7 +825,7 @@ concreta dins d'una altra cadena.
     }
 
 Aquí teniu un parell de coses noves: C<=~> i C<m//> (C<m> ve de l'anglès
-C<match>). També existeix l'operador invers C<!~> que s'avalua a C<Cert>
+C<match>). També existeix l'operador invers C<!~> que s'avalua a C<cert>
 quan l'expressió regular no casa.
 
     my $cadena = 'Hola món!';
@@ -847,5 +851,7 @@ expressions regulars.
 Viacheslav Tykhanovskyi, C<vti@cpan.org>
 
 =head1 TRANSLATOR
+
+Alba Ferrer, C<aferrer@cpan.org>
 
 Alex Muntada, C<alexm@cpan.org>
