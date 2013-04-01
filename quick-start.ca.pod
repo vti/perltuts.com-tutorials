@@ -802,43 +802,45 @@ imprimiu 4, 6, 9 kilòmetres convertits a milles (un kilòmetre són
     like($stdout, qr/2.485484768\n3.728227152\n5.592340728/,
         q/Hauria d'imprimir els valors correctes/)
 
-=head2 Regular Expressions
+=head2 Expressions regulars
 
-Regular expressions are a big part of the Perl language. They are essential to
-know and use when processing texts. And that's what Perl is good for.
+Les expressions regulars són una part important del llenguatge Perl. És
+essencial conèixer-les i utilitzar-les quan es processa text. I això és
+en el que Perl és bo.
 
-In short, regular expressions are special patterns when applied to strings
-either match them or not, capture various substrings, modify the initial substring
-by substituting parts of it and so on.
+Breument, les expressions regulars són patrons especials que quan
+s'apliquen a les cadenes poden casar o no, capturar diverses subcadenes,
+modificar la subcadena inicial substituint-ne algunes parts, etc.
 
-The most common usage for regular expression is to find out if a particular
-string can be found in another string.
+L'ús més habitual de les expressions regulars és trobar una cadena
+concreta dins d'una altra cadena.
 
-    my $string = 'Hello, world!';
-    if ($string =~ m/Hello/) {
-        say 'We found Hello!';
+    my $cadena = 'Hola món!';
+    if ($cadena =~ m/Hola/) {
+        say 'He trobat Hola!';
     }
 
-So here are two new things: C<=~> and C<m//> (C<m> is for C<match>). There is
-also an opposite C<!~> which is evaluated to C<True> when the regular expression
-is not matched.
+Aquí teniu un parell de coses noves: C<=~> i C<m//> (C<m> ve de l'anglès
+C<match>). També existeix l'operador invers C<!~> que s'avalua a C<Cert>
+quan l'expressió regular no casa.
 
-    my $string = 'Hello, world!';
-    if ($string !~ m/Bye/) {
-        say 'No Bye was found';
+    my $cadena = 'Hola món!';
+    if ($cadena !~ m/Adéu/) {
+        say 'No he trobat Adéu';
     }
 
-Regular expressions can be really sophisticated. For example we want to check if
-a string has C<a> B<or> C<o> characters:
+Les expressions regulars poden ser realment sofisticades. Per exemple,
+volem comprovar si una cadena té els caràcters C<a> B<o> C<o>:
 
-    my $string = 'Hello';
-    if ($string =~ m/a|o/) {
-        say 'a or o was found';
+    my $cadena = 'Hola';
+    if ($cadena =~ m/a|o/) {
+        say 'He trobat «a» o «o»';
     }
 
-=head3 Metacharacters
+=head3 Metacaràcters
 
-Some characters in regular expression (as C<|> in previous example) are special. They 
+Alguns caràcters (com C<|> en l'exemple anterior) són especials dins les
+expressions regulars.
 
 =head1 AUTHOR
 
