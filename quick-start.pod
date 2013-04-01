@@ -21,7 +21,7 @@ cover the basics and does so in a gradual manner.
 =head2 Hello, world!
 
 Let's try from the simple example. This example is a common example in all
-programming tutorials and books, it prints "Hello World". Try running the
+programming tutorials and books, it prints "Hello, world!". Try running the
 following program, you should see the output.
 
     say 'Hello, world!'
@@ -102,7 +102,7 @@ Print out the result of 5 to the power of 6.
 =head2 Strings
 
 Strings are declared by using single or double quotes. The difference is not so
-important for now. In our Hello World example the C<'Hello, World'> was
+important for now. In our Hello World example the C<'Hello, world!'> was
 a string.
 
     say 'foo'
@@ -174,7 +174,7 @@ lists of scalars where values are accessed by index. Hashes are unordered
 associative array where values are accessed by keys. Variables that hold
 scalars, arrays or hashes are prefixed with C<$>, C<@> and C<%> respectively.
 
-Variables are usually declared by using my keyword. For example:
+Variables are usually declared by using C<my> keyword. For example:
 
     my $x = 1;
     say $x;
@@ -216,7 +216,7 @@ automatically converted to appropriate types.
     say $x . $y;
     say $x + $y;
 
-As you can see in the second example the string '2times' was converted to
+As you can see in the second example the string C<'2 times'> was converted to
 number, which is 2.
 
 =head4 Exercise
@@ -268,7 +268,7 @@ symbol C<$>.
 
 =head4 Exercise
 
-Give the array that holds list C<(1, 2, 3, 4)> print the third element.
+Given the array that holds list C<(1, 2, 3, 4)> print the third element.
 
     my @array = ;
     say 
@@ -288,7 +288,7 @@ readable operator C<< => >>, for example:
 
     my %hash = (key1 => 'value1', key2 => 'value2');
 
-Basic hash manipulations
+=head3 Basic hash manipulations
 
 As with arrays when accesing hash key, the variable becames a scalar, we use
 symbol C<$> and braces C<{}>:
@@ -710,7 +710,7 @@ default C<$_> variable.
     say;
 
 Of course you don't usually need this functionality, but it can very useful when
-using loops for examples:
+using loops, for example:
 
     say for (1 .. 10);
 
@@ -750,7 +750,7 @@ can use all the array-specific functions on the default array too of course.
 
 =head3 Exercise
 
-Write and use a subroutine that converts kilometers to miles and prints 4, 6, 19
+Write and use a subroutine that converts kilometers to miles and print 4, 6, 9
 kilometers converted to miles (one kilometer is 0.621371192 miles).
 
     sub kilometers_to_miles {
