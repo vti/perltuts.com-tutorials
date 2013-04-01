@@ -726,26 +726,29 @@ fer-ho, podeu utilitzar el mot C<last>:
 Aquest bucle no iterarà C<100> vegades per què el finalitzem quan C<$i>
 és C<10>.
 
-=head2 Default variable
+=head2 La variable per defecte
 
-The most used special variable is C<$_>, which is a default scalar variable. To
-understand it better let's look at the examples.
+La variable especial més utilitzada és C<$_>, que és una variable
+escalar per defecte. Per entendre millor com funciona fem un cop d'ull
+als exemples.
 
-You're familiar with C<say> function. It prints whatever you pass as arguments.
-But what happens when you don't pass any arguments? It takes data from the
-default C<$_> variable.
+Coneixeu la funció C<say>. Imprimeix qualsevol argument que li passeu.
+Però què passa quan no li passeu cap argument? Agafa les dades de la
+variable per defecte C<$_>.
 
-    $_ = 'Hello';
+    $_ = 'Hola';
     say;
 
-Of course you don't usually need this functionality, but it can very useful when
-using loops for examples:
+És clar que normalment no necessitareu aquesta funcionalitat, però pot
+ser molt útil quan feu bucles, per exemple:
 
     say for (1 .. 10);
 
-By default C<for> loop sets a C<$_> variable and C<say> prints it.
+Per defecte un bucle C<for> assigna valors a la variable C<$_> i C<say>
+els imprimeix.
 
-Many embedded Perl functions use default variable when no arguments are passed.
+Moltes de les funcions integrades a Perl utilitzen la variable per
+defecte quan no se'ls passa cap argument.
 
 =head2 Subroutines
 
