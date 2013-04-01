@@ -634,43 +634,44 @@ d'C<$x>.
     like($code, qr/\$x = 0/, q/No hauria de canviar el valor d'$x/);
     like($stdout, qr/Hola/, q/Hauria d'imprimir "Hola"/);
 
-=head2 Loops
+=head2 Bucles
 
-Loops are blocks that are evaluated several times. They are usually used for
-repetitive actions, walking through the data structure etc.
+Els bucles son blocs de codi que s'executen vàries vegades. Normalment
+s'utilizen per a accions repetitives, recòrrer estructures de dades,
+etc.
 
 =head3 For/Foreach
 
-C<Foreach> loop is usually used for looping through the list or array. For
-example:
+Un bucle C<Foreach> s'utilitza normalment per iterar sobre una llista o
+vector. Per exemple:
 
     foreach my $element (1, 2, 3, 4, 5) {
         say $element;
     }
 
-You can pass an array of course:
+Evidentment, també podeu passar-hi un vector:
 
-    my @array = (1 .. 5);
-    foreach my $element (@array) {
+    my @vector = (1 .. 5);
+    foreach my $element (@vector) {
         say $element;
     }
 
-As you can see we create a special C<$element> variable that is aliased to every
-array element on every iteration. Beware that by changing the C<$element> value
-you change the actual value in the array:
+Com heu vist, creem un variable C<$element> especial que conté cada l'element
+del vector en cada iteració. Tingueu present que si canvieu C<$element>
+esteu canviant el valor del vector:
 
-    my @array = (1 .. 5);
-    foreach my $element (@array) {
+    my @vector = (1 .. 5);
+    foreach my $element (@vector) {
         $element *= 2;
     }
 
-    foreach my $element (@array) {
+    foreach my $element (@vector) {
         say $element;
     }
 
-=head4 Exercise
+=head4 Exercici
 
-Print only the even values from C<0> to C<10>:
+Imprimiu únicament els valors parells de C<0> a C<10>:
 
     foreach my $element (...) {
         if (...) {
@@ -678,11 +679,13 @@ Print only the even values from C<0> to C<10>:
         }
     }
     __TEST__
-    like($stdout, qr/0\n2\n4\n6\n8\n10/, 'Should print even values');
+    like($stdout, qr/0\n2\n4\n6\n8\n10/, q/Hauria d'imprimir només
+	valors parells/);
 
 =head3 While
 
-C<While> is a more advanced loop that iterates while the expression is true.
+C<While> és un bucle més avançat que itera mentre una expressió és
+certa.
 
     my $i = 10;
     while ($i > 0) {
@@ -691,11 +694,11 @@ C<While> is a more advanced loop that iterates while the expression is true.
         $i = $i - 1;
     }
 
-As soon as expression C<< $i > 0 >> becomes false the loop stops.
+Quan l'expressió C<< $i > 0 >> és falsa, el bucle s'atura.
 
-=head4 Exercise
+=head4 Exercici
 
-Print only the odd values from C<0> to C<10>:
+Imprimiu només els valors senars de C<0> a C<10>:
 
     my $i = ;
     while ($i ...) {
@@ -704,12 +707,12 @@ Print only the odd values from C<0> to C<10>:
         }
     }
     __TEST__
-    like($stdout, qr/1\n3\n5\n7\n9/, 'Should print odd values');
+    like($stdout, qr/1\n3\n5\n7\n9/, 'Hauria d'imprimir valors senars');
 
-=head3 Getting out of the loop
+=head3 Sortint d'un bucle
 
-Often you want to terminate the loop without waiting until it finishes. You
-usually use the C<last> keyword:
+Sovint voldreu sortir d'un bucle sense esperar a que finalitzi. Per
+fer-ho, podeu utilitzar el mot C<last>:
 
     my $i = 0;
     while ($i < 100) {
@@ -720,8 +723,8 @@ usually use the C<last> keyword:
         $i = $i + 1;
     }
 
-This loop will not iterate C<100> times because we terminate it when C<$i> is
-C<10>.
+Aquest bucle no iterarà C<100> vegades per què el finalitzem quan C<$i>
+és C<10>.
 
 =head2 Default variable
 
