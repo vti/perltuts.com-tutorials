@@ -1,0 +1,857 @@
+=head1 NAME
+
+Guia ràpida
+
+=head1 LANGUAGE
+
+ca
+
+=head1 ABSTRACT
+
+Aquest programa d'aprenentatge és una guia ràpida per a no programadors
+o inexperts. Prova de cobrir els aspectes bàsics i ho fa de manera
+gradual.
+
+=head1 DESCRIPTION
+
+Aquest programa d'aprenentatge és una guia ràpida per a no programadors
+o inexperts. Prova de cobrir els aspectes bàsics i ho fa de manera
+gradual.
+
+=head1 TUTORIAL
+
+=head2 Hola món!
+
+Provem-ho amb un exemple senzill. Aquest és un exemple habitual en tots
+els programes d'aprenentatge i llibres de programació, que imprimeix
+"Hola món!". Proveu d'executar el programa següent i hauríeu de veure'n
+la sortida.
+
+    say 'Hola món!'
+
+Aquí C<say> és una funció que accepta arguments i els imprimeix a la
+sortida.
+
+=head3 Exercici
+
+Proveu de corregir el codi següent per tal que imprimeixi 'Adéu':
+
+    say ''
+
+    __TEST__
+    like($stdout, qr/Adéu/, q/Hauria d'imprimir «Adéu»/);
+
+=head2 Cinturó de seguretat
+
+Sovint els programadors cometen errors que són perfectament correctes
+des del punt de vista de la sintaxi del llenguatge però tenen
+inconvenients lògics que generen errors molt difícils de detectar.
+
+Per tal de detectar errors tipogràfics i sorpreses, Perl proporciona dos
+pragmes molt útils, C<strict> i C<warnings>. Us recomanem utilitzar-los
+en qualsevol tros de codi. Tots els exemples d'aquest programa
+d'aprenentatge inclouen implícitament aquestes dues línies, tot i que no
+es mostren per estalviar espai.
+
+No us cal entendre el codi que hi ha a continuació, només cal que veieu
+la diferència entre utilitzar els pragmes de seguretat
+
+    use strict;
+    use warnings;
+
+    $x += 1;
+    $y .= 'cadena';
+
+    say 'ok';
+
+i no utilitzar-los
+
+    no strict;
+    no warnings;
+
+    $x += 1;
+    $y .= 'cadena';
+
+    say 'ok';
+
+=head2 Números
+
+Els números son enters (1, 2, 5) i de coma flotant (1.2, 1e5). No hi ha
+diferència real entre ells. Perl els tracta de la mateixa manera i els
+converteix automàticament. 
+
+Proveu a imprimir els següents números:
+
+    say 1;
+    say 4.4;
+    say 1.2e10;
+
+Com podeu veure, cada sentència acaba amb C<;>. Això és com un punt que
+utilitzem per separar frases.
+
+=head3 Operadors aritmètics
+
+Les manipulacions aritmètiques bàsiques inclouen: C<+> (suma), C<->
+(resta), C<*> (multiplicació), C</> (divisió), C<**> (exponent) i C<%>
+(mòdul).
+
+    say 1 + (10/5) * 3
+
+=head4 Exercici
+
+Imprimiu el resultat de 5 elevat a 6.
+
+    say
+    __TEST__
+    like($code, qr/\*\*/, q/Hauríeu d'utilitzar l'operador **/);
+    like($stdout, qr/15625/, 'Hauria de ser 15625');
+
+=head2 Cadenes de text
+
+Les cadenes es declaren utilitzant les cometes simples o dobles. La
+diferència entre elles no és important ara mateix. Al nostre exemple, el
+C<'Hola món!'> era una cadena.
+
+    say 'foo'
+
+=head3 Operadors i funcions bàsiques de les cadenes
+
+Les cadenes es poden concatenar (enganxar) utilitzant un C<.> com a
+operador.
+
+    say 'foo' . 'bar'
+
+Amb l'operador C<x> podeu repetir les cadenes.
+
+    say 'foo' x 3;
+
+Normalment voldreu manipular les cadenes per obtenir-ne la longitud,
+trobar-hi un símbol o una subcadena, etc. Les funcions bàsiques de
+manipulació de cadenes inclouen length(), substr(), index(), rindex().
+
+    say length 'foo';
+    say substr 'foo', 1, 2;
+    say index 'foo', 'o';
+    say rindex 'foo', 'o';
+
+=head4 Exercici
+
+Imprimiu per pantalla la posició de la cadena C<'bol'> dins de la cadena
+C<'futbol'>.
+
+    say
+    __TEST__
+    like($code, qr/index/, q/Hauríeu d'utilitzar la funció index/);
+    like($stdout, qr/3/, q/Hauria de ser a la posició 3/);
+
+=head2 Llistes
+
+Les llistes són, bé, llistes de valors. Es declaren utilitzant
+parèntesis.
+
+    say (1, 2, 3, 5)
+
+Sovint podeu utilitzar intervals per estalviar una mica de tecleig:
+
+    say (1 .. 5)
+
+Això també funciona amb caràcters.
+
+=head4 Exercici
+
+Imprimiu una llista de caràcters de la C<'b'> a la C<'m'>.
+
+    say
+    __TEST__
+    like($stdout, qr/bcdefghijklm/, q/Hauria d'imprimir «bcdefghijklm»/);
+
+Evidentment, les llistes poden contenir no només números, sinó també
+caràcters:
+
+    say (1, 'hola', 2, 'vosaltres')
+
+Les llistes utilitzades a dins d'altres lllistes s'aplanen:
+
+    say (1, (2, 3, 4), 5)
+
+=head2 Assignació i variables
+
+En els llenguatges de programació l'assignació és una operació que
+emmagatzema un valor en algun lloc de la memòria de l'ordinador al qual
+es pot accedir amb el seu nom.
+
+A Perl 5 hi ha tres tipus de dades integrats: escalars, vectors i
+diccionaris (o vectors associatius). Els escalars poden contenir cadenes
+i números. Els vectors són llistes ordenades d'escalars als quals
+s'accedeix amb un índex. Els diccionaris són vectors associatius no
+ordenats en què s'utilitzen claus per accedir als valors. Les variables
+que contenen escalars, vectors o diccionaris duen el prefix C<$>, C<@>
+i C<%> respectivament.
+
+Les variables es declaren normalment utilitzant el mot C<my>. Per
+exemple:
+
+    my $x = 1;
+    say $x;
+
+=head4 Exercici
+
+Assigneu a una varibe C<y> la cadena C<'Hola món!'> i imprimiu-la.
+
+    my $
+    say
+    __TEST__
+    like($stdout, qr/Hola món!/, q/Hauria d'imprimir «Hola món!»/)
+
+=head3 Escalars
+
+Depenent del que contingui la variable (un número o una cadena) hi ha
+diferents operadors que podeu utilitzar.
+
+Diguem que voleu sumar dos valors numèrics:
+
+    my $x = 1;
+    my $y = 2;
+
+    say $x + $y;
+
+O que voleu concatenar dues cadenes:
+
+    my $x = 'Hola';
+    my $y = 'vosaltres';
+
+    say $x . $y
+
+Si provéssiu d'utilitzar C<+> a les cadenes o C<.> als números es
+convertirien automàticament al tipus adequat.
+
+    my $x = 1;
+    my $y = '2 cops';
+
+    say $x . $y;
+    say $x + $y;
+
+Com podeu veure, al segon exemple la cadena C<'2 cops'> s'ha convertit
+en un número, en aquest cas 2.
+
+=head4 Exercici
+
+Concateneu i imprimiu la cadena C<'Resultat='> i la suma de C<42> i
+C<13>.
+
+    my $x = ;
+    my $y = ;
+
+    say
+
+    __TEST__
+    like($stdout, qr/55/, q/Hauria d'imprimir «Resultat=55»/);
+
+=head3 Vectors
+
+Els vectors poden contenir una llista d'escalars.
+
+    my @vector = (1, 2, 3);
+
+    say @vector;
+
+Les manipulacions bàsiques dels vectors inclouen obtenir un element amb
+l'índex (començant des del 0), obtenir el darrer índex, encuar i empilar
+valors.
+
+    my @vector = (1, 2, 3);
+
+    # Obté el tercer element
+    say $vector[2];
+
+    # Obté el darrer índex
+    say $#vector;
+
+    # Encua el valor 4
+    push @vector, 4;
+    say @vector;
+
+    # Desencua el darrer valor
+    pop @vector;
+    say @vector;
+
+    # Desempila el primer valor
+    shift @vector;
+    say @vector;
+
+    # Empila el valor 0
+    unshift @vector, 0;
+    say @vector;
+
+Probablement us haureu adonat que quan s'accedeix a un element d'un
+vector es canvia C<@> per C<$>, ja que l'element del vector és un
+escalar, i els escalars duen el prefix C<$>.
+
+=head4 Exercici
+
+Donat el vector que conté la llista C<(1, 2, 3, 4)>, imprimiu el tercer
+element.
+
+    my @vector = ;
+    say 
+
+    __TEST__
+    like($stdout, qr/3/, q/Hauria d'imprimir «3»/)
+
+=head3 Diccionaris
+
+Els diccionaris o vectors associatius són col·leccions no-ordenades
+d'escalars als que es pot accedir mitjançant una clau. Normalment la
+clau és una cadena de text.
+
+    my %diccionari = ('clau1', 'valor1', 'clau2', 'valor2');
+
+Enlloc d'utilitzar la coma per a separar les claus i els valors, Perl
+proporciona C<< => >> com a operador més llegible, per exemple:
+
+    my %diccionari = (clau1 => 'valor1', clau2 => 'valor2');
+
+=head3 Manipulacions bàsiques dels diccionaris
+
+Com en el cas dels vectors, quan s'accedeix a una clau d'un diccionari,
+la variable esdevé un escalar i per això s'utilitza el símbol C<$> i les
+claus C<{}>:
+
+    my %diccionari = (clau1 => 'valor1', clau2 => 'valor2');
+
+    say $diccionari{clau1};
+
+=head3 Obtenir totes les claus i valors d'un diccionari
+
+    my %diccionari = (clau1 => 'valor1', clau2 => 'valor2');
+
+    say keys %diccionari;
+    say values %diccionari;
+
+=head2 Context
+
+El context és un concepte molt important a Perl. Hi ha dos contexts
+principals: escalar i de llista. El context habitualment afecta com es
+comporten les funcions i les variables. Això és similar al llenguatge
+natural.
+
+L'ús més popular del context és aconseguir la longitud d'un vector.
+Normalment, quan utilitzeu un vector en context de llista,
+aquest retorna tots els seus elements, mentre que si ho utilitzeu en
+context escalar retorna la seva longitud.
+
+    my @vector = (1, 2, 3);
+
+    my @vector2 = @vector; # context de llista
+    say @vector2;
+
+    my $longitud = @vector; # context escalar
+    say $longitud;
+
+=head2 Operadors lògics i de comparació
+
+Abans d'introduir els corresponents operadors de Perl, veiem els
+conceptes bàsics de l'àlgebra booleana.
+
+L'àlgebra booleana és una variant de l'àlgebra on en comptes de números
+hi ha els valors C<0> i C<1>, on C<1> s'anomena C<cert> i C<0> s'anomena
+C<fals>.
+
+Igual que a l'àlgebra normal hi ha operacions com C<+>, C<*>, etc, les
+operacions bàsiques a l'àlgebra booleana s'anomenen C<NOT>, C<AND> i
+C<OR>. Com ja sabeu, a l'àlgebra booleana només tenim els valors C<cert>
+i C<fals>. Això vol dir que no només s'utilitzen a les diferents
+operacions, sinó que el resultat d'aquestes operacions és o bé C<cert> o
+bé C<fals>. Anem a veure-les d'una en una.
+
+=head3 cert i fals
+
+No hi ha valors C<cert> i C<fals> a Perl. A Perl C<cert> és tot allò que
+no és C<fals>, on C<fals> és tot allò que converteix a C<0>. Per
+exemple: el mateix C<0>, C<''> (cadena buida) o C<undef>.
+
+=head3 NOT
+
+L'operador C<NOT> és un operador unari, el que significa que opera sobre
+un únic valor. A Perl, l'operador C<NOT> és C<!>. La taula de la veritat
+de C<NOT> és:
+
+=begin html
+
+<table style="width:10px">
+    <thead>
+        <tr>
+            <td>x</td>
+            <td>!x</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>0</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>0</td>
+        </tr>
+    </tbody>
+</table>
+
+=end html
+
+Veiem quins son els resultats d'utilitzar aquest operador sobre
+diferents valors. Al següent exemple sumem C<0> als valors C<fals> ja
+que sinó la funció C<say> imprimiria la cadena buida.
+
+    say !0;
+    say !1 + 0;
+    say !'cadena que es converteix en 1' + 0;
+    say !'';
+
+=head3 AND
+
+L'operador C<AND> és un operador binari, el que significa que opera
+sobre dos valors. A Perl, l'operador C<AND> és C<&&>. La taula de la
+veritat d'C<AND> és:
+
+=begin html
+
+<table style="width:10px">
+    <thead>
+        <tr>
+            <td>x</td>
+            <td>y</td>
+            <td>&amp;&amp;</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+    </tbody>
+</table>
+
+=end html
+
+Veiem quins son els resultats d'utilitzar aquest operador sobre
+diferents valors.
+
+    say 1 && 1;
+    say 0 && 1;
+    say 0 && 0;
+    say 'cadena' && 1;
+
+=head3 OR
+
+L'operador C<OR> és un operador binari, el que significa que opera sobre
+dos valors. A Perl l'operador C<OR> és C<||>. La taula de la veritat
+d'C<OR> és:
+
+=begin html
+
+<table style="width:10px">
+    <thead>
+        <tr>
+            <td>x</td>
+            <td>y</td>
+            <td>||</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>0</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+    </tbody>
+</table>
+
+=end html
+
+Veiem quins son els resultats d'utilitzar aquest operador sobre
+diferents valors.
+
+    say 1 || 1;
+    say 0 || 1;
+    say 0 || 0;
+    say 'cadena' || 0;
+
+=head3 Prioritat
+
+Com a l'àlgebra normal, els operadors de l'àlgebra boolean tenen la seva
+prioritat, on diferents operadors s'avaluen abans que altres. L'ordre
+d'avaluació dels operadors booleans és el següent:
+
+    ! && ||
+
+=head3 Combinacions
+
+C<NOT>, C<AND> i C<OR> es poden combinar. També podeu utilitzar
+parèntesis per canviar l'ordre del flux lògic:
+
+    say (1 || 0) && 1
+
+=head4 Exercici
+
+Corregiu la següent sentència introduint parèntesis per tal que
+imprimeixi una cadena buida en comptes de C<1>.
+
+    say  !1 || 1 && 1
+    __TEST__
+    is($stdout, "\n", q/Hauria de ser una cadena buida/);
+
+=head3 Operadors de comparació
+
+Els operadors de comparació també retornen valors C<cert> i C<fals>,
+però s'utilitzen amb números i cadenes. Com que Perl no distingeix
+entre números i cadenes, hi ha dos grups diferents d'operadors de
+comparació per a ells.
+
+=begin html
+
+<table>
+    <tr>
+        <td>==</td><td>!=</td><td>&lt;</td><td>&lt;=</td><td>&gt;</td><td>&gt;=</td>
+    </tr>
+    <tr>
+        <td>eq</td><td>ne</td><td>lt</td><td>le</td><td>gt</td><td>ge</td>
+    </tr>
+</table>
+
+=end html
+
+Proveu aquest exemple:
+
+    say 1 == 1;
+    say 10 > 2;
+    say 3 <= 3;
+
+    say 'foo' ne 'bar';
+
+=head2 Sentències condicionals
+
+Les sentències condicionals us permeten canviar el flux del codi. Les
+sentències condicionals operen amb els valors booleans que heu après al
+capítol anterior i inclouen C<if/else/elsif> i C<unless>.
+
+Quan el resultat d'una expressió entre parèntesis és cert, el bloc
+de codi envoltat de claus s'avalua:
+
+    if (1 == 1) {
+        say 'cert';
+    }
+
+    if (1 == 0) {
+        say 'fals';
+    }
+
+Si voleu fer quelcom quan l'expressió sigui falsa podeu utilitzar
+C<else>:
+
+    if (0) {
+        say 'cert';
+    }
+    else {
+        say 'fals';
+    }
+
+Si voleu avaluar de nou l'expressió, podeu utilitzar C<elsif>:
+
+    my $x = 1;
+
+    if ($x == 0) {
+        say 'x és zero';
+    } elsif ($x < 0) {
+        say 'x és menys que zero';
+    } else {
+        say 'x és més que zero';
+    }
+
+També hi ha una forma breu per la sentència C<if>:
+
+    my $x = 5;
+    say 'cert' if $x > 0;
+
+C<unless> és el contrari d'C<if>, on és el valor fals el que determina
+si el bloc s'executa, i no el cert.
+
+    my $x = 5;
+    say 'cert' unless $x == 0;
+
+Això és el mateix que:
+
+    my $x = 5;
+    say 'cert' if !($x == 0);
+
+Com ja sabeu, a Perl els valors certs són tot allò que no és zero, així
+que la comparació amb 0 normalment no és necessària:
+
+    my $x = 5;
+    say 'cert' unless $x;
+
+=head3 Exercici
+
+Corregiu aquest codi per tal que imprimeixi C<'Hola'> en comptes
+d'C<'Adéu'> utilitzant operadors lògics i sense canviar el valor
+d'C<$x>.
+
+    my $x = 0;
+
+    if ($x) {
+        say 'Hola';
+    }
+    else {
+        say 'Adéu';
+    }
+    __TEST__
+    like($code, qr/\$x = 0/, q/No hauríeu de canviar el valor d'$x/);
+    like($stdout, qr/Hola/, q/Hauria d'imprimir «Hola»/);
+
+=head2 Bucles
+
+Els bucles son blocs de codi que s'executen vàries vegades. Normalment
+s'utilizen per a accions repetitives, recòrrer estructures de dades,
+etc.
+
+=head3 for/foreach
+
+Un bucle C<foreach> s'utilitza normalment per iterar sobre una llista o
+vector. Per exemple:
+
+    foreach my $element (1, 2, 3, 4, 5) {
+        say $element;
+    }
+
+Evidentment, també podeu passar-hi un vector:
+
+    my @vector = (1 .. 5);
+    foreach my $element (@vector) {
+        say $element;
+    }
+
+Com heu vist, creem un variable C<$element> especial que conté cada l'element
+del vector en cada iteració. Tingueu present que si canvieu C<$element>
+esteu canviant el valor del vector:
+
+    my @vector = (1 .. 5);
+    foreach my $element (@vector) {
+        $element *= 2;
+    }
+
+    foreach my $element (@vector) {
+        say $element;
+    }
+
+=head4 Exercici
+
+Imprimiu únicament els valors parells de C<0> a C<10>:
+
+    foreach my $element (...) {
+        if (...) {
+            ...
+        }
+    }
+    __TEST__
+    like($stdout, qr/0\n2\n4\n6\n8\n10/, q/Hauria d'imprimir valors parells/);
+
+=head3 while
+
+C<while> és un bucle més avançat que itera mentre una expressió és
+certa.
+
+    my $i = 10;
+    while ($i > 0) {
+        say $i;
+
+        $i = $i - 1;
+    }
+
+Quan l'expressió C<< $i > 0 >> és falsa, el bucle s'atura.
+
+=head4 Exercici
+
+Imprimiu només els valors senars de C<0> a C<10>:
+
+    my $i = ;
+    while ($i ...) {
+        if (...) {
+            ...
+        }
+    }
+    __TEST__
+    like($stdout, qr/1\n3\n5\n7\n9/, q/Hauria d'imprimir valors senars/);
+
+=head3 Sortir d'un bucle
+
+Sovint voldreu sortir d'un bucle sense esperar a que finalitzi. Per
+fer-ho, podeu utilitzar el mot C<last>:
+
+    my $i = 0;
+    while ($i < 100) {
+        last if $i == 10;
+
+        say $i;
+
+        $i = $i + 1;
+    }
+
+Aquest bucle no iterarà C<100> vegades per què el finalitzem quan C<$i>
+és C<10>.
+
+=head2 La variable per defecte
+
+La variable especial més utilitzada és C<$_>, que és una variable
+escalar per defecte. Per entendre millor com funciona fem un cop d'ull
+als exemples.
+
+Coneixeu la funció C<say>. Imprimeix qualsevol argument que li passeu.
+Però què passa quan no li passeu cap argument? Agafa les dades de la
+variable per defecte C<$_>.
+
+    $_ = 'Hola';
+    say;
+
+És clar que normalment no necessitareu aquesta funcionalitat, però pot
+ser molt útil quan feu bucles, per exemple:
+
+    say for (1 .. 10);
+
+Per defecte un bucle C<for> assigna valors a la variable C<$_> i C<say>
+els imprimeix.
+
+Moltes de les funcions integrades a Perl utilitzen la variable per
+defecte quan no se'ls passa cap argument.
+
+=head2 Subrutines
+
+Les subrutines són funcions que accepten arguments i que poden retornar
+el resultat. Normalment les subrutines s'utilitzen per eliminar el codi
+duplicat, fent-lo més clar i entenedor.
+
+Diguem que voleu convertir 5 milles a kilòmetres. Escriuríeu alguna cosa
+com aquesta:
+
+    # Convertir 5 milles a kilòmetres
+    say 5 * 1.609344
+
+Però i si ara volguéssiu convertir 10 milles a kilòmetres o qualsevol
+altre número arbitrari? En aquest cas creem una subrutina que podem
+utilitzar després.
+
+    sub milles_a_kilometres {
+        my ($milles) = @_;
+
+        return $milles * 1.609344;
+    }
+
+    say milles_a_kilometres(5);
+    say milles_a_kilometres(10);
+    say milles_a_kilometres(42);
+
+La subrutina necessita una mica d'explicació. C<my ($milles) = @_>
+s'anomena C<desempaquetament d'arguments>. A Perl els arguments que es
+passen a una subrutina van a parar al vector per defecte C<@_> (aquesta
+també és una variable especial de Perl, com la C<$_>). També podeu
+utilitzar totes les funcions específiques per als vectors sobre el
+vector per defecte, és clar.
+
+=head3 Exercici
+
+Escriviu i utilitzeu una subrutina que converteix kilòmetres a milles i
+imprimiu 4, 6, 9 kilòmetres convertits a milles (un kilòmetre són
+0.621371192 milles).
+
+    sub kilometers_to_miles {
+        my ...
+
+        return ...
+    }
+
+    say kilometers_to_miles(4);
+    say kilometers_to_miles(6);
+    say kilometers_to_miles(9);
+    __TEST__
+    like($stdout, qr/2.485484768\n3.728227152\n5.592340728/,
+        q/Hauria d'imprimir els valors correctes/)
+
+=head2 Expressions regulars
+
+Les expressions regulars són una part important del llenguatge Perl. És
+essencial conèixer-les i utilitzar-les quan es processa text. I això és
+en el que Perl és bo.
+
+Breument, les expressions regulars són patrons especials que quan
+s'apliquen a les cadenes poden casar o no, capturar diverses subcadenes,
+modificar la subcadena inicial substituint-ne algunes parts, etc.
+
+L'ús més habitual de les expressions regulars és trobar una cadena
+concreta dins d'una altra cadena.
+
+    my $cadena = 'Hola món!';
+    if ($cadena =~ m/Hola/) {
+        say 'He trobat Hola!';
+    }
+
+Aquí teniu un parell de coses noves: C<=~> i C<m//> (C<m> ve de l'anglès
+C<match>). També existeix l'operador invers C<!~> que s'avalua a C<cert>
+quan l'expressió regular no casa.
+
+    my $cadena = 'Hola món!';
+    if ($cadena !~ m/Adéu/) {
+        say 'No he trobat Adéu';
+    }
+
+Les expressions regulars poden ser realment sofisticades. Per exemple,
+volem comprovar si una cadena té els caràcters C<a> B<o> C<o>:
+
+    my $cadena = 'Hola';
+    if ($cadena =~ m/a|o/) {
+        say 'He trobat «a» o «o»';
+    }
+
+=head3 Metacaràcters
+
+Alguns caràcters (com C<|> en l'exemple anterior) són especials dins les
+expressions regulars.
+
+=head1 AUTHOR
+
+Viacheslav Tykhanovskyi, C<vti@cpan.org>
+
+=head1 TRANSLATOR
+
+Alba Ferrer, C<aferrer@cpan.org>
+
+Alex Muntada, C<alexm@cpan.org>
