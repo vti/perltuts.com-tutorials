@@ -16,7 +16,130 @@ en
 
 =head2 Lexical variables
 
+Lexical variables belong to their scope. If it is defined within a block of code
+(for instance, inside a function), it is only visible and accessible inside it.
+
+    {
+        my $x = 42;
+        say $x; # OK
+    }
+
+    #say $x; # Not OK
+
+The second attempt to use C<$x> here will fail because there is no such variable
+outside the block above.
+
+Similarly, it works with variables defined inside functions:
+
+    sub f() {
+        my $x = 42;
+        say $x;
+    }
+
+    f(); # OK
+    #say $x; # Error
+
+Nothing changes when the variable is declared as a C<state> one:
+
+    sub f() {
+        state $x = 42;
+        say $x;
+    }
+
+    f(); # OK
+    #say $x; # Error
+
+Note that if you create a closure, the actual scope of a variable will be extended.
+In the following example a function returns a block containing its lexical variable.
+Thus, it can be used later in the programme outside the function where the variable
+was declared:
+
+    sub seq($init) {
+        my $c = $init;
+
+        return {$c++};
+    }
+
+    my $a = seq(1);
+
+    say $a(); # 1
+    say $a(); # 2
+    say $a(); # 3
+
+Each time, the C<$a()> call increments exactly the same variable, only visible
+inside the C<seq()> function.
+
+Moreover, it is possible to create more than one closures, each containing its
+own container with the counter:
+
+    sub seq($init) {
+        my $c = $init;
+
+        return {$c++};
+    }
+
+    my $a = seq(1);
+    my $b = seq(42);
+
+    say $a(); # 1
+    say $a(); # 2
+    say $b(); # 42
+    say $a(); # 3
+    say $b(); # 43
+
+With the C<state> variables it will not work: there will exist only one instance
+of the variable:
+
+    sub seq($init) {
+        state $c = $init;
+
+        return {$c++};
+    }
+
+    my $a = seq(1);
+    my $b = seq(42);
+
+    say $a(); # 1
+    say $a(); # 2
+    say $b(); # 3
+    say $a(); # 4
+    say $b(); # 5
+
+In Perl 6, the operations returning dynamicly-behaving blocks with lexically-defined
+variables are called I<lexotic>. These are C<return>, C<next>, C<last>, C<redo> and C<goto>.
+
 =head2 Dynamic variables
+
+Dynamic variables are variables whose actual scope may change depending on when
+you access this variable. Dynamic variables names contain a twigil C<*>,
+for example: C<$*x>.
+
+In the following code snippet, C<$*var> is the dynamic variable. In either function,
+C<a()> or C<b()> it is declared as a lexical variable using the C<my> keyword.
+Although when it is red inside the C<echo()> function, its actual scope will be
+different.
+
+    sub alpha {
+        my $*var = 'Alpha';
+
+        echo();
+    }
+
+    sub beta {
+        my $*var = 'Beta';
+
+        echo();
+    }
+
+    sub echo() {
+        say $*var;
+    }
+
+    alpha(); # Alpha
+    beta();  # Beta
+
+There are predefined dynamic variables, like those for the standard IO file handles:
+C<$*IN>, C<$*OUT>, and C<$*ERR>.
 
 =head2 Basic types (strings, numbers)
 
