@@ -1,0 +1,35 @@
+=head1 NAME
+
+Multi Dispatch in Perl 6
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 Multi method dispatch
+
+=head2 Multi sub dispatch
+
+=head2 Protos
+
+=head2 Based on arity
+
+=head2 Based on types
+
+=head2 Proper narrowness analysis
+
+=head2 Additional constraints
+
+=head2 nextsame, nextwith, callsame, callwith
+
+=head2 Overloading built-in operators
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>

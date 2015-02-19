@@ -1,0 +1,25 @@
+=head1 NAME
+
+Roles in Perl 6
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 Roles with attributes and methods
+
+=head2 Composing roles into classes
+
+=head2 Composing roles into roles
+
+=head2 Parametric roles
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>

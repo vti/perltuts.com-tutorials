@@ -1,0 +1,31 @@
+=head1 NAME
+
+Concurrency in Perl 6
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 Basic threads
+
+=head2 Synchronization
+
+=head2 start blocks
+
+=head2 Promises
+
+=head2 Channels
+
+=head2 Supplies
+
+=head2 Feed operators
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>

@@ -1,0 +1,23 @@
+=head1 NAME
+
+Types in Perl 6
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 Subset types
+
+=head2 Enums
+
+=head2 Mixins
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>

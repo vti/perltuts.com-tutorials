@@ -1,0 +1,37 @@
+=head1 NAME
+
+Miscelleneous Perl 6 Elements
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 Junctions, autothreading
+
+=head2 Priming (aka 'currying')
+
+=head2 Whatever-priming
+
+=head2 REPL
+
+=head2 MAIN
+
+=head2 run, qx
+
+=head2 Environment vars
+
+=head2 PROCESS, GLOBAL, CALLER, DYNAMIC
+
+=head2 CORE, SETTING, UNIT, OUTER, MY, OUR
+
+=head2 DESTROY
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>

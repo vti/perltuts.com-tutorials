@@ -1,0 +1,39 @@
+=head1 NAME
+
+Classes in Perl 6
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 Classes, attributes, methods
+
+=head2 Single inheritance
+
+=head2 Multiple inheritance
+
+=head2 Read-only accessors
+
+=head2 Read-write accessors
+
+=head2 Default constructor
+
+=head2 Private methods
+
+=head2 Submethods
+
+=head2 Trust relationships
+
+=head2 Natively typed attributes
+
+=head2 Delegation
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>

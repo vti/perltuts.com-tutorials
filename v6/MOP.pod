@@ -1,0 +1,25 @@
+=head1 NAME
+
+Meta-Object Programming in Perl 6
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 Introspection
+
+=head2 Adding methods
+
+=head2 Role composition
+
+=head2 Overriding dispatch
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>

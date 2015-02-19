@@ -1,0 +1,33 @@
+=head1 NAME
+
+Signatures in Perl 6
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 Positional args/params
+
+=head2 Named args/params
+
+=head2 Slurpy args/params
+
+=head2 LoL args/params
+
+=head2 Nested signatures
+
+=head2 is rw, is copy
+
+=head2 Argument coercion
+
+=head2 Type captures
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>

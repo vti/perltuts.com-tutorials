@@ -1,0 +1,33 @@
+=head1 NAME
+
+Perl 6 Meta Operators
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 Reduction
+
+=head2 Triangle
+
+=head2 Assignment
+
+=head2 Negation
+
+=head2 Reverse
+
+=head2 Zip
+
+=head2 Cross
+
+=head2 Hyper
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>

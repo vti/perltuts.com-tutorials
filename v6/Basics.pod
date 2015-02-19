@@ -1,0 +1,53 @@
+=head1 NAME
+
+Perl 6 Basics
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 Basic control structures
+
+=head2 Lexical variables
+
+=head2 Dynamic variables
+
+=head2 Basic types (strings, numbers)
+
+=head2 Basic file IO
+
+=head2 Basic OO
+
+=head2 Basic multi dispatch
+
+=head2 Basic regex support
+
+=head2 Subroutines
+
+=head2 Blocks
+
+=head2 Arrow blocks (lambdas)
+
+=head2 Placeholder blocks
+
+=head2 Special variables
+
+=head2 eval
+
+=head2 Constant declarations
+
+=head2 State variables
+
+=head2 Loops as list generators
+
+=head2 Labeled loops
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>

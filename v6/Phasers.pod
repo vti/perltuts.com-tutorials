@@ -1,0 +1,27 @@
+=head1 NAME
+
+Phasers in Perl 6
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 BEGIN, CHECK, INIT, END
+
+=head2 CATCH
+
+=head2 ENTER, LEAVE
+
+=head2 FIRST, NEXT, LAST
+
+=head2 PRE, POST
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>

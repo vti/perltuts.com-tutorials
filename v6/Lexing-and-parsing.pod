@@ -1,0 +1,33 @@
+=head1 NAME
+
+Lexing and Parsing Perl 6
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 Multiline Comments
+
+=head2 Embedded Comments
+
+=head2 Bracketing Characters
+
+=head2 User-selected Brackets
+
+=head2 Heredocs
+
+=head2 Unspaces
+
+=head2 Pod
+
+=head2 Indirect method calls
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>

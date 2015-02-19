@@ -1,0 +1,37 @@
+=head1 NAME
+
+Perl 6 Operators
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 Smartmatch
+
+=head2 Numeric bitops
+
+=head2 Buffer bitops
+
+=head2 Junctive
+
+=head2 Chaining
+
+=head2 File tests
+
+=head2 List infixes
+
+=head2 Sequence
+
+=head2 Flipflop
+
+=head2 Interpolating word list
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>

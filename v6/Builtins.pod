@@ -1,0 +1,55 @@
+=head1 NAME
+
+Built-in Types and Functions in Perl 6
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 Strings, split, join, case folding, substr
+
+=head2 Basic numbers, arithmetic operations
+
+=head2 Big integers
+
+=head2 Complex numbers
+
+=head2 Rat type
+
+=head2 Hashes, Pairs
+
+=head2 Lists, arrays, map, grep
+
+=head2 Autovivification
+
+=head2 Lazy lists, gather/take
+
+=head2 LoL
+
+=head2 Ranges
+
+=head2 Trigonometric
+
+=head2 Probabalistic (rand, pick, roll)
+
+=head2 sprintf, .fmt
+
+=head2 Object hashes, Sets, KeySet, KeyBag
+
+=head2 Buf, buf, utf8
+
+=head2 DateTime, Date
+
+=head2 Native operators
+
+=head2 ObjAt from WHICH
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>

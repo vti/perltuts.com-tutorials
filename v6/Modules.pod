@@ -1,0 +1,23 @@
+=head1 NAME
+
+Module Management in Perl 6
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 use
+
+=head2 need
+
+=head2 require
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>

@@ -1,0 +1,25 @@
+=head1 NAME
+
+Perl 6 Syntax Flexibility
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 Defining new operators
+
+=head2 Precedence and associativity of new operators
+
+=head2 Basic macros
+
+=head2 Macro hygiene
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>

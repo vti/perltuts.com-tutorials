@@ -1,0 +1,39 @@
+=head1 NAME
+
+Regexes in Perl 6
+
+=head1 LANGUAGE
+
+en
+
+=head1 ABSTRACT
+
+=head1 DESCRIPTION
+
+=head1 TUTORIAL
+
+=head2 Quantifiers, alternations
+
+=head2 Match objects
+
+=head2 Named and positional captures
+
+=head2 Conjunction
+
+=head2 Longest-Token Matching (LTM)
+
+=head2 Character classes
+
+=head2 Unicode properties
+
+=head2 Embedded code blocks
+
+=head2 Variable interpolation
+
+=head2 Grammars
+
+=head2 Categories across derived grammars
+
+=head1 AUTHOR
+
+Andrew Shitov, C<andy@shitov.ru>
