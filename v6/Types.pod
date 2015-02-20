@@ -14,6 +14,84 @@ en
 
 =head2 Subset types
 
+In Perl 6, you can create your own type based on exising one. Such types are called subtypes, and
+there there is a C<subset> keyword for creating it. The name C<subset> assumes that by creating a
+subtype you restrict the range of possible values the variable of that subtype may agree to take.
+
+To create a named subtype, the following syntax is used:
+
+    my subset Odd of Int where {$^n % 2};
+
+Here, C<Odd> is the name of the new subtype, C<Int> is the base type, and the block following
+C<where> defines the rules and restricts the values of the subtype. Finally, C<$^n> is a placeholder
+block variable, which corresponds to the first argument passed to the anonumous sub, which this block
+defines.
+
+Later, the just created subtype may be used in place where you can use any other regular type
+or class name: C<my Odd $value>.
+
+Having said that, the variable will be only able to accept odd integer numbers on assignments.
+Thus, assiging the variable to 3 is legal, which an attempt to set it to 4 will result in an exception:
+C<Type check failed in assignment to '$value'; expected 'Odd' but got 'Int'>.
+
+    my Odd $value;
+    $value = 3;
+    # $value = 4; # error
+
+As the C<where> block assumes smartmatching, it is possible to use many things there, including
+regexes:
+
+    my subset PerlFamily of Str where /Perl/;
+    my PerlFamily $language = 'Perl 6'; # OK
+    #$language = 'Python'; # Failure
+
+A subtype can use also another existing subtype for further restricting the data set. Let's continue
+with the previously defined C<Odd> subtype and define its subtype, which allows number betweeen 10 and
+15 only:
+
+    my subset Odd of Int where {$^n % 2};
+    my subset OddRange of Odd where {10 < $^n < 15};
+
+    for 1..20 -> $test {
+        try {
+            my OddRange $x;
+            $x = $test;
+            say $x;
+        }
+    }
+
+A C<try> block is needed here to prevent the programme from exiting on incorrect assigments.
+
+It is also possible to use anonymous subset. Here is an example of using it in a sub signature:
+
+    sub odd($x where {$x % 2}) {
+        say $x;
+    }
+
+    for 1..10 {
+        try odd($^x);
+    }
+
+The programme will only print odd numbers, as it failes on passing even numbers to the C<odd()> sub.
+
+Using subtypes in sub signatures can be very useful in combination with milti subs. You can split
+variable ranges and create separate versions of the sub for handling different cases.
+
+    multi sub getnum($x where {$x % 2 == 1}) {
+        say "$x is odd";
+    }
+
+    multi sub getnum($x where {$x % 2 == 0}) {
+        say "$x is even";
+    }
+
+    for 1..10 {
+        getnum($^x);
+    }
+
+Note that there is no C<try> keyword anymore here because subtypes cover the whole range of values
+providing to the loop body: odd numbers go to one multi sub, while even ones go to another.
+
 =head2 Enums
 
 =head2 Mixins
