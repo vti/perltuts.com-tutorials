@@ -93,24 +93,6 @@ own container with the counter:
     say $a(); # 3
     say $b(); # 43
 
-With the L<C<state> variables|"State variables">, it will not work: there will exist only one instance
-of the variable:
-
-    sub seq($init) {
-        state $c = $init;
-
-        return {$c++};
-    }
-
-    my $a = seq(1);
-    my $b = seq(42);
-
-    say $a(); # 1
-    say $a(); # 2
-    say $b(); # 3
-    say $a(); # 4
-    say $b(); # 5
-
 In Perl 6, the operations returning dynamicly-behaving blocks with lexically-defined
 variables are called I<lexotic>. These are C<return>, C<next>, C<last>, C<redo> and C<goto>.
 
@@ -283,11 +265,64 @@ the result), an exception will not break the programme:
 
 =head2 State variables
 
+A variable in a sub may be declared using the C<state> keyword instead of C<my>. In this case
+it will be created and initialized once, and its value will be saved between subsequent calls
+of that function.
 
+    sub cnt() {
+        state $c = 0;
+
+        return $c++;
+    }
+
+    say cnt(); # 0
+    say cnt(); # 1
+    say cnt(); # 2
+
+The C<state> variable still remains lexically scoped, and thus is not accessible outside of the
+block where it was defined.
+
+With the state variables, the example demonstrated in the L<Lexical variables> section,
+will not work: there will exist only one instance of the variable:
+
+    sub seq($init) {
+        state $c = $init;
+
+        return {$c++};
+    }
+
+    my $a = seq(1);
+    my $b = seq(42);
+
+    say $a(); # 1
+    say $a(); # 2
+    say $b(); # 3
+    say $a(); # 4
+    say $b(); # 5
 
 =head2 Loops as list generators
 
 =head2 Labeled loops
+
+Nested loops can of couse contain labels, which will make it easier to break inner cycles.
+There are two ways of specifying labels when using C<last>, C<next> and C<redo>: either
+traditional syntax like C<next LABEL>:
+
+    START: for 1..5 -> $n {
+        for 'a'..'e' -> $c {
+           next START if $n == $c.ord - 'a'.ord;
+           say $n, $c;
+        }
+    }
+
+or object-oriented one: C<LABEL.next>.
+
+    START: for 1..5 -> $n {
+        for 'a'..'e' -> $c {
+           START.next if $n == $c.ord - 'a'.ord;
+           say $n, $c;
+        }
+    }
 
 =head1 AUTHOR
 
