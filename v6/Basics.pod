@@ -93,7 +93,7 @@ own container with the counter:
     say $a(); # 3
     say $b(); # 43
 
-With the C<state> variables it will not work: there will exist only one instance
+With the L<C<state> variables|State variables>, it will not work: there will exist only one instance
 of the variable:
 
     sub seq($init) {
@@ -220,9 +220,59 @@ This time, the loop body will be executed five times instead of the previous ten
 
 =head2 Placeholder blocks
 
+Anonumous blocks not only can contain the code but also can make use of parameters passed
+to them. Unlike the L<Arrow blocks (lambdas)>, you don't need lising all the arguments but
+rather may use them directly when they are needed.
+
+Placeholder varialbes go with the caret twigil, for example: C<$^x> and are ordered
+according to their Unicode order. Thus, a block using variables, C<$^x> and C<$^y>,
+expects C<$^x> to be the first parameter and C<$^y> to be the second one:
+
+    my $pow = {$^x ** $^y};
+    say $pow(3, 4); # 81
+
+Similarly, placeholder blocks can be used in loops:
+
+    for 0..9 {
+        say $^n2, $^n1;
+    }
+
+In this example, C<$^n2> is the second argument and C<$^n1> is the first. Thus, the block
+consumes two items at a moment, and the loop will be repeated five times, and the first pass
+will print C<10>.
+
+Note that there is no arrow anymore before the start of the block. Presence of the arrow
+would suggest the presence of implicitly spelled arguments.
+
+Placeholder variables can be named. In this case instead of the caret a semicolon (C<:>)
+is used as a twigil:
+
+    my $pow = {$:base ** $:exp};
+    say $pow(:base(25), :exp(2));
+
 =head2 Special variables
 
-=head2 eval
+=head2 EVAL
+
+C<EVAL> accepts the code and executes it. Here's the simplest example:
+
+    say EVAL('12 + 13'); # 25
+
+It's important to remember that C<EVAL> will not hide exeptions. The following code will
+produce an error:
+
+    my $zero = 0;
+    my $inf = EVAL('42 / $zero');
+    say $inf;
+
+Note that if you do not use the result of the C<EVAL> block, which failed througing an
+exception (in the previous example it is enough to comment out the last line printing
+the result), an exception will not break the programme:
+
+    my $zero = 0;
+    my $inf = EVAL('42 / $zero');
+    #say $inf;
+    say "ok"; # OK, it works
 
 =head2 Constant declarations
 
