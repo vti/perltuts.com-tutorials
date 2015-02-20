@@ -93,7 +93,7 @@ own container with the counter:
     say $a(); # 3
     say $b(); # 43
 
-With the L<C<state> variables|State variables>, it will not work: there will exist only one instance
+With the L<C<state> variables|"State variables">, it will not work: there will exist only one instance
 of the variable:
 
     sub seq($init) {
@@ -277,6 +277,8 @@ the result), an exception will not break the programme:
 =head2 Constant declarations
 
 =head2 State variables
+
+
 
 =head2 Loops as list generators
 
