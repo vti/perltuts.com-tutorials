@@ -23,7 +23,7 @@ en
 =head2 Lexical variables
 
 Lexical variables belong to their scope. If it is defined within a block of code
-(for instance, inside a function), it is only visible and accessible inside it.
+(for instance, inside a subroutine), it is only visible and accessible inside it.
 
     {
         my $x = 42;
@@ -35,7 +35,7 @@ Lexical variables belong to their scope. If it is defined within a block of code
 The second attempt to use C<$x> here will fail because there is no such variable
 outside the block above.
 
-Similarly, it works with variables defined inside functions:
+Similarly, it works with variables defined inside subroutines:
 
     sub f() {
         my $x = 42;
@@ -56,8 +56,8 @@ Nothing changes when the variable is declared as a C<state> one:
     #say $x; # Error
 
 Note that if you create a closure, the actual scope of a variable will be extended.
-In the following example a function returns a block containing its lexical variable.
-Thus, it can be used later in the programme outside the function where the variable
+In the following example a subroutine returns a block containing its lexical variable.
+Thus, it can be used later in the programme outside the subroutine where the variable
 was declared:
 
     sub seq($init) {
@@ -73,7 +73,7 @@ was declared:
     say $a(); # 3
 
 Each time, the C<$a()> call increments exactly the same variable, only visible
-inside the C<seq()> function.
+inside the C<seq()> subroutine.
 
 Moreover, it is possible to create more than one closures, each containing its
 own container with the counter:
@@ -120,9 +120,9 @@ Dynamic variables are variables whose actual scope may change depending on when
 you access this variable. Dynamic variables names contain a twigil C<*>,
 for example: C<$*x>.
 
-In the following code snippet, C<$*var> is the dynamic variable. In either function,
+In the following code snippet, C<$*var> is the dynamic variable. In either subroutine,
 C<a()> or C<b()> it is declared as a lexical variable using the C<my> keyword.
-Although when it is red inside the C<echo()> function, its actual scope will be
+Although when it is red inside the C<echo()> subroutine, its actual scope will be
 different.
 
     sub alpha {
@@ -155,6 +155,27 @@ C<$*IN>, C<$*OUT>, and C<$*ERR>.
 
 =head2 Basic multi dispatch
 
+Multi dispatch allows to overload function names and let the types of its argument to
+determin which one is actually called.
+
+    multi sub twice(Int $x) {
+        return $x * 2;
+    }
+
+    multi sub twice(Str $s) {
+        return "$s, $s";
+    }
+
+    say twice(42); # 84
+    say twice("hi"); # hi, hi
+
+Here, the two subs with the same name expect arguments of different types, C<Int> and
+C<Str>, respectively. Thus the call of C<twice> leads to execution of either C<twice(Int)>
+or C<twice(Str)>.
+
+The keyword C<multi> is obligatory to tell the compiler that this sub may be overloaded.
+Would you omit C<multi>, you will get a compile error C<Redeclaration of routine twice>.
+
 =head2 Basic regex support
 
 =head2 Subroutines
@@ -162,6 +183,40 @@ C<$*IN>, C<$*OUT>, and C<$*ERR>.
 =head2 Blocks
 
 =head2 Arrow blocks (lambdas)
+
+Arrow blocks, or pointy blocks, or lambdas define an anonymous sub with only a few
+characters required to type:
+
+    my $cube = -> $x {$x ** 3};
+    say $cube(3); # 27
+
+Here, the arrow block has its argument C<$x>, whose usage is exactly the same as with
+regular subs. Likewise in subs, no C<my> keyword is required for declaring the arguments.
+
+Arrow blocks are a common thing to use in loops. 
+
+    for 1..10 -> $c {
+        say $c;
+    }
+
+An arrow block is being called at each iteration, and the value is passed through the
+C<$c> variable.
+
+It is possible to have more than one argument in an arrow block. For example, let's convert
+the two examples above.
+
+First, implement the exponentiation function, which accept both base and exponent values:
+
+    my $pow = -> $x, $p {$x ** $p};
+    say $pow(2, 15); # 32768
+
+Then, modify a loop to take two values at a time:
+
+    for 1..10 -> $i, $j {
+        say $i + $j;
+    }
+
+This time, the loop body will be executed five times instead of the previous ten.
 
 =head2 Placeholder blocks
 
