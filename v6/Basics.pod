@@ -8,7 +8,18 @@ en
 
 =head1 ABSTRACT
 
+An overview of the most important features of Perl 6.
+
 =head1 DESCRIPTION
+
+In this tutorial, we will go through all the main features of Perl 6 such as variables,
+scopes, classes, regexes and control structures. Knowledge of Perl 5 is not required for
+working with this document, although it is assumed that you have basic understanding
+of what programming is.
+
+All examples in the sections below can be run in place, modified as desired and tested
+again. Generally, the output of the examples does not present in the text to encourage
+you running tests :-)
 
 =head1 TUTORIAL
 
