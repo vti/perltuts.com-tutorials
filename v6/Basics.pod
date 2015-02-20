@@ -248,7 +248,12 @@ Placeholder variables can be named. In this case instead of the caret a semicolo
 is used as a twigil:
 
     my $pow = {$:base ** $:exp};
-    say $pow(:base(25), :exp(2));
+    say $pow(:base(25), :exp(2)); # 625
+
+Now, it does not matter in which order you pass the values to the function. The following
+call gives exactly the same result:
+
+    say $pow(:exp(2), :base(25)); # 625
 
 =head2 Special variables
 
