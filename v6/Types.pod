@@ -94,6 +94,52 @@ providing to the loop body: odd numbers go to one multi sub, while even ones go 
 
 =head2 Enums
 
+Enumerations are kind of constant hashes providing key–value pairs, which in turn are called enums.
+Basic enumeration is a list of strings, which get sequential integer numbers starting with 0.
+
+    my enum seasons <winter spring summer autumn>;
+    say +summer; # 2
+
+After an enum is defined, its elements (keys) can be used either like instances of the C<seasons>
+type, or as ints. Unary plus in the previous example forces numeric context.
+
+Both sides of the enumeration element can be accessed with the help of the C<.key> and C<.value>
+methods:
+
+    my enum seasons <winter spring summer autumn>;
+    say summer.key;   # summer
+    say summer.value; # 2
+
+It is possible to get all the pairs by calling C<.enums> method returning an object of the C<EnumMap>
+type, with which you can work as with a hash:
+
+    my enum seasons <winter spring summer autumn>;
+
+    say seasons.enums.keys;
+    say seasons.enums.values;
+    say seasons.enums.perl;
+
+Enumerations can be anonymous. In this case access to its elements is achieved by using techniques
+for C<EnumMap>s or hashes.
+
+    my $s = enum <winter spring summer autumn>;
+    say $s<spring>; # 1
+
+    my %s = enum ('winter', 'spring', 'summer', 'autumn');
+    say %s<winter>; # 0
+
+Also, there's no need to assign enumeration. It is enough to barely declare it and use its elements
+in the programme.
+
+Enum pairs allow abitrary values of their keys. The following example demonstrate how to create an
+anonymous enumeration with pre-defined key values:
+
+    enum roman (i => 1,   v => 5,
+                x => 10,  l => 50,
+                c => 100, d => 500,
+                m => 1000);
+    say +v; # 5
+
 =head2 Mixins
 
 =head1 AUTHOR
