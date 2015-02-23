@@ -215,6 +215,9 @@ result in a compile error.
     $var.show();
     $var.hide();
 
+Here, the three methods, C<say>, C<show> and C<hide>, coming from different classes and roles, were
+called on the object C<$var>.
+
 
 =head1 AUTHOR
 
