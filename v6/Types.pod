@@ -142,6 +142,80 @@ anonymous enumeration with pre-defined key values:
 
 =head2 Mixins
 
+A mixin is a thing that mixes additional functionality into your existing objects. For that you need
+to have an object of some class and a role. A keyword C<does> is used to make a mixin.
+
+In the following example, an variable C<$var> is an instance of the C<Int> class, the one predefined
+in Perl 6. Then, a mixin is added to that object. The mixin behaviour is defined within the role
+C<Verbose>.
+
+    my $var = Int.new();
+    $var = 42;
+    $var.say();
+
+    role Verbose {
+        method say() {
+            say "Value = " ~ self ~ '.';
+        }
+    }
+    $var does Verbose;
+    $var.say();
+
+Likewise with class hierarchy, mixin may hide methods already available in the class. Here, the
+C<say> method was redefined and its default behaviour is no longer accessible for the variable's
+method with the same. Of course, new methods and class members may be creaeted with a mixin.
+
+Mixines can be put on top of one another. In this case, the methods defined in the outmost ones
+win. Let's extend the previous example with another role layer:
+
+    role Verbose {
+        method say() {
+            say "Value = " ~ self ~ '.';
+        }
+    }
+
+    role Silent {
+        method say() {
+            say "Secret value";
+        }
+    }
+
+    my $var = 42;
+
+    $var does Verbose;
+    $var does Silent;
+
+    $var.say(); # Secret value
+
+Now, roles C<Verbose> and C<Silent> subsequently mixed in the C<$var> variable. Both roles contain
+its own C<say> method, thus they replace the one existing for C<$var>. That was the one available for
+C<Int>s (although this time it was not explicitly stated that the object is of that type).
+
+There is another method of mixing in more than one role: by listing them after a single C<does>
+keyword. In this case, however, all the methods should have different name. Conflicting names will
+result in a compile error.
+
+    role Verbose {
+        method show() {
+            say "Value = " ~ self ~ '.';
+        }
+    }
+
+    role Silent {
+        method hide() {
+            say "Secret value";
+        }
+    }
+
+    my $var = 42;
+
+    $var does (Verbose, Silent);
+
+    $var.say();
+    $var.show();
+    $var.hide();
+
+
 =head1 AUTHOR
 
 Andrew Shitov, C<andy@shitov.ru>
