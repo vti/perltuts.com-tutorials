@@ -147,7 +147,7 @@ to have an object of some class and a role. A keyword C<does> is used to make a 
 
 In the following example, an variable C<$var> is an instance of the C<Int> class, the one predefined
 in Perl 6. Then, a mixin is added to that object. The mixin behaviour is defined within the role
-C<Verbose>.
+C<Verbose>. Object mutation happens at run-time.
 
     my $var = Int.new();
     $var = 42;
@@ -217,7 +217,6 @@ result in a compile error.
 
 Here, the three methods, C<say>, C<show> and C<hide>, coming from different classes and roles, were
 called on the object C<$var>.
-
 
 =head1 AUTHOR
 
