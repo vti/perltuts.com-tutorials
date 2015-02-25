@@ -12,7 +12,78 @@ en
 
 =head1 TUTORIAL
 
+=head2 module
+
+A module is a piece of code which is usually located in a separate file with the name
+which may be guessed from the module name.
+
+Modules start with the keyword C<module>. There are two ways of using it.
+
+The first line declares the module, and the rest of the file is its content:
+
+    module X;
+
+    sub x() {
+        say "X::x()";
+    }
+
+It is also possible to use a block to hold the body of the module:
+
+    module X {
+        sub x() {
+            say "X::x()";
+        }
+    }
+
+A module can contain subs an variables like any other Perl code or a class. To make subs
+and variables visible to external (in respect to the module) files, the corresponding
+item should be marked with the trait C<is export>:
+
+    module X;
+
+    sub x() is export {
+        say "X::x()";
+    }
+
 =head2 use
+
+To use a module, use a C<use>. This keyword searches for the module, loads it and imports
+what can be imported. Thus, the subs or variables with the C<is export> trait will be accessible
+in the code after module is imported.
+
+First, create a module saved in the file Greet.pm:
+
+    module Greet;
+
+    sub hey($name) is export {
+        say "Hey, $name!";
+    }
+
+Second, use it in the Perl 6 code:
+
+    use Greet;
+
+    hey("you"); # Hey, you!
+
+The Perl 6 compiler will search for the module in the directories it knows to be Perl 6 libraries.
+It the module is located in another place, use the C<-I> command line option, for example:
+C<perl6 -I. test.pl>
+
+Another example of the module, this time with nested name and with the code of the module in a block:
+
+    module Greet::Polite {
+        sub hello($name) is export {
+            say "Hello, $name!";
+        }
+    }
+
+The module file should be saved as C<Greet/Polite.pm>. Its usage is as straightforward as before:
+
+    use Greet;
+    use Greet::Polite;
+
+    hey("you"); # Of Greet
+    hello("Mr. X"); # Of Greet::Polite
 
 =head2 need
 
