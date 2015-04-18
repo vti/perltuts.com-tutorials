@@ -2,6 +2,10 @@
 
 Module Management in Perl 6
 
+=head1 PREAMBLE
+
+use v6;
+ 
 =head1 LANGUAGE
 
 en
@@ -34,6 +38,8 @@ It is also possible to use a block to hold the body of the module:
             say "X::x()";
         }
     }
+
+=head2 export
 
 A module can contain subs an variables like any other Perl code or a class. To make subs
 and variables visible to external (in respect to the module) files, the corresponding
@@ -84,6 +90,10 @@ The module file should be saved as C<Greet/Polite.pm>. Its usage is as straightf
 
     hey("you"); # Of Greet
     hello("Mr. X"); # Of Greet::Polite
+
+The actions behind the `use` happen at compile time.
+
+=head2 import
 
 =head2 need
 

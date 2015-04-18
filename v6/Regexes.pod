@@ -2,6 +2,10 @@
 
 Regexes in Perl 6
 
+=head1 PREAMBLE
+
+use v6;
+ 
 =head1 LANGUAGE
 
 en

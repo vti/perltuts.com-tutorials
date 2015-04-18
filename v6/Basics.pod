@@ -2,6 +2,10 @@
 
 Perl 6 Basics
 
+=head1 PREAMBLE
+
+use v6;
+
 =head1 LANGUAGE
 
 en
