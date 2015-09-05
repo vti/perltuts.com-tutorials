@@ -250,6 +250,7 @@ is used as a twigil:
 Now, it does not matter in which order you pass the values to the function. The following
 call gives exactly the same result:
 
+    my $pow = {$:base ** $:exp};
     say $pow(:exp(2), :base(25)); # 625
 
 =head2 Special variables
