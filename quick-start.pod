@@ -853,18 +853,25 @@ Whitespaces include tabulations, spaces, line feeds and carriage
 returns.
 
 We can use the uppercase version of the character class to match the
-opposite. For example:
+opposite. For example, with C<\S> we match any character that is not
+a whitespace or the empty string:
 
-    my $string = 'Whitespace';
+    my $string = '    ';
     if ($string =~ m/\S/) {
-        say 'There are no whitespaces in the string';
+        say 'There is at least one character that is not a whitespace';
+    }
+    else {
+        say 'There is not a non-space character in the string';
     }
 
-Or:
+Or with C<\D> we match any character that is not a digit:
 
-    my $string = 'This sentence is six words long';
+    my $string = '42';
     if ($string =~ m/\D/) {
-        say 'There are no digits in this string';
+        say 'There is at least one character that is a not a digit';
+    }
+    else {
+        say 'There is not a non-digit character in the string';
     }
 
 Finally, if we want to match any character at all, we use the dot:
