@@ -771,7 +771,7 @@ kilometers converted to miles (one kilometer is 0.621371192 miles).
 Regular expressions are a big part of the Perl language. They are essential to
 know and use when processing texts. And that's what Perl is good for.
 
-In short, regular expressions are special patterns when applied to strings
+In short, regular expressions are special patterns that when applied to strings
 either match them or not, capture various substrings, modify the initial substring
 by substituting parts of it and so on.
 
@@ -792,18 +792,223 @@ is not matched.
         say 'No Bye was found';
     }
 
-Regular expressions can be really sophisticated. For example we want to check if
-a string has C<a> B<or> C<o> characters:
+=head3 Character Classes
+
+Character classes are regular expression constructs that match exactly one
+character out of many. We can create character classes with the C<[]>
+operators. For example:
+
+    my $string = 'Bye';
+    if ($string =~ m/[aeiou]/) {
+        say 'Found a vowel';
+    }
+
+In this case, the conditional is true because one of the characters inside
+the character class C<[aeiou]> was found in the string.
+
+We can also indicate a range instead of writing all the characters we
+want to try to match:
+
+    my $string = 'hello';
+    if ($string =~ m/[a-g]/) {
+        say 'Found a letter between a and g in the string';
+    }
+
+In this example, we have indicated C<[a-g]> instead of C<[abcdefg]>.
+The same happens with numbers (C<[2-5]>) and uppercase letters
+(C<[A-Z]>).
+
+Keep in mind that, when using ranges, you always need to indicate the
+range in alphabetical or numerical order. For example, C<[8-3]> will
+not work (it will instead look for the characters I<8>, I<-> and I<3>).
+
+Other character classes are written without the C<[]>. Instead, they
+consist of a backslash C<\> and a letter indicating a set of characters.
+For example, to find out if a string contains at least one number, we
+can use C<\d>:
+
+    my $string = 'March has 31 days';
+    if ($string =~ m/\d/) {
+        say 'Found a number!';
+    }
+
+With C<\d> we are saying we want to find digits. We can also use C<\w>
+to match any I<word> character (letters, digits and the underscore
+I<_>):
+
+    my $string = 'This sentence is 6 words long';
+    if ($string =~ m/\w/) {
+        say 'Found a word character';
+    }
+
+And if we want to find out if a string contains whitespaces we can use
+C<\s>:
+
+    my $string = 'White space';
+    if ($string =~ m/\s/) {
+        say 'There is a whitespace in the string';
+    }
+
+Whitespaces include tabulations, spaces, line feeds and carriage
+returns.
+
+We can use the uppercase version of the character class to match the
+opposite. For example, with C<\S> we match any character that is not
+a whitespace or the empty string:
+
+    my $string = '    ';
+    if ($string =~ m/\S/) {
+        say 'There is at least one character that is not a whitespace';
+    }
+    else {
+        say 'There is not a non-space character in the string';
+    }
+
+Or with C<\D> we match any character that is not a digit:
+
+    my $string = '42';
+    if ($string =~ m/\D/) {
+        say 'There is at least one character that is a not a digit';
+    }
+    else {
+        say 'There is not a non-digit character in the string';
+    }
+
+Finally, if we want to match any character at all, we use the dot:
+
+    my $string = 'Hello, World!';
+    if ($string =~ m/./) {
+        say 'Found a character';
+    }
+
+The only time the dot doesn't match anything is when the string
+is empty or when it only contains a newline.
+
+=head3 Metacharacters
+
+Regular expressions can be really sophisticated. For example if
+we want to check if a string has C<a> B<or> C<o> characters:
 
     my $string = 'Hello';
     if ($string =~ m/a|o/) {
         say 'a or o was found';
     }
 
-=head3 Metacharacters
+In this case, we use the metacharacter C<|> to indicate that we
+want to match I<a> or I<b>. Another metacharacter is C<+>, which
+helps us find more than one appearance of the same character:
 
-Some characters in regular expression (as C<|> in previous example) are special. They 
+    my $string = 'Hello, World!';
+    if ($string =~ m/l+/) {
+        say 'Found at least one l';
+    }
 
-=head1 AUTHOR
+Similarly, C<*> is used to indicate that there can be 0 or more
+appearances of the character:
+
+    my $string = 'Hello, World!';
+    if ($string =~ m/l*/) {
+        say 'There may be a letter l or more in the string';
+    }
+
+Since it will return true if there are no matches either, this
+will also work:
+
+    my $string = 'Hello, World!';
+    if ($string =~ m/j*/) {
+        say 'There may be a letter j or more in the string';
+    }
+
+Finally, with C<?> we indicate if something is found once or not
+at all:
+
+    my $string = 'Hello, World!';
+    if ($string =~ m/j?/) {
+        say 'There may be a letter j or not in the string';
+    }
+
+These metacharacters are better used in a bit more complex regular
+expressions. For example, if we want to know if a user has written
+their name, we can make sure there's at least one letter:
+
+    my $string = 'Larry';
+    if ($string =~ m/[a-z]+/) {
+        say 'The string has at least one letter, so it can be a name'
+    }
+
+=head3 Substitutions
+
+Up until now, we have used regular expressions to C<match> characters
+with the I<m> at the beginning of the expression. But another widely
+used case is for substitutions with I<s>:
+
+    my $string = 'Hello, World!';
+    $string =~ s/Hello/Good Bye/;
+    say $string;
+
+In this case, we first indicate that we want to do a substitution with
+C<s>, then we show which word or letter we want to change, and then
+we write the word or letter that is written instead.
+
+=head3 Modifiers
+
+Modifiers are letters that are written at the end of the regular
+expression and that influence the result. For example, we can use
+C<i> to do case-insensitive matching:
+
+    my $string = 'Hello, World!';
+    if ($string =~ m/h/i) {
+        say 'There is an h or an H in the string';
+    }
+
+Without the C<i> at the end, there would be no match, since it would
+look only for a lowercase I<h>. Another very common modifier is C<g>:
+
+    my $string = 'Hello, World!';
+    $string =~ s/l/L/g;
+    say $string;
+
+By indicating the I<g> we are telling the regular expression to be
+I<greedy> and to substitute all appearences of l for L. If we don't
+indicate the C<g>, the result is I<HeLlo, World!>, as it only
+substitutes the first match it finds.
+
+Modifiers can be used in substitutions and in matches alike.
+
+=head3 Anchors
+
+Anchors are special characters in regular expressions that help us
+fix what we are looking for to the beginning (C<^>) or the end (C<$>)
+of the string. For example:
+
+    my $string = 'Hello, World!';
+    if ($string =~ m/^H/) {
+        say 'There is an H at the beginning of the string';
+    }
+
+This is true because we are looking for an H in the beginning. However:
+
+    my $string = 'Hello, World!';
+    if ($string =~ m/^o/) {
+        say 'There is an o at the beginning of the string';
+    } else {
+        say 'There is no o at the beginning of the string';
+    }
+
+Notice how it doesn't match in this example because, even though there
+are two I<o> in the string, none of them are at the beginning. The same
+happens when we anchor the regular expression to the end of the string:
+
+    my $string = 'Hello, World!';
+    if ($string =~ m/!$/) {
+        say 'There is an ! at the end of the string';
+    }
+
+In this case, it matches because the last character of the string is an
+exclamation mark.
+
+=head1 AUTHORS
 
 Viacheslav Tykhanovskyi, C<vti@cpan.org>
+
+Alba Ferrer, C<aferrer@cpan.org>
