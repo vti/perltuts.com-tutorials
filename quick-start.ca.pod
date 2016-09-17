@@ -78,7 +78,7 @@ i no utilitzar-los
 
 Els números son enters (1, 2, 5) i de coma flotant (1.2, 1e5). No hi ha
 diferència real entre ells. Perl els tracta de la mateixa manera i els
-converteix automàticament. 
+converteix automàticament.
 
 Proveu a imprimir els següents números:
 
@@ -293,7 +293,7 @@ Donat el vector que conté la llista C<(1, 2, 3, 4)>, imprimiu el tercer
 element.
 
     my @vector = ;
-    say 
+    say
 
     __TEST__
     like($stdout, qr/3/, q/Hauria d'imprimir «3»/)
@@ -833,22 +833,230 @@ quan l'expressió regular no casa.
         say 'No he trobat Adéu';
     }
 
+=head3 Conjunts de caràcters
+
+Els I<conjunts de caràcters> són construccions d'expressions regulars que
+casen amb exactament un caràcter entre molts. Podem crear
+I<conjunts de caràcters> amb els operadors C<[]>. Per exemple:
+
+    my $string = 'Adéu';
+    if ($string =~ m/[aeiou]/) {
+        say 'He trobat una vocal';
+    }
+
+En aquest cas, el condicional és veritat perquè un dels caràcters dins
+de la I<classe de caràcters> s'ha trobat a la cadena.
+
+També podem indicar un rang en comptes d'escriure tots els caràcters
+que volem fer casar:
+
+    my $string = 'hola';
+    if ($string =~ m/[a-g]/) {
+        say 'He trobat una lletra entre la «a» i la «g» a la cadena';
+    }
+
+En aquest exemple, hem indicat C<[a-g]> en comptes de C<[abcdefg]>.
+Passa el mateix amb números (C<[2-5]>) i lletres majúscules (C<[A-Z]>).
+
+Quan s'utilitzen rangs cal recordar que sempre cal indicar el rang en
+ordre alfabètic o numèric. Per exemple, C<[8-3]> no funcionarà com un
+rang (buscarà coincidir amb els caràcters I<8>, I<-> i I<3>).
+
+Altres C<conjunts de caràcters> s'escriuen sense els C<[]>. En comptes
+d'això consisteixen en una barra invertida C<\> i una lletra indicant
+un conjunt de caràcters. Per exemple, per descobrir si una cadena conté
+com a mínim un dígit, podem utilitzar C<\d>:
+
+    my $string = 'El març té 31 dies';
+    if ($string =~ m/\d/) {
+        say 'He trobat un dígit!';
+    }
+
+Amb C<\d> estem dient que volem trobar digits. També podem utilitzar
+C<\w> (de l'anlgès, I<word>) per trobar qualsevol caràcter que
+s'utilitzi en I<paraules> (lletres, números i el subratllat I<_>):
+
+    my $string = 'Aquesta frase té 5 paraules';
+    if ($string =~ m/\w/) {
+        say 'He trobat un caràcter de paraula';
+    }
+
+I si volem saber si una cadena conté espais en blanc podem utilitzar
+C<\s>:
+
+    my $string = 'Espai en blanc';
+    if ($string =~ m/\s/) {
+        say 'Hi ha un espai en blanc a la cadena';
+    }
+
+Els espais en blanc inclouen tabulacions, espais, salts de linia i
+retorns de carro.
+
+Podem utilitzar la versió en majúscules d'un C<conjunt de caràcters>
+per fer coincidir el contrari. Per exemple, amb C<\S> casem qualsevol
+caràcter que no és un espai o una cadena buida:
+
+    my $string = '    ';
+    if ($string =~ m/\S/) {
+        say 'Hi ha com a minim un caràcter que no és un espai en blanc';
+    }
+    else {
+        say 'No hi ha caràcters de tipus espai en blanc a la cadena';
+    }
+
+O amb C<\D> fem coincidir qualsevol caràcter que no sigui un dígit:
+
+    my $string = '42';
+    if ($string =~ m/\D/) {
+        say 'Hi ha com a minim un caràcter que no és un dígit';
+    }
+    else {
+        say 'No hi ha caràcters que no siguin dígits a la cadena';
+    }
+
+Finalment, si volem casar qualsevol caràcter, utilitzem el punt:
+
+    my $string = 'Hola, Món!';
+    if ($string =~ m/./) {
+        say 'He trobat un caràcter';
+    }
+
+L'única situació en la que un punt no coincideix amb alguna cosa és quan
+la cadena està buida o només conté un salt de linia.
+
+=head3 Metacaràcters
+
 Les expressions regulars poden ser realment sofisticades. Per exemple,
 volem comprovar si una cadena té els caràcters C<a> B<o> C<o>:
 
-    my $cadena = 'Hola';
+    my $cadena = 'Casa';
     if ($cadena =~ m/a|o/) {
         say 'He trobat «a» o «o»';
     }
 
-=head3 Metacaràcters
+En aquest cas utilitzem el metacaràcter C<|> per indicar que volem
+fer coincidir la lletra I<a> o la lletra I<b>. Un altre metacaràcter
+és C<+>, que ens ajuda a trobar més d'una ocurrència del mateix
+caràcter a la cadena:
 
-Alguns caràcters (com C<|> en l'exemple anterior) són especials dins les
-expressions regulars.
+    my $string = 'Perl en català';
+    if ($string =~ m/a+/) {
+        say 'He trobat com a mínim una «a»';
+    }
 
-=head1 AUTHOR
+De forma similar, C<*> s'utilitza per indicar que pot haver-hi 0
+o més ocurrències del caràcter:
+
+    my $string = 'Hola, Món!';
+    if ($string =~ m/l*/) {
+        say 'Pot haver una lletra «l» o més a la cadena';
+    }
+
+Com que retornarà cert si tampoc hi ha cap coincidència, això
+també funcionarà:
+
+    my $string = 'Hola, Món!';
+    if ($string =~ m/j*/) {
+        say 'Pot haver una lletra «j» o més a la cadena';
+    }
+
+Finalment, amb C<?> indiquem si el caràcter es troba una o cap
+vegada:
+
+    my $string = 'Hola, Món!';
+    if ($string =~ m/j?/) {
+        say 'Pot haver-hi o no una lletra «j» a la cadena';
+    }
+
+Aquests metacaràcters són més utils en expressions regulars una mica
+més complexes. Per exemple, si volem saber si un usuari ha escrit el
+seu nom, podem assegurar-nos que com a mínim hi hagi una lletra
+escrita:
+
+    my $string = 'Larry';
+    if ($string =~ m/[a-z]+/) {
+        say 'La cadena té com a mínim una lletra, pel que pot ser un nom'
+    }
+
+=head3 Substitucions
+
+Fins ara, hem utilitzat les expressions regulars per fer coincidir
+caràcters amb la I<m> al principi de l'expressió. Però un altre ús
+molt habitual és la substitució amb I<s>:
+
+    my $string = 'Hola, Món!';
+    $string =~ s/Hola/Adéu/;
+    say $string;
+
+En aquest cas, primer indiquem que volem fer una substitució amb la
+C<s>, després mostrem quina paraula o lletra volem canviar i finalment
+escrivim la paraula o lletra que l'ha de substituir.
+
+=head3 Modificadors
+
+Els modificadors són lletres que s'escriuen al final de l'expressió
+regular i que influencien el resultat. Per exemple, podem utilitzar
+C<i> per fer correspondències tant en majúscules com amb minúscules:
+
+    my $string = 'Hola, Món!';
+    if ($string =~ m/h/i) {
+        say 'Hi ha una «h» o una «H» a la cadena';
+    }
+
+Sense la C<i> al final, no hi hauria coincidència, ja que només hauria
+buscat la I<h> en minúscules. Un altre modificador molt comú és la
+C<g>:
+
+    my $string = 'Perl en català!';
+    $string =~ s/a/A/g;
+    say $string;
+
+Amb la I<g> estem indicant a l'expressió regular que sigui cobdiciosa
+(de l'anglès, I<greedy>) i que substitueixi totes les ocurrències de
+I<a> per I<A>. Si no indiquem la C<g>, el resultat és I<Perl en cAtalà!>,
+ja que només substitueix la primera coincidència que troba.
+
+Els modificadors es poden utilitzar tant en les substitucions com en
+les coincidències.
+
+=head3 Àncores
+
+Les àncores són caràcters especials en expressions regulars que ens
+ajuden a fixar el que estem buscant al principi (C<^>) o al final
+(C<$>) de la cadena. Per exemple:
+
+    my $string = 'Hola, Món!';
+    if ($string =~ m/^H/) {
+        say 'Hi ha una «H» al principi de la cadena';
+    }
+
+Aixo és cert perquè estem buscant una H al principi. En canvi:
+
+    my $string = 'Hola, Món!';
+    if ($string =~ m/^o/) {
+        say 'Hi ha una «o» al principi de la cadena';
+    } else {
+        say 'No hi ha una «o» al principi de la cadena';
+    }
+
+Fixeu-vos com no hi ha coincidència en aquest exemple perquè, tot i que
+hi ha una I<o> a la cadena, no està al principi de tot. Passa el mateix
+quan ancorem l'expressió regular al final de la cadena:
+
+    my $string = 'Hola, Món!';
+    if ($string =~ m/!$/) {
+        say 'Hi ha una «!» al final de la cadena';
+    }
+
+En aquest cas hi ha coincidència perquè l'últim caràcter de la cadena
+és un símbol d'exclamació.
+
+
+=head1 AUTHORS
 
 Viacheslav Tykhanovskyi, C<vti@cpan.org>
+
+Alba Ferrer, C<aferrer@cpan.org>
 
 =head1 TRANSLATOR
 
