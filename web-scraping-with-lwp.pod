@@ -46,7 +46,7 @@ laws.
 
 =head2 Environment
 
-For this tutorial a sample web server is set up at L<http://127.0.0.1>. There
+For this tutorial a sample web server is set up at L<http://example:3000>. There
 are several pages available: index page (C</>) with a sample html and forbidden
 (C</forbidden>) and not found (C</not found>) pages for error testing.
 
@@ -62,7 +62,7 @@ Let's try fetching a page with a C<GET> request.
     my $ua =
       LWP::UserAgent->new(agent => 'MyWebScraper/1.0 <http://example.com>');
 
-    my $response = $ua->get('http://127.0.0.1/');
+    my $response = $ua->get('http://example:3000/');
 
     if ($response->is_success) {
         say $response->decoded_content;
@@ -80,7 +80,7 @@ Let's try fetching a not existing page.
     my $ua =
       LWP::UserAgent->new(agent => 'MyWebScraper/1.0 <http://example.com>');
 
-    my $response = $ua->get('http://127.0.0.1/not_found');
+    my $response = $ua->get('http://example:3000/not_found');
 
     if ($response->is_success) {
         say $response->decoded_content;
@@ -128,7 +128,7 @@ Now we know that the error is on our side.
 
 =head3 Exercise
 
-Download a page from C<http://127.0.0.1> and print out its size in bytes.
+Download a page from C<http://example:3000> and print out its size in bytes.
 
     use LWP::UserAgent;
 
@@ -357,7 +357,7 @@ There is a special page C</redirect> that will redirect to the index page.
     my $ua =
       LWP::UserAgent->new(agent => 'MyWebScraper/1.0 <http://example.com>');
 
-    my $response = $ua->get('http://127.0.0.1/redirect');
+    my $response = $ua->get('http://example:3000/redirect');
 
     say $response->decoded_content;
 
@@ -370,7 +370,7 @@ If we set C<max_redirect> to C<0> we don't get to the index page.
         max_redirect => 0
     );
 
-    my $response = $ua->get('http://127.0.0.1/redirect');
+    my $response = $ua->get('http://example:3000/redirect');
 
     say $response->decoded_content;
 

@@ -50,7 +50,7 @@ ar
 =head2 بيئة العمل
 
 لغرض الشرح لنفترض اننا قمنا بعمل سيرفر شخصي على المنفذ
-L<http://127.0.0.1>
+L<http://example:3000>
 و توجد صفحات مختلفة مثلا صفحة البداية و صفحة خطأ عدم العثور على الصفحة المطلوبة404
 
 
@@ -71,7 +71,7 @@ C<GET>
     my $ua =
       LWP::UserAgent->new(agent => 'MyWebScaper/1.0 <http://example.com>');
 
-    my $response = $ua->get('http://127.0.0.1/');
+    my $response = $ua->get('http://example:3000/');
 
     if ($response->is_success) {
         say $response->decoded_content;
@@ -90,7 +90,7 @@ C<GET>
     my $ua =
       LWP::UserAgent->new(agent => 'MyWebScaper/1.0 <http://example.com>');
 
-    my $response = $ua->get('http://127.0.0.1/not_found');
+    my $response = $ua->get('http://example:3000/not_found');
 
     if ($response->is_success) {
         say $response->decoded_content;
@@ -140,7 +140,7 @@ LWP
 =head3 تمرين
 
 قم بتنزيل صفحة من السيرفر الافتراضي
-C<http://127.0.0.1> 
+C<http://example:3000> 
 و قم بطباعة حجمها بالبايتس
 
     use LWP::UserAgent;
@@ -369,7 +369,7 @@ C<max_redirect>
     my $ua =
       LWP::UserAgent->new(agent => 'MyWebScaper/1.0 <http://example.com>');
 
-    my $response = $ua->get('http://127.0.0.1/redirect');
+    my $response = $ua->get('http://example:3000/redirect');
 
     say $response->decoded_content;
 
@@ -382,7 +382,7 @@ C<max_redirect>
         max_redirect => 0
     );
 
-    my $response = $ua->get('http://127.0.0.1/redirect');
+    my $response = $ua->get('http://example:3000/redirect');
 
     say $response->decoded_content;
 
