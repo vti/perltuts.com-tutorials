@@ -862,6 +862,18 @@ Quan s'utilitzen rangs cal recordar que sempre cal indicar el rang en
 ordre alfabètic o numèric. Per exemple, C<[8-3]> no funcionarà com un
 rang (buscarà coincidir amb els caràcters I<8>, I<-> i I<3>).
 
+=head4 Exercici
+
+Modifica aquesta expressió regular per detectar si hi ha cap 'x', 'y' o 'z' en la frase:
+
+    my $string = "Estem buscant les lletres x, y o z";
+    if ($string =~ ) {
+        say "He trobat una x, y o z";
+    }
+    __TEST__
+    like($code, qr/\[.*\]/, "Cal utilitzar l'operador []");
+    like($stdout, qr/He trobat una x, y o z/, "Hauria de trobar una x, y o z");
+
 Altres C<conjunts de caràcters> s'escriuen sense els C<[]>. En comptes
 d'això consisteixen en una barra invertida C<\> i una lletra indicant
 un conjunt de caràcters. Per exemple, per descobrir si una cadena conté
@@ -992,6 +1004,16 @@ En aquest cas, primer indiquem que volem fer una substitució amb la
 C<s>, després mostrem quina paraula o lletra volem canviar i finalment
 escrivim la paraula o lletra que l'ha de substituir.
 
+=head4 Exercici
+
+El lema de Perl és "Hi ha més d'una manera de fer-ho". En aquest exercici, canvia la frase per tal que imprimeixi el lema:
+
+    my $string = "Hi ha només una manera de fer-ho";
+    $string =~
+    say $string;
+    __TEST__
+    like($stdout, qr/Hi ha més d'una manera de fer-ho/, "Hauria d'imprimir el lema de Perl");
+
 =head3 Modificadors
 
 Els modificadors són lletres que s'escriuen al final de l'expressió
@@ -1051,6 +1073,16 @@ quan ancorem l'expressió regular al final de la cadena:
 En aquest cas hi ha coincidència perquè l'últim caràcter de la cadena
 és un símbol d'exclamació.
 
+=head4 Exercici
+
+En aquest exercici, crea una expressió regular de forma que la frase sigui certa, utilitzant conjunts de caràcters i àncores:
+
+    my $string = "Perl va néixer el 1987";
+    if ($string =~ ) {
+        say "La frase acaba amb un any";
+    }
+    like($code, qr/\$\W/, "L'expressió hauria d'utilitzar una àncora");
+    like($stdout, qr/La frase acaba amb un any/, "La condició hauria de ser certa");
 
 =head1 AUTHORS
 
